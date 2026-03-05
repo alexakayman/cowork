@@ -1,0 +1,16 @@
+{
+  "name": "cowork",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n server,desktop -c blue,green \"pnpm dev:server\" \"pnpm dev:desktop\"",
+    "dev:desktop": "pnpm --filter desktop dev",
+    "dev:server": "pnpm --filter server dev",
+    "build:desktop": "pnpm --filter desktop build",
+    "build:server": "pnpm --filter server build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "typescript": "^5"
+  }
+}

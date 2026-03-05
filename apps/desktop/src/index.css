@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+/*
+ * ═══════════════════════════════════════════
+ *  Cowork — Animal Crossing–inspired theme
+ * ═══════════════════════════════════════════
+ */
+
+/* ── Theme tokens via Tailwind v4 @theme ── */
+@theme {
+  /* Warm palette */
+  --color-cream: #FDF8E3;
+  --color-cream-dark: #F5EDCF;
+  --color-butter: #FFECB9;
+  --color-tan: #E8DCC8;
+  --color-sand: #C4B9A8;
+  --color-cocoa: #5C4433;
+  --color-cocoa-light: #9B8E7E;
+  --color-bark: #807256;
+
+  /* Accent palette */
+  --color-leaf: #56BA5A;
+  --color-leaf-dark: #459A48;
+  --color-leaf-light: #7ED6A8;
+  --color-teal: #0CC6B8;
+  --color-orange: #DD8530;
+  --color-orange-light: #F0AD70;
+  --color-rose: #E87E7E;
+  --color-rose-light: #FDC0C7;
+  --color-sky: #7EB5E8;
+
+  /* Soft card shadow */
+  --shadow-cozy: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-cozy-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  /* Font family */
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+
+  /* Bounce easing */
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Animation keyframes */
+  --animate-bounce-in: bounce-in 0.4s var(--ease-bounce) both;
+  --animate-fade-in: fade-in 0.3s ease-out both;
+  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
+}
+
+/* ── Keyframes ── */
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+/* ── Base styles ──
+ * NOTE: No background-color on body — the overlay window needs
+ * a transparent body for macOS transparency to work.
+ * Main-window routes (Dashboard, Onboarding) set bg-cream on their root divs.
+ */
+body {
+  font-family: var(--font-sans);
+  color: var(--color-cocoa);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar (keep cozy) ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-tan);
+  border-radius: 999px;
+}
+
+/* ── Utility: staggered entry delays for child items ── */
+.stagger-children > * {
+  animation: fade-in 0.35s ease-out both;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 50ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 150ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 250ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 350ms; }
