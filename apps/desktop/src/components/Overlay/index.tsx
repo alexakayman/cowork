@@ -89,9 +89,11 @@ export function Overlay() {
     <div className="w-full h-full flex items-end justify-end select-none">
       <div
         ref={contentRef}
-        className="relative flex flex-row items-end gap-3 p-2 border-2 border-red-500"
+        className="relative flex flex-row items-end gap-3 p-2"
         onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => { if (!dragging) setHovered(false); }}
+        onMouseLeave={() => {
+          if (!dragging) setHovered(false);
+        }}
       >
         {/* Drag handle — appears on hover */}
         <div
@@ -103,7 +105,12 @@ export function Overlay() {
           onMouseDown={handleDragStart}
         >
           {/* Grip dots */}
-          <svg width="10" height="10" viewBox="0 0 10 10" className="text-gray-400">
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            className="text-gray-400"
+          >
             <circle cx="2" cy="2" r="1.2" fill="currentColor" />
             <circle cx="8" cy="2" r="1.2" fill="currentColor" />
             <circle cx="2" cy="5" r="1.2" fill="currentColor" />
