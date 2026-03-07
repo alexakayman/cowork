@@ -13,7 +13,10 @@
       "Bash(flyctl auth whoami)",
       "Bash(cat /Users/ak/Developer/cowork/apps/desktop/src-tauri/capabilities/*)",
       "Bash(npx tsc --noEmit -p apps/desktop/tsconfig.json)",
-      "Bash(npx tsc --noEmit -p apps/server/tsconfig.json)"
+      "Bash(npx tsc --noEmit -p apps/server/tsconfig.json)",
+      "Bash(pnpm --filter desktop exec tsc --noEmit)",
+      "Bash(pnpm --filter shared exec tsc --noEmit)",
+      "Bash(pnpm --filter server exec tsc --noEmit)"
     ]
   }
 }

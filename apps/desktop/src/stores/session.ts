@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { UserState } from "@cowork/shared";
+import { useAppStore } from "./app";
 
 const log = (...args: unknown[]) => console.log("[session-store]", ...args);
 
@@ -25,6 +26,7 @@ export const useSessionStore = create<SessionState>()((set) => ({
   },
   setSession: (sessionCode, users) => {
     log(`setSession code=${sessionCode} users=${users.length}`);
+    useAppStore.getState().setLastSessionCode(sessionCode);
     set({
       sessionCode,
       users: new Map(users.map((u) => [u.userId, u])),

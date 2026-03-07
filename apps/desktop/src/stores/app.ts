@@ -10,6 +10,7 @@ interface AppState {
   avatarId: string;
   blocklist: string[];
   hasProfile: boolean;
+  lastSessionCode: string;
   // Transient
   currentActivity: ActivityType | null;
   currentAppName: string;
@@ -20,6 +21,7 @@ interface AppState {
   addToBlocklist: (process: string) => void;
   removeFromBlocklist: (process: string) => void;
   setActivity: (activity: ActivityType, appName: string) => void;
+  setLastSessionCode: (code: string) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -30,6 +32,7 @@ export const useAppStore = create<AppState>()(
       avatarId: DEFAULT_AVATAR,
       blocklist: [],
       hasProfile: false,
+      lastSessionCode: "",
       currentActivity: null,
       currentAppName: "",
       activityStartedAt: Date.now(),
@@ -50,6 +53,7 @@ export const useAppStore = create<AppState>()(
           activityStartedAt:
             s.currentActivity !== currentActivity ? Date.now() : s.activityStartedAt,
         })),
+      setLastSessionCode: (lastSessionCode) => set({ lastSessionCode }),
     }),
     {
       name: "cowork-app-state",
@@ -60,6 +64,7 @@ export const useAppStore = create<AppState>()(
         avatarId: s.avatarId,
         blocklist: s.blocklist,
         hasProfile: s.hasProfile,
+        lastSessionCode: s.lastSessionCode,
       }),
       // Migrate old avatar IDs (default, bear, dog, koala, panda) → new set
       migrate: (persisted: unknown, version: number) => {

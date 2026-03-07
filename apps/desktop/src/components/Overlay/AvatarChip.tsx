@@ -41,7 +41,7 @@ export function AvatarChip({ user, isSelf }: Props) {
         <img
           src={`/avatars/${avatar}.png`}
           alt={user.displayName}
-          className="w-full h-full object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]"
+          className="w-full h-full object-contain drop-shadow-[0_1px_4px_rgba(0,0,0,0.12)]"
           draggable={false}
         />
       </div>

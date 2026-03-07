@@ -52,7 +52,7 @@ export function CharacterSelect({ onClose }: Props) {
               <img
                 src={`/avatars/${avatar.id}.png`}
                 alt={avatar.label}
-                className="w-full h-full object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.1)]"
+                className="w-full h-full object-contain drop-shadow-[0_1px_4px_rgba(0,0,0,0.12)]"
                 draggable={false}
               />
             </div>

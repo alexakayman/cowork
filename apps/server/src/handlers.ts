@@ -53,7 +53,7 @@ export function handleMessage(
     }
 
     case 'UPDATE': {
-      const { userId, activity, appName, activityStartedAt } = msg.payload;
+      const { userId, displayName, avatarId, activity, appName, activityStartedAt } = msg.payload;
       const code = ws.getUserData().sessionCode;
       const session = store.get(code);
       if (!session) {
@@ -68,14 +68,17 @@ export function handleMessage(
       }
 
       const prevActivity = user.activity;
+      const prevAvatar = user.avatarId;
+      user.displayName = displayName;
+      user.avatarId = avatarId;
       user.activity = activity;
       user.appName = appName;
       user.updatedAt = Date.now();
       user.activityStartedAt = activityStartedAt;
 
-      if (prevActivity !== activity) {
+      if (prevActivity !== activity || prevAvatar !== avatarId) {
         console.log(
-          `[update] user="${user.displayName}" (${userId.slice(0, 8)}) ${prevActivity} → ${activity} app="${appName}" session=${code}`,
+          `[update] user="${user.displayName}" (${userId.slice(0, 8)}) ${prevActivity} → ${activity} avatar=${avatarId} app="${appName}" session=${code}`,
         );
       }
 

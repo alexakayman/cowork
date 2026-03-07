@@ -28,7 +28,7 @@ export function ThoughtBubble({ activity, size = "md" }: Props) {
           width: isSm ? 36 : 52,
           height: isSm ? 24 : 34,
           borderRadius: "50%",
-          boxShadow: `0 2px 8px ${color}30, 0 1px 3px rgba(0,0,0,0.06)`,
+          boxShadow: `0 1px 6px ${color}30`,
         }}
       >
         {/* Emoji icon */}
@@ -47,7 +47,7 @@ export function ThoughtBubble({ activity, size = "md" }: Props) {
           style={{
             backgroundColor: "#fff",
             color: "#1a1a1a",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
           }}
         >
           {label}
@@ -60,7 +60,7 @@ export function ThoughtBubble({ activity, size = "md" }: Props) {
         style={{
           width: isSm ? 5 : 7,
           height: isSm ? 5 : 7,
-          boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
+          boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
         }}
       />
       <div
@@ -68,7 +68,7 @@ export function ThoughtBubble({ activity, size = "md" }: Props) {
         style={{
           width: isSm ? 3 : 4,
           height: isSm ? 3 : 4,
-          boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+          boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
         }}
       />
     </div>

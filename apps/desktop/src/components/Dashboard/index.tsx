@@ -23,11 +23,11 @@ function MemberDuration({ sinceMs }: { sinceMs: number }) {
 }
 
 export function Dashboard() {
-  const { displayName, avatarId, currentActivity, currentAppName, activityStartedAt } = useAppStore();
+  const { displayName, avatarId, currentActivity, currentAppName, activityStartedAt, lastSessionCode } = useAppStore();
   const selfElapsed = useElapsedTime(activityStartedAt);
   const { sessionCode, connected, users, clearSession } = useSessionStore();
   const { send } = usePresenceSocket();
-  const [joinCode, setJoinCode] = useState("");
+  const [joinCode, setJoinCode] = useState(lastSessionCode);
   const [showCharacterSelect, setShowCharacterSelect] = useState(false);
 
   useActivityListener();

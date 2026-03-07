@@ -17,6 +17,8 @@ export function usePresenceSocket() {
   const reconnectDelay = useRef(RECONNECT_DELAY_MS);
   const reconnectCount = useRef(0);
   const sessionCode = useSessionStore((s) => s.sessionCode);
+  const displayName = useAppStore((s) => s.displayName);
+  const avatarId = useAppStore((s) => s.avatarId);
   const currentActivity = useAppStore((s) => s.currentActivity);
   const currentAppName = useAppStore((s) => s.currentAppName);
   const setConnected = useSessionStore((s) => s.setConnected);
@@ -153,16 +155,16 @@ export function usePresenceSocket() {
     };
   }, [sessionCode, setConnected, setSession, upsertUser, removeUser]);
 
-  // Broadcast activity changes to the session (separate from connection lifecycle)
+  // Broadcast state changes (activity, avatar, name) to the session
   useEffect(() => {
     if (!sessionCode || !currentActivity) return;
     const { userId, activityStartedAt } = useAppStore.getState();
-    log(`activity changed → ${currentActivity} app="${currentAppName}" since=${new Date(activityStartedAt).toLocaleTimeString()}`);
+    log(`state changed → ${currentActivity} app="${currentAppName}" avatar=${avatarId} since=${new Date(activityStartedAt).toLocaleTimeString()}`);
     send({
       type: "UPDATE",
-      payload: { userId, activity: currentActivity, appName: currentAppName, activityStartedAt },
+      payload: { userId, displayName, avatarId, activity: currentActivity, appName: currentAppName, activityStartedAt },
     });
-  }, [currentActivity, currentAppName, sessionCode, send]);
+  }, [currentActivity, currentAppName, avatarId, displayName, sessionCode, send]);
 
   return { send };
 }

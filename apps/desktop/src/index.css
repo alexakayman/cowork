@@ -30,9 +30,9 @@
   --color-rose-light: #FDC0C7;
   --color-sky: #7EB5E8;
 
-  /* Soft card shadow */
-  --shadow-cozy: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-cozy-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
+  /* Soft card shadows — single source of truth for the whole app */
+  --shadow-cozy: 0 1px 6px rgba(0, 0, 0, 0.06);
+  --shadow-cozy-lg: 0 2px 12px rgba(0, 0, 0, 0.08);
 
   /* Font family */
   --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;

@@ -43,6 +43,8 @@ export interface LeavePayload {
 
 export interface UpdatePayload {
   userId:            string;
+  displayName:       string;
+  avatarId:          string;
   activity:          ActivityType;
   appName:           string;
   activityStartedAt: number;  // Unix ms — when this activity began
