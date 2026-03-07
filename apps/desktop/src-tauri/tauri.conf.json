@@ -28,7 +28,7 @@
         "label": "overlay",
         "title": "Cowork Overlay",
         "width": 800,
-        "height": 120,
+        "height": 160,
         "x": 0,
         "y": 0,
         "decorations": false,

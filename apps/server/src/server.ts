@@ -6,9 +6,12 @@ import type { SessionStore } from './session.js';
 export interface WsUserData {
   userId: string;
   sessionCode: string;
+  connectedAt: number;
 }
 
 export const sessions: SessionStore = new Map();
+
+let connectionCount = 0;
 
 export function createServer(port: number, cb?: () => void) {
   const app = uWS.App();
@@ -19,27 +22,47 @@ export function createServer(port: number, cb?: () => void) {
     idleTimeout: 60,
 
     open: (ws) => {
+      connectionCount++;
       ws.getUserData().userId = '';
       ws.getUserData().sessionCode = '';
+      ws.getUserData().connectedAt = Date.now();
+      console.log(
+        `[ws] connection opened  (#${connectionCount} total)`,
+      );
     },
 
     message: (ws, message, isBinary) => {
-      if (isBinary) return;
+      if (isBinary) {
+        console.warn('[ws] ignored binary message');
+        return;
+      }
       try {
         const text = Buffer.from(message).toString('utf8');
         const msg = JSON.parse(text);
         handleMessage(ws, msg, sessions);
       } catch (e) {
-        console.error('[server] Invalid message', e);
+        console.error('[ws] invalid message:', e);
       }
     },
 
-    close: (ws, _code, _message) => {
+    close: (ws, code, _message) => {
+      connectionCount--;
+      const { userId, sessionCode, connectedAt } = ws.getUserData();
+      const duration = connectedAt ? ((Date.now() - connectedAt) / 1000).toFixed(1) : '?';
+      console.log(
+        `[ws] connection closed   user=${userId || '(none)'} session=${sessionCode || '(none)'} code=${code} duration=${duration}s (#${connectionCount} remaining)`,
+      );
       handleClose(ws, sessions);
     },
   });
 
   app.listen(port, (token) => {
-    if (token && cb) cb();
+    if (token) {
+      console.log(`[cowork-server] ✓ Listening on ws://0.0.0.0:${port}`);
+      console.log(`[cowork-server]   env=${process.env.NODE_ENV ?? 'development'}`);
+      if (cb) cb();
+    } else {
+      console.error(`[cowork-server] ✗ Failed to listen on port ${port}`);
+    }
   });
 }

@@ -53,6 +53,8 @@ pub fn run() {
             commands::window::show_overlay,
             commands::window::hide_overlay,
             commands::window::set_overlay_position,
+            commands::window::fit_overlay,
+            commands::window::clamp_overlay,
             commands::activity::get_current_activity,
             commands::activity::set_blocklist,
         ])

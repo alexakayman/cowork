@@ -39,18 +39,19 @@ export function ThoughtBubble({ activity, size = "md" }: Props) {
           {icon}
         </span>
 
-        {/* Label — only in md size */}
-        {!isSm && (
-          <span
-            className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-bold rounded-full px-1.5 py-px"
-            style={{
-              backgroundColor: color + "25",
-              color: "#5C4433",
-            }}
-          >
-            {label}
-          </span>
-        )}
+        {/* Activity label */}
+        <span
+          className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap font-bold rounded-full px-1.5 py-px ${
+            isSm ? "text-[7px] -bottom-2.5" : "text-[9px] -bottom-3.5"
+          }`}
+          style={{
+            backgroundColor: "#fff",
+            color: "#1a1a1a",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
+          }}
+        >
+          {label}
+        </span>
       </div>
 
       {/* ── Trail dots (leading down to the character's head) ── */}

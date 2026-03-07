@@ -4,6 +4,8 @@ import { useAppStore } from "../stores/app";
 import { useSessionStore } from "../stores/session";
 import { ActivityType, type UserState } from "@cowork/shared";
 
+const log = (...args: unknown[]) => console.log("[overlay-bridge]", ...args);
+
 /**
  * Runs in the main window (Dashboard).
  *
@@ -39,7 +41,13 @@ export function useOverlayBridge() {
       (u) => u.userId !== userId,
     );
 
-    emit("overlay-sync", { selfUser, others, sessionCode }).catch(() => {});
+    log(
+      `syncing → self="${displayName}" activity=${selfUser.activity} others=[${others.map((u) => u.displayName).join(", ")}] session=${sessionCode ?? "(none)"}`,
+    );
+
+    emit("overlay-sync", { selfUser, others, sessionCode }).catch((e) => {
+      console.error("[overlay-bridge] emit failed:", e);
+    });
   }, [
     userId,
     displayName,

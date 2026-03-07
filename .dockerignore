@@ -1,0 +1,22 @@
+# Desktop app (not needed for server deployment)
+apps/desktop/
+
+# Git & IDE
+.git
+.github
+.vscode
+.idea
+
+# Build artifacts
+**/node_modules
+**/dist
+**/target
+
+# Env files (secrets)
+**/.env
+
+# Misc
+**/.DS_Store
+*.md
+scripts/
+.claude/

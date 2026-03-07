@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import type { UserState } from "@cowork/shared";
 
+const log = (...args: unknown[]) => console.log("[session-store]", ...args);
+
 interface SessionState {
   sessionCode: string | null;
   connected: boolean;
@@ -17,24 +19,37 @@ export const useSessionStore = create<SessionState>()((set) => ({
   sessionCode: null,
   connected: false,
   users: new Map(),
-  setConnected: (connected) => set({ connected }),
-  setSession: (sessionCode, users) =>
+  setConnected: (connected) => {
+    log(`connected=${connected}`);
+    set({ connected });
+  },
+  setSession: (sessionCode, users) => {
+    log(`setSession code=${sessionCode} users=${users.length}`);
     set({
       sessionCode,
       users: new Map(users.map((u) => [u.userId, u])),
-    }),
+    });
+  },
   upsertUser: (user) =>
     set((s) => {
+      const isNew = !s.users.has(user.userId);
+      if (isNew) {
+        log(`+ user "${user.displayName}" (${user.userId.slice(0, 8)})`);
+      }
       const m = new Map(s.users);
       m.set(user.userId, user);
       return { users: m };
     }),
   removeUser: (userId) =>
     set((s) => {
+      const user = s.users.get(userId);
+      log(`- user "${user?.displayName ?? "?"}" (${userId.slice(0, 8)})`);
       const m = new Map(s.users);
       m.delete(userId);
       return { users: m };
     }),
-  clearSession: () =>
-    set({ sessionCode: null, connected: false, users: new Map() }),
+  clearSession: () => {
+    log("session cleared");
+    set({ sessionCode: null, connected: false, users: new Map() });
+  },
 }));

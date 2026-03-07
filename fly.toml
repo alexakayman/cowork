@@ -1,0 +1,29 @@
+# fly.toml app configuration file generated for cowork-server on 2026-03-07T02:03:56-05:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'cowork-server'
+primary_region = 'sjc'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[env]
+  PORT = '3333'
+
+[http_service]
+  internal_port = 3333
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = 'connections'
+    hard_limit = 250
+    soft_limit = 200
+
+[[vm]]
+  size = 'shared-cpu-1x'
+  memory = '256mb'
