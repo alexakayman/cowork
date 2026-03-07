@@ -53,7 +53,7 @@ export function handleMessage(
     }
 
     case 'UPDATE': {
-      const { userId, activity, appName } = msg.payload;
+      const { userId, activity, appName, activityStartedAt } = msg.payload;
       const code = ws.getUserData().sessionCode;
       const session = store.get(code);
       if (!session) {
@@ -71,6 +71,7 @@ export function handleMessage(
       user.activity = activity;
       user.appName = appName;
       user.updatedAt = Date.now();
+      user.activityStartedAt = activityStartedAt;
 
       if (prevActivity !== activity) {
         console.log(

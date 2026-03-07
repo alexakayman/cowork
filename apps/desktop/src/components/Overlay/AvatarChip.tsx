@@ -2,6 +2,7 @@ import type { UserState } from "@cowork/shared";
 import { ACTIVITY_COLORS, ACTIVITY_LABELS } from "../../lib/activityMeta";
 import { resolveAvatarId } from "../../lib/avatars";
 import { ThoughtBubble } from "../ThoughtBubble";
+import { useElapsedTime } from "../../hooks/useElapsedTime";
 
 interface Props {
   user: UserState;
@@ -18,9 +19,12 @@ export function AvatarChip({ user, isSelf }: Props) {
   const color = ACTIVITY_COLORS[user.activity] ?? "#C4B9A8";
   const avatar = resolveAvatarId(user.avatarId);
   const activityLabel = ACTIVITY_LABELS[user.activity] ?? "";
+  const elapsed = useElapsedTime(user.activityStartedAt);
 
   // Show app name if available, otherwise fall back to activity label
-  const subtitle = user.appName || activityLabel;
+  const appOrLabel = user.appName || activityLabel;
+  // Discord-style: "VS Code · 1h 23m"
+  const subtitle = appOrLabel ? `${appOrLabel} · ${elapsed}` : elapsed;
 
   return (
     <div

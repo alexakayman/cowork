@@ -54,7 +54,7 @@ export function usePresenceSocket() {
 
         log(`✓ connected to ${WS_URL}`);
 
-        const { userId, displayName, avatarId, currentActivity, currentAppName } =
+        const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt } =
           useAppStore.getState();
 
         const joinPayload = {
@@ -66,6 +66,7 @@ export function usePresenceSocket() {
             activity: currentActivity ?? ActivityType.IDLE,
             appName: currentAppName,
             updatedAt: Date.now(),
+            activityStartedAt,
           },
         };
         log(`→ JOIN`, joinPayload);
@@ -155,11 +156,11 @@ export function usePresenceSocket() {
   // Broadcast activity changes to the session (separate from connection lifecycle)
   useEffect(() => {
     if (!sessionCode || !currentActivity) return;
-    const { userId } = useAppStore.getState();
-    log(`activity changed → ${currentActivity} app="${currentAppName}"`);
+    const { userId, activityStartedAt } = useAppStore.getState();
+    log(`activity changed → ${currentActivity} app="${currentAppName}" since=${new Date(activityStartedAt).toLocaleTimeString()}`);
     send({
       type: "UPDATE",
-      payload: { userId, activity: currentActivity, appName: currentAppName },
+      payload: { userId, activity: currentActivity, appName: currentAppName, activityStartedAt },
     });
   }, [currentActivity, currentAppName, sessionCode, send]);
 

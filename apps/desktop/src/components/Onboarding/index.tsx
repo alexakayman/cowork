@@ -18,7 +18,7 @@ export function Onboarding() {
     <div className="min-h-screen bg-cream flex items-center justify-center p-5">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm flex flex-col gap-5 animate-bounce-in"
+        className="w-full max-w-md flex flex-col gap-5 animate-bounce-in"
       >
         {/* Welcome header */}
         <div className="text-center">

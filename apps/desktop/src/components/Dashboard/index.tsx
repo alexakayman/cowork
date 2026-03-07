@@ -4,18 +4,31 @@ import { useAppStore } from "../../stores/app";
 import { useSessionStore } from "../../stores/session";
 import { usePresenceSocket } from "../../hooks/usePresenceSocket";
 import { useActivityListener } from "../../hooks/useActivityListener";
-// activityMeta is used by ThoughtBubble internally
+import { useElapsedTime } from "../../hooks/useElapsedTime";
 import { resolveAvatarId } from "../../lib/avatars";
 import { ThoughtBubble } from "../ThoughtBubble";
 import { BlocklistSettings } from "./BlocklistSettings";
+import { CharacterSelect } from "./CharacterSelect";
 import { useOverlayBridge } from "../../hooks/useOverlayBridge";
 import { ActivityType } from "@cowork/shared";
 
+/** Tiny wrapper so we can call useElapsedTime per-user inside a list */
+function MemberDuration({ sinceMs }: { sinceMs: number }) {
+  const elapsed = useElapsedTime(sinceMs);
+  return (
+    <p className="text-[8px] font-semibold text-cocoa-light truncate max-w-full">
+      {elapsed}
+    </p>
+  );
+}
+
 export function Dashboard() {
-  const { displayName, avatarId, currentActivity } = useAppStore();
+  const { displayName, avatarId, currentActivity, currentAppName, activityStartedAt } = useAppStore();
+  const selfElapsed = useElapsedTime(activityStartedAt);
   const { sessionCode, connected, users, clearSession } = useSessionStore();
   const { send } = usePresenceSocket();
   const [joinCode, setJoinCode] = useState("");
+  const [showCharacterSelect, setShowCharacterSelect] = useState(false);
 
   useActivityListener();
   useOverlayBridge(); // Sync state to overlay webview via Tauri events
@@ -44,6 +57,11 @@ export function Dashboard() {
     invoke("show_overlay").catch(console.error);
   };
 
+  // ── Full-page character select ──
+  if (showCharacterSelect) {
+    return <CharacterSelect onClose={() => setShowCharacterSelect(false)} />;
+  }
+
   const usersArray = Array.from(users.values());
   const activity = currentActivity ?? ActivityType.IDLE;
   const resolvedAvatar = resolveAvatarId(avatarId);
@@ -66,18 +84,31 @@ export function Dashboard() {
           Your Activity
         </p>
         <div className="flex items-end gap-4">
-          {/* Character with thought bubble */}
-          <div className="flex flex-col items-center shrink-0">
+          {/* Character with thought bubble — click to open full-page picker */}
+          <button
+            onClick={() => setShowCharacterSelect(true)}
+            className="flex flex-col items-center shrink-0 group cursor-pointer"
+            title="Change character"
+          >
             <ThoughtBubble activity={activity} size="md" />
-            <div className="w-16 aspect-[3/4] mt-0.5">
+            <div className="w-16 aspect-[3/4] mt-0.5 relative">
               <img
                 src={`/avatars/${resolvedAvatar}.png`}
                 alt={displayName}
                 className="w-full h-full object-contain"
                 draggable={false}
               />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 rounded-xl transition-colors">
+                <span className="text-xs font-bold text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md">
+                  {"\u{270F}\u{FE0F}"}
+                </span>
+              </div>
             </div>
-          </div>
+            {/* Activity duration — Discord-style rich presence */}
+            <div className="text-xs font-semibold text-cocoa-light mt-1 text-center">
+              {currentAppName || "Idle"} · {selfElapsed}
+            </div>
+          </button>
         </div>
       </div>
 
@@ -148,6 +179,8 @@ export function Dashboard() {
                     <p className="text-[10px] font-bold text-cocoa truncate max-w-full mt-0.5">
                       {user.displayName}
                     </p>
+                    {/* Duration — Discord-style */}
+                    <MemberDuration sinceMs={user.activityStartedAt} />
                   </div>
                 );
               })}

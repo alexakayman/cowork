@@ -9,14 +9,18 @@ export interface AvatarDef {
 }
 
 export const AVATARS: AvatarDef[] = [
-  { id: "cat",     label: "Cat"     },
-  { id: "fox",     label: "Fox"     },
-  { id: "rabbit",  label: "Rabbit"  },
-  { id: "penguin", label: "Penguin" },
-  { id: "otter",   label: "Otter"   },
-  { id: "ferret",  label: "Ferret"  },
-  { id: "narwhal", label: "Narwhal" },
-  { id: "pig",     label: "Pig"     },
+  { id: "cat",      label: "Cat"       },
+  { id: "fox",      label: "Fox"       },
+  { id: "rabbit",   label: "Rabbit"    },
+  { id: "penguin",  label: "Penguin"   },
+  { id: "otter",    label: "Otter"     },
+  { id: "ferret",   label: "Ferret"    },
+  { id: "narwhal",  label: "Narwhal"   },
+  { id: "pig",      label: "Pig"       },
+  { id: "lemur",    label: "Lemur"     },
+  { id: "corgi",    label: "Corgi"     },
+  { id: "tabby",    label: "Tabby"     },
+  { id: "blackcat", label: "Black Cat" },
 ];
 
 /** The first avatar used as fallback for legacy/invalid avatar IDs. */

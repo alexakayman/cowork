@@ -88,7 +88,7 @@ pub fn classify(process: &str, bundle_id: &str, app_name: &str) -> ActivityType 
             return ActivityType::Coding;
         }
 
-        // --- Terminals ---
+        // --- Terminals → Coding (if you're in a terminal, you're dev'ing) ---
         if t == "terminal"
             || t.contains("iterm")
             || t.contains("alacritty")
@@ -96,11 +96,17 @@ pub fn classify(process: &str, bundle_id: &str, app_name: &str) -> ActivityType 
             || t.contains("kitty")
             || t.contains("warp")
             || t.contains("hyper")
+            || t.contains("ghostty")
+            || t.contains("rio")
+            || t == "foot"
             || t == "cmd"
             || t.contains("powershell")
             || t.contains("windowsterminal")
+            || t.contains("tmux")
+            || t.contains("cmux")
+            || t.contains("screen")
         {
-            return ActivityType::Terminal;
+            return ActivityType::Coding;
         }
 
         // --- Email ---

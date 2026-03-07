@@ -21,6 +21,7 @@ export function useOverlayBridge() {
   const avatarId = useAppStore((s) => s.avatarId);
   const currentActivity = useAppStore((s) => s.currentActivity);
   const currentAppName = useAppStore((s) => s.currentAppName);
+  const activityStartedAt = useAppStore((s) => s.activityStartedAt);
 
   const users = useSessionStore((s) => s.users);
   const sessionCode = useSessionStore((s) => s.sessionCode);
@@ -34,6 +35,7 @@ export function useOverlayBridge() {
       activity: currentActivity ?? ActivityType.IDLE,
       appName: currentAppName,
       updatedAt: Date.now(),
+      activityStartedAt,
     };
 
     // Other session members (exclude self to avoid duplication)
@@ -54,6 +56,7 @@ export function useOverlayBridge() {
     avatarId,
     currentActivity,
     currentAppName,
+    activityStartedAt,
     users,
     sessionCode,
   ]);

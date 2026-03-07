@@ -22,6 +22,7 @@ export interface UserState {
   activity:    ActivityType;
   appName:     string;        // human-readable app name, e.g. 'VS Code'
   updatedAt:   number;        // Unix ms timestamp
+  activityStartedAt: number;  // Unix ms — when current activity began (for rich presence duration)
 }
 
 // === Client → Server Messages ===
@@ -41,9 +42,10 @@ export interface LeavePayload {
 }
 
 export interface UpdatePayload {
-  userId:   string;
-  activity: ActivityType;
-  appName:  string;
+  userId:            string;
+  activity:          ActivityType;
+  appName:           string;
+  activityStartedAt: number;  // Unix ms — when this activity began
 }
 
 export interface PingPayload {
