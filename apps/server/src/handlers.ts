@@ -87,6 +87,11 @@ export function handleMessage(
           `[update] user="${user.displayName}" (${userId.slice(0, 8)}) ${prevActivity} → ${activity} avatar=${avatarId} app="${appName}" session=${code}`,
         );
       }
+      if ('sessionTodo' in msg.payload) {
+        console.log(
+          `[update] user="${user.displayName}" (${userId.slice(0, 8)}) goal="${user.sessionTodo ?? ''}" session=${code}`,
+        );
+      }
 
       const updateMsg: ServerMessage = {
         type: 'USER_UPDATED',
