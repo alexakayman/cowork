@@ -87,6 +87,9 @@ pub fn classify(process: &str, bundle_id: &str, app_name: &str) -> ActivityType 
         if t.contains("android studio") || t.contains("androidstudio") {
             return ActivityType::Coding;
         }
+        if t.contains("invoker") {
+            return ActivityType::Coding;
+        }
 
         // --- Terminals → Coding (if you're in a terminal, you're dev'ing) ---
         if t == "terminal"
