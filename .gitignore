@@ -19,3 +19,6 @@ dist/
 
 # Optional: uncomment if you want to ignore Cursor project data
 # .cursor/
+
+# AI / tooling (do not ignore .github/ — it contains Actions workflows for release/CI)
+.claude/
