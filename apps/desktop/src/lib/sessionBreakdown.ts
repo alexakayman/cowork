@@ -1,5 +1,4 @@
 import type { UserState } from "@cowork/shared";
-import type { AppSeconds } from "../stores/session";
 
 const TOP_APPS = 5;
 
