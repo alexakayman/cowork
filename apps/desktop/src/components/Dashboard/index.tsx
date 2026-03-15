@@ -50,6 +50,19 @@ export function Dashboard() {
   const { send } = usePresenceSocket();
   const [joinCode, setJoinCode] = useState(lastSessionCode);
   const [showCharacterSelect, setShowCharacterSelect] = useState(false);
+  const [inviteLinkCopied, setInviteLinkCopied] = useState(false);
+
+  const inviteUrl = import.meta.env.VITE_INVITE_URL ?? "";
+  const handleCopyInviteLink = () => {
+    const url = inviteUrl || "https://cowork-sepia.vercel.app";
+    navigator.clipboard.writeText(url).then(
+      () => {
+        setInviteLinkCopied(true);
+        setTimeout(() => setInviteLinkCopied(false), 2000);
+      },
+      () => {},
+    );
+  };
 
   useActivityListener();
   useOverlayBridge(); // Sync state to overlay webview via Tauri events
@@ -91,13 +104,23 @@ export function Dashboard() {
   return (
     <div className="min-h-screen bg-cream text-cocoa p-5 flex flex-col gap-4 animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-3 flex-wrap">
         <h1 className="text-xl font-extrabold tracking-tight flex items-center gap-1.5">
           {"\u{1F343}"} Cowork
         </h1>
-        <span className="text-sm font-semibold text-cocoa-light">
-          Hi, {displayName} {"\u{1F44B}"}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold text-cocoa-light">
+            Hi, {displayName} {"\u{1F44B}"}
+          </span>
+          <button
+            type="button"
+            onClick={handleCopyInviteLink}
+            className="text-xs font-semibold text-leaf hover:text-leaf-dark underline transition-colors"
+            title="Copy link for friends to download Cowork"
+          >
+            {inviteLinkCopied ? "Copied!" : "Invite friends"}
+          </button>
+        </div>
       </div>
 
       {/* Character Control — horizontal: character left, name + focus + session goal right */}
