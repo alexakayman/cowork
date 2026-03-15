@@ -1,2 +1,21 @@
-node_modules
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Env and secrets
 .env
+.env.*
+!.env.example
+
+# Build output
+dist/
+
+# Rust / Tauri
+**/target/
+
+# OS and editors
+.DS_Store
+*.log
+
+# Optional: uncomment if you want to ignore Cursor project data
+# .cursor/

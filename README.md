@@ -153,9 +153,12 @@ The repo uses **Vercel Blob** so the public landing page can offer a direct down
    - Or locally after building the .dmg: `BLOB_READ_WRITE_TOKEN=your_token node scripts/upload-dmg-to-blob.mjs apps/desktop/src-tauri/target/release/bundle/dmg/Cowork_1.x.x_aarch64.dmg` (adjust path to your built .dmg). The script prints the URL.
 
 4. **Set the URL on the landing project**:
-   - In the Vercel project that deploys the landing (e.g. `apps/landing` or the root), go to Settings → Environment Variables.
+   - In the Vercel project that deploys the landing, go to Settings → Environment Variables.
    - Add `DOWNLOAD_URL` = the URL from step 3 (e.g. `https://xxxx.public.blob.vercel-storage.com/Cowork-macos.dmg`).
    - Redeploy the landing so the “Download for macOS” button uses that link.
+
+5. **Landing must use Root Directory `apps/landing`** (if you get 404s):
+   - Vercel project → Settings → General → Root Directory → set to `apps/landing` and Save. Then redeploy so the build runs in that folder and finds `index.html`.
 
 Later releases (new tags) overwrite the same Blob file, so the same `DOWNLOAD_URL` keeps serving the latest build. You only set it once.
 

@@ -9,3 +9,4 @@ src-tauri/target/
 
 # TypeScript
 tsconfig.tsbuildinfo
+# (pnpm store is ignored at repo root)

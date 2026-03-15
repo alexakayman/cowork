@@ -28,6 +28,10 @@ pub fn run() {
             }
         }))
         .setup(|app| {
+            // Menu-bar only on macOS: no dock icon; app is activated from tray
+            #[cfg(target_os = "macos")]
+            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+
             tray::setup_tray(app)?;
 
             // Log overlay window state at startup
