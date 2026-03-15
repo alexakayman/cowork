@@ -1,4 +1,5 @@
-import { AVATARS, resolveAvatarId } from "../../lib/avatars";
+import { useState } from "react";
+import { AVATARS, PUBLIC_AVATARS, resolveAvatarId } from "../../lib/avatars";
 import { useAppStore } from "../../stores/app";
 
 interface Props {
@@ -12,11 +13,32 @@ interface Props {
 export function CharacterSelect({ onClose }: Props) {
   const avatarId = useAppStore((s) => s.avatarId);
   const setAvatar = useAppStore((s) => s.setAvatar);
+  const unlockedSpecialAvatarIds = useAppStore((s) => s.unlockedSpecialAvatarIds);
+  const redeemSpecialCode = useAppStore((s) => s.redeemSpecialCode);
   const resolvedAvatar = resolveAvatarId(avatarId);
+
+  const [redeemCode, setRedeemCode] = useState("");
+  const [redeemMessage, setRedeemMessage] = useState<"success" | "invalid" | null>(null);
+
+  const selectableAvatars = [
+    ...PUBLIC_AVATARS,
+    ...AVATARS.filter((a) => unlockedSpecialAvatarIds.includes(a.id)),
+  ].filter(
+    (a, i, arr) => arr.findIndex((b) => b.id === a.id) === i
+  );
 
   const handleSelect = (id: string) => {
     setAvatar(id);
     onClose();
+  };
+
+  const handleRedeem = (e: React.FormEvent) => {
+    e.preventDefault();
+    setRedeemMessage(null);
+    if (!redeemCode.trim()) return;
+    const ok = redeemSpecialCode(redeemCode.trim());
+    setRedeemMessage(ok ? "success" : "invalid");
+    if (ok) setRedeemCode("");
   };
 
   return (
@@ -35,9 +57,41 @@ export function CharacterSelect({ onClose }: Props) {
         </h1>
       </div>
 
+      {/* Redeem special character */}
+      <div className="rounded-2xl border-2 border-tan bg-white p-3">
+        <label className="block text-sm font-semibold text-cocoa-light mb-2">
+          Redeem special character
+        </label>
+        <form onSubmit={handleRedeem} className="flex gap-2">
+          <input
+            type="text"
+            value={redeemCode}
+            onChange={(e) => {
+              setRedeemCode(e.target.value);
+              setRedeemMessage(null);
+            }}
+            placeholder="Enter code"
+            className="flex-1 min-w-0 bg-cream border-2 border-tan rounded-xl px-3 py-2 text-sm text-cocoa placeholder:text-sand focus:outline-none focus:border-leaf transition-colors uppercase"
+            maxLength={20}
+          />
+          <button
+            type="submit"
+            className="bg-leaf hover:bg-leaf-dark text-white rounded-xl px-4 py-2 text-sm font-bold transition-colors"
+          >
+            Redeem
+          </button>
+        </form>
+        {redeemMessage === "success" && (
+          <p className="text-xs text-leaf font-semibold mt-2">Code accepted! You can now select the character below.</p>
+        )}
+        {redeemMessage === "invalid" && (
+          <p className="text-xs text-rose font-semibold mt-2">Invalid code.</p>
+        )}
+      </div>
+
       {/* Character grid — 3 columns for nice big previews */}
       <div className="grid grid-cols-3 gap-3 stagger-children">
-        {AVATARS.map((avatar) => (
+        {selectableAvatars.map((avatar) => (
           <button
             key={avatar.id}
             onClick={() => handleSelect(avatar.id)}

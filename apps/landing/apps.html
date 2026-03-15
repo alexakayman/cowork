@@ -33,26 +33,10 @@
       .download-btn:active { transform: translateY(0); }
     </style>
   </head>
-  <body class="bg-cream text-warm min-h-screen">
-    <nav class="border-b border-warm/20 bg-cream sticky top-0 z-10">
-      <div
-        class="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between"
-      >
-        <a href="index.html" class="font-bold text-warm text-lg">Cowork</a>
-        <div class="flex items-center gap-6 text-sm">
-          <a href="privacy.html" class="text-warm/70 hover:text-warm"
-            >Privacy</a
-          >
-          <a href="apps.html" class="text-warm font-medium">Apps</a>
-          <a href="changelog.html" class="text-warm/70 hover:text-warm"
-            >Changelog</a
-          >
-          <span data-download-button data-compact></span>
-        </div>
-      </div>
-    </nav>
+  <body class="bg-cream text-warm min-h-screen" data-page="apps">
+    <div id="navbar-root"></div>
 
-    <main class="max-w-2xl mx-auto px-6 pt-12 pb-16 text-left">
+    <main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-16 text-left">
       <h1 class="text-2xl font-semibold text-center mb-6">Recognized apps</h1>
       <p class="text-sm text-warm/60 text-center mb-4">
         Cowork detects your foreground app and maps it to a category. The list
@@ -230,6 +214,7 @@
         loadApps();
       })();
     </script>
+    <script src="navbar.js"></script>
     <script src="download-button.js"></script>
   </body>
 </html>

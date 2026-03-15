@@ -47,48 +47,34 @@
       }
     </style>
     <script>
-      window.COWORK_DOWNLOAD_URL = "https://github.com/alexakayman/cowork/releases/latest/download/Cowork-macos.dmg";
+      window.COWORK_DOWNLOAD_URL =
+        "https://github.com/alexakayman/cowork/releases/latest/download/Cowork-macos.dmg";
     </script>
   </head>
-  <body class="bg-cream text-warm min-h-screen">
-    <nav class="border-b border-warm/20 bg-cream sticky top-0 z-10">
-      <div
-        class="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between"
-      >
-        <a href="index.html" class="font-bold text-warm text-lg">Cowork</a>
-        <div class="flex items-center gap-6 text-sm">
-          <a href="privacy.html" class="text-warm/70 hover:text-warm"
-            >Privacy</a
-          >
-          <a href="apps.html" class="text-warm/70 hover:text-warm">Apps</a>
-          <a href="changelog.html" class="text-warm/70 hover:text-warm"
-            >Changelog</a
-          >
-          <span data-download-button data-compact></span>
-        </div>
-      </div>
-    </nav>
+  <body class="bg-cream text-warm min-h-screen" data-page="index">
+    <div id="navbar-root"></div>
 
     <!-- Hero -->
-    <main class="max-w-2xl mx-auto px-6 pt-12 pb-16 text-center">
+    <main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-16 text-center">
       <img
         src="logo.png"
         alt="Cowork"
-        class="w-24 h-24 mx-auto mb-6 object-contain drop-shadow-sm"
+        class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 object-contain drop-shadow-sm"
         width="96"
         height="96"
       />
-      <h1 class="text-4xl font-bold tracking-tight mb-3">Cowork</h1>
-      <p class="text-lg text-warm/70 mb-6 max-w-md mx-auto">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Cowork</h1>
+      <p class="text-base sm:text-lg text-warm/70 mb-6 max-w-md mx-auto">
         See what your friends are working on in real time with desktop
         companions.
       </p>
 
       <!-- App preview: mock desktop with overlay chips -->
-      <div class="max-w-3xl mx-auto mb-10 px-4">
+      <div class="max-w-3xl mx-auto mb-8 sm:mb-10 px-2 sm:px-4">
         <div
           class="relative rounded-xl border-2 border-warm/25 bg-gradient-to-b from-warm/5 to-cream shadow-xl overflow-hidden"
-          style="aspect-ratio: 16/10; min-height: 280px"
+          class="min-h-[200px] sm:min-h-[280px]"
+        style="aspect-ratio: 16/10"
         >
           <!-- Fake desktop: menu bar -->
           <div
@@ -108,7 +94,9 @@
               class="mock-chip flex flex-col items-center min-w-0"
               data-user="alexa"
             >
-              <div class="relative w-14 h-16 shrink-0 flex items-end justify-center">
+              <div
+                class="relative w-14 h-16 shrink-0 flex items-end justify-center"
+              >
                 <img
                   src="/avatars/penguin.png"
                   alt=""
@@ -139,7 +127,9 @@
               class="mock-chip flex flex-col items-center min-w-0"
               data-user="brandon"
             >
-              <div class="relative w-14 h-16 shrink-0 flex items-end justify-center">
+              <div
+                class="relative w-14 h-16 shrink-0 flex items-end justify-center"
+              >
                 <img
                   src="/avatars/ferret.png"
                   alt=""
@@ -171,7 +161,9 @@
               class="mock-chip flex flex-col items-center min-w-0"
               data-user="waela"
             >
-              <div class="relative w-14 h-16 shrink-0 flex items-end justify-center">
+              <div
+                class="relative w-14 h-16 shrink-0 flex items-end justify-center"
+              >
                 <img
                   src="/avatars/corgi.png"
                   alt=""
@@ -203,41 +195,13 @@
 
       <!-- Download (macOS only) -->
       <div data-download-button></div>
-      <div class="max-w-md mx-auto mb-8 text-left">
-        <p class="text-sm font-medium text-warm mb-1">
-          Before opening the app — run this once in Terminal
-        </p>
-        <p class="text-sm text-warm/60 mb-2">
-          macOS blocks apps from unidentified developers. Run the command below
-          <strong>after</strong> you drag Cowork to Applications and
-          <strong>before</strong> you open it. (No Apple dev license here — it's
-          a friendly side project, promise it's not malware 🏠)
-        </p>
-        <div
-          class="flex items-stretch gap-1 rounded-lg overflow-hidden bg-warm/10 border border-warm/20"
-        >
-          <code
-            id="xattr-cmd"
-            class="flex-1 text-xs font-mono text-warm px-3 py-2.5 break-all self-center"
-            >sudo xattr -c /Applications/Cowork.app</code
-          >
-          <button
-            type="button"
-            id="copy-xattr-btn"
-            class="shrink-0 px-3 py-2 bg-warm/20 hover:bg-warm/30 text-warm font-medium text-xs transition-colors"
-            title="Copy command"
-          >
-            Copy
-          </button>
-        </div>
-      </div>
 
       <!-- How it works -->
-      <div class="text-left max-w-lg mx-auto space-y-10">
+      <div class="text-left max-w-lg mx-auto space-y-8 sm:space-y-10">
         <h2 class="text-xl font-semibold text-center mb-6">How it works</h2>
 
         <!-- Step 1: Character control preview -->
-        <div class="flex gap-4">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div class="text-2xl shrink-0">1️⃣</div>
           <div class="min-w-0 flex-1">
             <p class="font-medium">Pick a name &amp; avatar</p>
@@ -245,14 +209,14 @@
               Choose your character from the Animal Crossing-inspired roster.
             </p>
             <div
-              class="bg-white rounded-2xl p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10"
+              class="bg-white rounded-2xl p-3 sm:p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10"
             >
               <p
                 class="text-xs font-bold text-warm/60 uppercase tracking-wider mb-3"
               >
                 Character Control
               </p>
-              <div class="flex flex-row items-start gap-4">
+              <div class="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
                 <div class="flex flex-col items-center shrink-0">
                   <div class="w-16 aspect-[3/4] relative">
                     <img
@@ -316,7 +280,7 @@
         </div>
 
         <!-- Step 2: Session code preview -->
-        <div class="flex gap-4">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div class="text-2xl shrink-0">2️⃣</div>
           <div class="min-w-0 flex-1">
             <p class="font-medium">Share a session code</p>
@@ -326,7 +290,7 @@
             </p>
             <div
               id="session-preview"
-              class="bg-white rounded-2xl p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10"
+              class="bg-white rounded-2xl p-3 sm:p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10"
             >
               <!-- Start a Session (default) -->
               <div id="session-start-view">
@@ -342,12 +306,12 @@
                 >
                   Create Session 🏠
                 </button>
-                <div class="flex gap-2">
+                <div class="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     id="session-join-input"
                     placeholder="Enter session code"
-                    class="flex-1 bg-cream border-2 border-warm/20 rounded-xl px-3 py-2.5 text-sm text-warm placeholder:text-warm/40 focus:outline-none focus:border-warm/40"
+                    class="flex-1 min-w-0 bg-cream border-2 border-warm/20 rounded-xl px-3 py-2.5 text-sm text-warm placeholder:text-warm/40 focus:outline-none focus:border-warm/40"
                   />
                   <button
                     type="button"
@@ -394,7 +358,7 @@
         </div>
 
         <!-- Step 3 -->
-        <div class="flex gap-4">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <div class="text-2xl shrink-0">3️⃣</div>
           <div>
             <p class="font-medium">See each other's activity</p>
@@ -407,7 +371,7 @@
       </div>
 
       <!-- Characters -->
-      <div class="text-left max-w-md mx-auto mt-16">
+      <div class="text-left max-w-md mx-auto mt-12 sm:mt-16">
         <h2 class="text-xl font-semibold text-center mb-6">Characters</h2>
         <p class="text-sm text-warm/60 text-center mb-6">
           Pick from the roster — each appears as your presence in the overlay.
@@ -509,10 +473,75 @@
             />
             <span class="text-[10px] font-medium mt-1">Black Cat</span>
           </div>
+          <div class="flex flex-col items-center">
+            <img
+              src="/avatars/panda.png"
+              alt="Panda"
+              class="w-14 aspect-[3/4] object-contain"
+            />
+            <span class="text-[10px] font-medium mt-1">Panda</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <img
+              src="/avatars/orangetabby.png"
+              alt="Orange Tabby"
+              class="w-14 aspect-[3/4] object-contain"
+            />
+            <span class="text-[10px] font-medium mt-1">Orange Tabby</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <img
+              src="/avatars/collie.png"
+              alt="Collie"
+              class="w-14 aspect-[3/4] object-contain"
+            />
+            <span class="text-[10px] font-medium mt-1">Collie</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <img
+              src="/avatars/redpanda.png"
+              alt="Red Panda"
+              class="w-14 aspect-[3/4] object-contain"
+            />
+            <span class="text-[10px] font-medium mt-1">Red Panda</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <img
+              src="/avatars/panther.png"
+              alt="Panther"
+              class="w-14 aspect-[3/4] object-contain"
+            />
+            <span class="text-[10px] font-medium mt-1">Panther</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <img
+              src="/avatars/sloth.png"
+              alt="Sloth"
+              class="w-14 aspect-[3/4] object-contain"
+            />
+            <span class="text-[10px] font-medium mt-1">Sloth</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <img
+              src="/avatars/sheep.png"
+              alt="Sheep"
+              class="w-14 aspect-[3/4] object-contain"
+            />
+            <span class="text-[10px] font-medium mt-1">Sheep</span>
+          </div>
+          <div class="flex flex-col items-center">
+            <img
+              src="/avatars/cheetah.png"
+              alt="Cheetah"
+              class="w-14 aspect-[3/4] object-contain"
+            />
+            <span class="text-[10px] font-medium mt-1">Cheetah</span>
+          </div>
         </div>
       </div>
     </main>
 
+    <script src="navbar.js"></script>
     <script src="download-button.js"></script>
     <!-- Footer -->
     <footer class="text-center py-8 text-xs text-warm/30">

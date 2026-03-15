@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { useAppStore } from "../../stores/app";
-import { AVATARS } from "../../lib/avatars";
+import { AVATARS, PUBLIC_AVATARS } from "../../lib/avatars";
 
 export function Onboarding() {
   const setProfile = useAppStore((s) => s.setProfile);
+  const unlockedSpecialAvatarIds = useAppStore((s) => s.unlockedSpecialAvatarIds);
+  const redeemSpecialCode = useAppStore((s) => s.redeemSpecialCode);
   const [name, setName] = useState("");
-  const [selectedAvatar, setSelectedAvatar] = useState(AVATARS[0].id);
+  const selectableAvatars = [
+    ...PUBLIC_AVATARS,
+    ...AVATARS.filter((a) => unlockedSpecialAvatarIds.includes(a.id)),
+  ].filter((a, i, arr) => arr.findIndex((b) => b.id === a.id) === i);
+  const [selectedAvatar, setSelectedAvatar] = useState(selectableAvatars[0]?.id ?? "cat");
+  const [redeemCode, setRedeemCode] = useState("");
+  const [redeemMessage, setRedeemMessage] = useState<"success" | "invalid" | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,13 +55,55 @@ export function Onboarding() {
           />
         </div>
 
+        {/* Redeem special character */}
+        <div className="rounded-2xl border-2 border-tan bg-white p-3">
+          <label className="block text-sm font-semibold text-cocoa-light mb-2">
+            Redeem special character
+          </label>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setRedeemMessage(null);
+              if (!redeemCode.trim()) return;
+              const ok = redeemSpecialCode(redeemCode.trim());
+              setRedeemMessage(ok ? "success" : "invalid");
+              if (ok) setRedeemCode("");
+            }}
+            className="flex gap-2"
+          >
+            <input
+              type="text"
+              value={redeemCode}
+              onChange={(e) => {
+                setRedeemCode(e.target.value);
+                setRedeemMessage(null);
+              }}
+              placeholder="Enter code"
+              className="flex-1 min-w-0 bg-cream border-2 border-tan rounded-xl px-3 py-2 text-sm text-cocoa placeholder:text-sand focus:outline-none focus:border-leaf transition-colors uppercase"
+              maxLength={20}
+            />
+            <button
+              type="submit"
+              className="bg-leaf hover:bg-leaf-dark text-white rounded-xl px-4 py-2 text-sm font-bold transition-colors"
+            >
+              Redeem
+            </button>
+          </form>
+          {redeemMessage === "success" && (
+            <p className="text-xs text-leaf font-semibold mt-2">Code accepted! You can pick the character below.</p>
+          )}
+          {redeemMessage === "invalid" && (
+            <p className="text-xs text-rose font-semibold mt-2">Invalid code.</p>
+          )}
+        </div>
+
         {/* Avatar picker — full 3:4 standing characters */}
         <div>
           <label className="block text-sm font-semibold text-cocoa-light mb-2">
             Pick your buddy
           </label>
           <div className="grid grid-cols-4 gap-2 stagger-children">
-            {AVATARS.map((avatar) => (
+            {selectableAvatars.map((avatar) => (
               <button
                 key={avatar.id}
                 type="button"

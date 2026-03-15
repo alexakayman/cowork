@@ -1,13 +1,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { ActivityType } from "@cowork/shared";
-import { DEFAULT_AVATAR, resolveAvatarId } from "../lib/avatars";
+import { DEFAULT_AVATAR, resolveAvatarId, SPECIAL_CHARACTER_CODES } from "../lib/avatars";
 
 interface AppState {
   // Persisted
   userId: string;
   displayName: string;
   avatarId: string;
+  /** Avatar IDs unlocked via redeem codes (e.g. whiteferret). */
+  unlockedSpecialAvatarIds: string[];
   blocklist: string[];
   hasProfile: boolean;
   lastSessionCode: string;
@@ -27,6 +29,8 @@ interface AppState {
   setSessionTodo: (text: string) => void;
   setFocusMode: (isFocused: boolean) => void;
   setAvatar: (avatarId: string) => void;
+  /** Redeem a special character code. Returns true if code was valid and unlocked an avatar. */
+  redeemSpecialCode: (code: string) => boolean;
   addToBlocklist: (process: string) => void;
   removeFromBlocklist: (process: string) => void;
   setActivity: (activity: ActivityType, appName: string, rawProcess?: string, rawBundleId?: string) => void;
@@ -41,6 +45,7 @@ export const useAppStore = create<AppState>()(
       avatarId: DEFAULT_AVATAR,
       blocklist: [],
       hasProfile: false,
+      unlockedSpecialAvatarIds: [],
       lastSessionCode: "",
       currentActivity: null,
       currentAppName: "",
@@ -52,6 +57,17 @@ export const useAppStore = create<AppState>()(
       setProfile: (displayName, avatarId) =>
         set({ displayName, avatarId, hasProfile: true }),
       setAvatar: (avatarId) => set({ avatarId }),
+      redeemSpecialCode: (code) => {
+        const normalized = code.trim().toUpperCase();
+        const avatarId = SPECIAL_CHARACTER_CODES[normalized];
+        if (!avatarId) return false;
+        set((s) => ({
+          unlockedSpecialAvatarIds: s.unlockedSpecialAvatarIds.includes(avatarId)
+            ? s.unlockedSpecialAvatarIds
+            : [...s.unlockedSpecialAvatarIds, avatarId],
+        }));
+        return true;
+      },
       addToBlocklist: (process) =>
         set((s) => ({ blocklist: [...s.blocklist, process] })),
       removeFromBlocklist: (process) =>
@@ -79,6 +95,7 @@ export const useAppStore = create<AppState>()(
         userId: s.userId,
         displayName: s.displayName,
         avatarId: s.avatarId,
+        unlockedSpecialAvatarIds: s.unlockedSpecialAvatarIds,
         blocklist: s.blocklist,
         hasProfile: s.hasProfile,
         lastSessionCode: s.lastSessionCode,

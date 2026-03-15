@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Changelog — Cowork</title>
-    <meta name="description" content="Cowork release history and feature requests." />
+    <meta
+      name="description"
+      content="Cowork release history and feature requests."
+    />
     <link rel="icon" type="image/png" href="logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -19,65 +22,112 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <style>body { font-family: "Inter", system-ui, sans-serif; } .download-btn { transition: all 0.15s ease; } .download-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); } .download-btn:active { transform: translateY(0); }</style>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .download-btn {
+        transition: all 0.15s ease;
+      }
+      .download-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      .download-btn:active {
+        transform: translateY(0);
+      }
+    </style>
   </head>
-  <body class="bg-cream text-warm min-h-screen">
-    <nav class="border-b border-warm/20 bg-cream sticky top-0 z-10">
-      <div class="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between">
-        <a href="index.html" class="font-bold text-warm text-lg">Cowork</a>
-        <div class="flex items-center gap-6 text-sm">
-          <a href="privacy.html" class="text-warm/70 hover:text-warm">Privacy</a>
-          <a href="apps.html" class="text-warm/70 hover:text-warm">Apps</a>
-          <a href="changelog.html" class="text-warm font-medium">Changelog</a>
-          <span data-download-button data-compact></span>
-        </div>
-      </div>
-    </nav>
+  <body class="bg-cream text-warm min-h-screen" data-page="changelog">
+    <div id="navbar-root"></div>
 
-    <main class="max-w-md mx-auto px-6 pt-12 pb-16 text-left">
+    <main class="max-w-md mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-16 text-left">
       <h1 class="text-2xl font-semibold text-center mb-8">Changelog</h1>
       <div class="space-y-6">
         <div>
-          <h2 class="font-semibold text-warm flex items-center gap-2">
-            <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.3.0</span>
+          <h2 class="font-semibold text-warm flex flex-wrap items-center gap-2">
+            <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded"
+              >v1.3.0</span
+            >
+            <span class="text-sm font-normal text-warm/60">March 14, 2026</span>
           </h2>
-          <ul class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5">
-            <li>Focus modes — green (can chat) or red (locked in), visible on overlay</li>
-            <li>Goal displays — set a session goal; friends see it under your activity on the overlay</li>
-            <li>Fixes to WebSocket event listeners so goal and focus changes sync reliably for everyone (including when someone joins after you've set your goal)</li>
-            <li>UI updates for character control — clearer layout for name, focus, and session goal</li>
-            <li>Activity breakdowns — see time spent per app per friend in the session</li>
+          <ul
+            class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5"
+          >
+            <li>
+              Fixes to WebSocket event listeners so goal and focus changes sync
+              reliably for everyone (including when someone joins after you've
+              set your goal)
+            </li>
+            <li>
+              UI updates for character control — clearer layout for name, focus,
+              and session goal
+            </li>
+            <li>
+              Activity breakdowns — see time spent per app per friend in the
+              session
+            </li>
           </ul>
         </div>
         <div>
-          <h2 class="font-semibold text-warm flex items-center gap-2">
-            <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.2.1</span>
+          <h2 class="font-semibold text-warm flex flex-wrap items-center gap-2">
+            <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded"
+              >v1.2.1</span
+            >
+            <span class="text-sm font-normal text-warm/60">March 14, 2026</span>
           </h2>
-          <ul class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5">
-            <li>If the app won't open on macOS, run: <code class="font-mono text-xs">sudo xattr -c /Applications/Cowork.app</code></li>
+          <ul
+            class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5"
+          >
+            <li>
+              Session goals — set a goal for the session; visible to friends
+              under your activity
+            </li>
+            <li>
+              Focus status — green (can chat) or red (locked in), toggle in the
+              app
+            </li>
           </ul>
         </div>
         <div>
-          <h2 class="font-semibold text-warm flex items-center gap-2">
-            <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.1.0</span>
+          <h2 class="font-semibold text-warm flex flex-wrap items-center gap-2">
+            <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded"
+              >v1.1.0</span
+            >
+            <span class="text-sm font-normal text-warm/60">March 14, 2026</span>
           </h2>
-          <ul class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5">
-            <li>Session goals — set a goal for the session; visible to friends under your activity</li>
-            <li>Focus status — green (can chat) or red (locked in), toggle in the app</li>
-            <li>Overlay redesign — emoji + app name, goal line, no chat bubbles</li>
-            <li>Cowork window no longer counts as "active app" — previous app stays visible</li>
+          <ul
+            class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5"
+          >
+            <li>
+              Overlay redesign — emoji + app name, goal line, no chat bubbles
+            </li>
+            <li>
+              Cowork window no longer counts as "active app" — previous app
+              stays visible
+            </li>
             <li>Releases: macOS only</li>
           </ul>
         </div>
         <div>
-          <h2 class="font-semibold text-warm flex items-center gap-2">
-            <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.0.0</span>
+          <h2 class="font-semibold text-warm flex flex-wrap items-center gap-2">
+            <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded"
+              >v1.0.0</span
+            >
+            <span class="text-sm font-normal text-warm/60">March 14, 2026</span>
           </h2>
-          <ul class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5">
+          <ul
+            class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5"
+          >
             <li>Initial release</li>
             <li>Create or join sessions with a 6-character code</li>
-            <li>Activity detection (coding, browsing, meeting, etc.) with app name</li>
+            <li>
+              Activity detection (coding, browsing, meeting, etc.) with app name
+            </li>
             <li>Draggable overlay with character avatars</li>
             <li>macOS support</li>
           </ul>
@@ -86,7 +136,8 @@
         <div class="mt-8 pt-6 border-t border-warm/15">
           <h3 class="font-semibold text-warm mb-2">Suggest a feature</h3>
           <p class="text-sm text-warm/60 mb-3">
-            Have an idea? Send it by email and we'll consider it for a future release.
+            Have an idea? Send it by email and we'll consider it for a future
+            release.
           </p>
           <form id="feature-request-form" class="flex flex-col gap-2">
             <textarea
@@ -96,7 +147,10 @@
               placeholder="e.g. Dark mode for the overlay, or Windows support..."
               class="w-full bg-white border border-warm/20 rounded-lg px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none focus:ring-2 focus:ring-warm/30 focus:border-warm/40"
             ></textarea>
-            <button type="submit" class="self-start text-sm font-semibold text-warm hover:text-warm/80 underline">
+            <button
+              type="submit"
+              class="self-start text-sm font-semibold text-warm hover:text-warm/80 underline"
+            >
               Email feature request →
             </button>
           </form>
@@ -106,9 +160,14 @@
 
     <footer class="text-center py-8 text-xs text-warm/30">
       <a href="index.html" class="underline hover:text-warm/50">Home</a>
-      ·
-      Made by <a href="https://github.com/alexakayman" class="underline hover:text-warm/50">alexakayman</a>
+      · Made by
+      <a
+        href="https://github.com/alexakayman"
+        class="underline hover:text-warm/50"
+        >alexakayman</a
+      >
     </footer>
+    <script src="navbar.js"></script>
     <script src="download-button.js"></script>
     <script>
       (function () {
@@ -119,7 +178,10 @@
             e.preventDefault();
             var body = (input.value || "").trim();
             var subject = "Cowork feature request";
-            var mailto = "mailto:alexa@kayman.ventures?subject=" + encodeURIComponent(subject) + (body ? "&body=" + encodeURIComponent(body) : "");
+            var mailto =
+              "mailto:alexa@kayman.ventures?subject=" +
+              encodeURIComponent(subject) +
+              (body ? "&body=" + encodeURIComponent(body) : "");
             window.location.href = mailto;
           });
         }
