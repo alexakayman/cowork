@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { useAppStore } from "../../stores/app";
 import { useSessionStore } from "../../stores/session";
 import { usePresenceSocket } from "../../hooks/usePresenceSocket";
@@ -66,6 +67,21 @@ export function Dashboard() {
 
   useActivityListener();
   useOverlayBridge(); // Sync state to overlay webview via Tauri events
+
+  // Tray menu "Leave Session" emits this; run same logic as Leave Session button
+  useEffect(() => {
+    const unsub = listen("tray:leave-session", () => {
+      send({
+        type: "LEAVE",
+        payload: { userId: useAppStore.getState().userId },
+      });
+      invoke("hide_overlay").catch(() => {});
+      clearSession();
+    });
+    return () => {
+      unsub.then((fn) => fn());
+    };
+  }, [send, clearSession]);
 
   const handleCreateSession = () => {
     const code = Math.random().toString(36).substring(2, 8).toUpperCase();

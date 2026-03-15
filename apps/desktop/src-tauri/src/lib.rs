@@ -13,20 +13,27 @@ pub fn run() {
         .with_env_filter(EnvFilter::new("info,cowork_lib=debug"))
         .init();
 
-    tauri::Builder::default()
+    let mut builder = tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(
             tauri_plugin_window_state::Builder::default()
                 .with_denylist(&["overlay"])
                 .build(),
-        )
-        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            // If a second instance is launched, focus the existing main window
-            if let Some(window) = app.get_webview_window("main") {
-                let _ = window.show();
-                let _ = window.set_focus();
-            }
-        }))
+        );
+
+    // Single-instance only in release: in dev you can run alongside the prod app to test
+    if !cfg!(debug_assertions) {
+        builder = builder.plugin(tauri_plugin_single_instance::init(
+            |app, _args, _cwd| {
+                if let Some(window) = app.get_webview_window("main") {
+                    let _ = window.show();
+                    let _ = window.set_focus();
+                }
+            },
+        ));
+    }
+
+    builder
         .setup(|app| {
             // Menu-bar only on macOS: no dock icon; app is activated from tray
             #[cfg(target_os = "macos")]
