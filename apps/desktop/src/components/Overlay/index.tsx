@@ -89,7 +89,7 @@ export function Overlay() {
     <div className="w-full h-full flex items-end justify-end select-none">
       <div
         ref={contentRef}
-        className="relative flex flex-row items-end gap-3 p-2"
+        className="relative flex flex-row items-end gap-3 pt-7 px-3 pb-3"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => {
           if (!dragging) setHovered(false);
@@ -97,7 +97,7 @@ export function Overlay() {
       >
         {/* Drag handle — appears on hover */}
         <div
-          className={`absolute -top-1 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1 bg-white/90 rounded-full px-2 py-0.5 shadow-md cursor-grab active:cursor-grabbing transition-all duration-150 ${
+          className={`absolute top-0 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1 bg-white/90 rounded-full px-2 py-1 shadow-md cursor-grab active:cursor-grabbing transition-all duration-150 ${
             hovered || dragging
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-1 pointer-events-none"

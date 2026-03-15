@@ -1,8 +1,6 @@
-import { useState } from "react";
 import type { UserState } from "@cowork/shared";
-import { ACTIVITY_COLORS, ACTIVITY_LABELS } from "../../lib/activityMeta";
+import { ACTIVITY_COLORS, ACTIVITY_ICONS, ACTIVITY_LABELS } from "../../lib/activityMeta";
 import { resolveAvatarId } from "../../lib/avatars";
-import { ThoughtBubble } from "../ThoughtBubble";
 import { useElapsedTime } from "../../hooks/useElapsedTime";
 
 interface Props {
@@ -11,27 +9,18 @@ interface Props {
 }
 
 /**
- * Overlay chip: standing 3:4 character with a thought bubble above its head.
- * Designed for the always-on-top transparent overlay window.
- *
- * Shows: thought-bubble → avatar → name → activity / app label.
- * Task icon (📝) bottom-left when user has a session goal; hover shows goal pill.
- * Focus status (green = can chat, red = locked in) bottom-right.
+ * Overlay chip: character → focus chip → user label → emoji + app · time → goal (colored text, no bubbles).
  */
 export function AvatarChip({ user, isSelf }: Props) {
-  const [hovered, setHovered] = useState(false);
   const color = ACTIVITY_COLORS[user.activity] ?? "#C4B9A8";
   const avatar = resolveAvatarId(user.avatarId);
   const activityLabel = ACTIVITY_LABELS[user.activity] ?? "";
+  const activityIcon = ACTIVITY_ICONS[user.activity] ?? "\u{2753}";
   const elapsed = useElapsedTime(user.activityStartedAt);
 
-  // Show app name if available, otherwise fall back to activity label
   const appOrLabel = user.appName || activityLabel;
-  // Discord-style: "VS Code · 1h 23m"
-  const subtitle = appOrLabel ? `${appOrLabel} · ${elapsed}` : elapsed;
-
-  const hasGoal = Boolean(user.sessionTodo?.trim());
-  const goalText = hasGoal ? user.sessionTodo!.trim() : "";
+  const appLine = appOrLabel ? `${appOrLabel} · ${elapsed}` : elapsed;
+  const goalLine = user.sessionTodo?.trim() || "no goal";
 
   return (
     <div
@@ -40,45 +29,14 @@ export function AvatarChip({ user, isSelf }: Props) {
         animation: "bounce-in 0.4s cubic-bezier(0.34,1.56,0.64,1) both",
       }}
     >
-      {/* Fixed-height slot so swapping thought bubble ↔ goal pill never changes layout (prevents reflow/flashing).
-          ThoughtBubble md = 34px bubble + 2px gap + 7px dot + 2px gap + 4px dot = 49px. */}
-      <div className="relative flex flex-col items-center justify-center w-full min-h-[49px]">
-        {hasGoal && goalText && hovered ? (
-          /* Session goal pill — same slot as thought bubble, no height change */
-          <div
-            className="rounded-full bg-white px-2.5 py-1 shadow-md border border-black/8 max-w-[120px]"
-            style={{ boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}
-          >
-            <p className="text-[9px] font-semibold text-gray-800 truncate block text-center leading-tight">
-              {goalText}
-            </p>
-          </div>
-        ) : (
-          /* Thought bubble — activity (Idle, Coding, etc.) when not showing goal */
-          <ThoughtBubble activity={user.activity} size="md" />
-        )}
-      </div>
-
-      {/* Standing character — 3:4 ratio. Bottom-left: task (📝). Bottom-right: focus (green/red). */}
-      <div className="relative w-16 aspect-[3/4] mt-0.5 shrink-0">
+      {/* Character; focus chip bottom-right */}
+      <div className="relative w-16 aspect-[3/4] shrink-0">
         <img
           src={`/avatars/${avatar}.png`}
           alt={user.displayName}
           className="w-full h-full object-contain drop-shadow-[0_1px_4px_rgba(0,0,0,0.12)]"
           draggable={false}
         />
-        {/* Task icon — bottom-left, hover shows goal pill */}
-        {hasGoal && (
-          <div
-            className="absolute bottom-0 left-0 w-6 h-6 rounded-full bg-white/95 flex items-center justify-center shadow-md border border-black/10 cursor-default text-sm leading-none"
-            aria-label={goalText ? `Session goal: ${goalText}` : "Session goal"}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-          >
-            📝
-          </div>
-        )}
-        {/* Focus status — bottom-right: green = can chat, red = locked in */}
         <div
           className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white/90 shadow-md ${
             user.isFocused ? "bg-rose" : "bg-leaf"
@@ -88,7 +46,7 @@ export function AvatarChip({ user, isSelf }: Props) {
         />
       </div>
 
-      {/* Name label */}
+      {/* User label */}
       <span
         className="text-white text-[11px] font-bold rounded-full px-2 max-w-[80px] truncate mt-0.5"
         style={{
@@ -99,15 +57,22 @@ export function AvatarChip({ user, isSelf }: Props) {
         {isSelf ? "You" : user.displayName}
       </span>
 
-      {/* Activity / app name */}
-      {subtitle && (
-        <span
-          className="text-[9px] font-semibold max-w-[80px] truncate mt-px"
-          style={{ color: color }}
-        >
-          {subtitle}
-        </span>
-      )}
+      {/* Emoji + app name · timestamp (colored) */}
+      <span
+        className="text-[9px] font-semibold max-w-[80px] mt-px flex items-center justify-center gap-0.5 min-w-0"
+        style={{ color }}
+      >
+        <span className="shrink-0">{activityIcon}</span>
+        <span className="truncate min-w-0">{appLine}</span>
+      </span>
+
+      {/* Goal under app line, same color */}
+      <span
+        className="text-[9px] font-normal max-w-[80px] truncate mt-px block text-center"
+        style={{ color }}
+      >
+        {goalLine}
+      </span>
     </div>
   );
 }
