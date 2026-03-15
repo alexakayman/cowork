@@ -75,12 +75,25 @@
           Download for macOS
         </a>
       </div>
-      <p class="text-sm text-warm/60 max-w-md mx-auto mb-2">
-        If the app won't open after installing, run in Terminal to remove the quarantine attribute:
-      </p>
-      <code class="block text-xs font-mono bg-warm/10 text-warm px-3 py-2 rounded-lg max-w-md mx-auto mb-8 break-all">
-        sudo xattr -c /Applications/Cowork.app
-      </code>
+      <div class="max-w-md mx-auto mb-8 text-left">
+        <p class="text-sm font-medium text-warm mb-1">
+          Before opening the app — run this once in Terminal
+        </p>
+        <p class="text-sm text-warm/60 mb-2">
+          macOS blocks apps from unidentified developers. Run the command below <strong>after</strong> you drag Cowork to Applications and <strong>before</strong> you open it. (No Apple dev license here — it's a friendly side project, promise it's not malware 🏠)
+        </p>
+        <div class="flex items-stretch gap-1 rounded-lg overflow-hidden bg-warm/10 border border-warm/20">
+          <code id="xattr-cmd" class="flex-1 text-xs font-mono text-warm px-3 py-2.5 break-all self-center">sudo xattr -c /Applications/Cowork.app</code>
+          <button
+            type="button"
+            id="copy-xattr-btn"
+            class="shrink-0 px-3 py-2 bg-warm/20 hover:bg-warm/30 text-warm font-medium text-xs transition-colors"
+            title="Copy command"
+          >
+            Copy
+          </button>
+        </div>
+      </div>
 
       <!-- How it works -->
       <div class="text-left max-w-md mx-auto space-y-6">
@@ -226,5 +239,22 @@
         >alexakayman</a
       >
     </footer>
+    <script>
+      (function () {
+        var btn = document.getElementById('copy-xattr-btn');
+        var code = document.getElementById('xattr-cmd');
+        if (!btn || !code) return;
+        btn.addEventListener('click', function () {
+          var text = code.textContent.trim();
+          navigator.clipboard.writeText(text).then(
+            function () {
+              btn.textContent = 'Copied!';
+              setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+            },
+            function () { btn.textContent = 'Copy failed'; setTimeout(function () { btn.textContent = 'Copy'; }, 2000); }
+          );
+        });
+      })();
+    </script>
   </body>
 </html>
