@@ -66,10 +66,11 @@ export function AvatarChip({ user, isSelf }: Props) {
         <span className="truncate min-w-0">{appLine}</span>
       </span>
 
-      {/* Goal under app line, same color */}
+      {/* Goal under app line, same color — 2 lines then truncate; full text on hover */}
       <span
-        className="text-[9px] font-normal max-w-[80px] truncate mt-px block text-center"
+        className="text-[9px] font-normal max-w-[80px] mt-px block text-center line-clamp-2"
         style={{ color }}
+        title={goalLine !== "no goal" ? goalLine : undefined}
       >
         {goalLine}
       </span>

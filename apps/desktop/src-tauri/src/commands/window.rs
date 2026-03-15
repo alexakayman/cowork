@@ -59,25 +59,18 @@ pub fn show_overlay(app: AppHandle) -> Result<(), String> {
     Ok(())
 }
 
-/// Resize the overlay window to exactly fit its content and keep it
-/// anchored to the bottom-right corner of the primary monitor.
+/// Resize the overlay window to exactly fit its content.
+/// Does not change position — the user may have dragged the overlay elsewhere,
+/// and we must not reset it when overlay-sync triggers a content resize.
 #[tauri::command]
 pub fn fit_overlay(app: AppHandle, width: f64, height: f64) -> Result<(), String> {
     let overlay = app
         .get_webview_window("overlay")
         .ok_or("Overlay window not found")?;
 
-    if let Some((sw, sh, ox, oy, _)) = logical_screen(&app) {
-        let x = ox + sw - width - 16.0;
-        let y = oy + sh - height - SAFE_BOTTOM;
-
-        overlay
-            .set_size(LogicalSize { width, height })
-            .map_err(|e| e.to_string())?;
-        overlay
-            .set_position(LogicalPosition { x, y })
-            .map_err(|e| e.to_string())?;
-    }
+    overlay
+        .set_size(LogicalSize { width, height })
+        .map_err(|e| e.to_string())?;
 
     Ok(())
 }

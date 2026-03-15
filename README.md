@@ -134,6 +134,31 @@ VITE_WS_URL=wss://cowork-server.fly.dev
 
 Rebuild the desktop app and share it with friends. Everyone connects to the same server, creates a session code, and they're in.
 
+## Releases and the landing page download link
+
+The repo uses **Vercel Blob** so the public landing page can offer a direct download of the macOS app even when the GitHub repo is private.
+
+### One-time setup
+
+1. **Create a Vercel Blob store** (same Vercel team/project as your landing, or any project):
+   - [Vercel Dashboard](https://vercel.com/dashboard) → your project → Storage → Create Database → Blob. Name it (e.g. `cowork-releases`), set access to **Public**, create it.
+   - Copy the **Read-Write Token** from the store’s settings.
+
+2. **Add the token to GitHub** (so the release workflow can upload the .dmg):
+   - Repo → Settings → Secrets and variables → Actions → New repository secret.
+   - Name: `BLOB_READ_WRITE_TOKEN`, value: the token from step 1.
+
+3. **Run a release** (or the upload script locally) to get the public URL:
+   - Push a tag, e.g. `git tag v1.3.0 && git push origin v1.3.0`. The workflow builds the app, uploads the .dmg to Blob, and prints the download URL in the “Upload DMG to Vercel Blob” step log.
+   - Or locally after building the .dmg: `BLOB_READ_WRITE_TOKEN=your_token node scripts/upload-dmg-to-blob.mjs apps/desktop/src-tauri/target/release/bundle/dmg/Cowork_1.x.x_aarch64.dmg` (adjust path to your built .dmg). The script prints the URL.
+
+4. **Set the URL on the landing project**:
+   - In the Vercel project that deploys the landing (e.g. `apps/landing` or the root), go to Settings → Environment Variables.
+   - Add `DOWNLOAD_URL` = the URL from step 3 (e.g. `https://xxxx.public.blob.vercel-storage.com/Cowork-macos.dmg`).
+   - Redeploy the landing so the “Download for macOS” button uses that link.
+
+Later releases (new tags) overwrite the same Blob file, so the same `DOWNLOAD_URL` keeps serving the latest build. You only set it once.
+
 ### Other hosting options
 
 | Platform | Free tier | Notes |

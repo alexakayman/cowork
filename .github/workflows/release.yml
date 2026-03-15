@@ -50,6 +50,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
@@ -59,6 +68,18 @@ jobs:
         run: |
           mkdir -p release
           cp artifacts/macos/*.dmg release/Cowork-macos.dmg
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Upload DMG to Vercel Blob
+        id: blob
+        run: |
+          url=$(node scripts/upload-dmg-to-blob.mjs release/Cowork-macos.dmg)
+          echo "url=$url" >> $GITHUB_OUTPUT
+          echo "Download URL (set this as DOWNLOAD_URL in your Vercel project env): $url"
+        env:
+          BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
