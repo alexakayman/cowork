@@ -72,8 +72,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Upload DMG to Vercel Blob
+      - name: Upload DMG to Vercel Blob (optional)
         id: blob
+        continue-on-error: true
         run: |
           url=$(node scripts/upload-dmg-to-blob.mjs release/Cowork-macos.dmg)
           echo "url=$url" >> $GITHUB_OUTPUT
