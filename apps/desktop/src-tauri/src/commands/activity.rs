@@ -9,6 +9,7 @@ pub fn get_current_activity() -> ActivityState {
         activity: "idle".into(),
         app_name: "Unknown".into(),
         process: "".into(),
+        bundle_id: String::new(),
     }
 }
 
