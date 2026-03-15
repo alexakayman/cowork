@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
 import { useAppStore } from "../stores/app";
+import { useSessionStore } from "../stores/session";
 import type { ActivityType } from "@cowork/shared";
 
 const log = (...args: unknown[]) => console.log("[activity]", ...args);
@@ -37,6 +38,18 @@ export function useActivityListener() {
           return;
         }
         log(`detected: ${activity} app="${app_name}" process="${process}"`);
+
+        // Accumulate previous app segment into our own appSeconds so the session breakdown list grows.
+        // (We never receive our own USER_UPDATED, so we must do this on the client that switched.)
+        const { sessionCode } = useSessionStore.getState();
+        if (sessionCode) {
+          const { userId, currentAppName, activityStartedAt } = useAppStore.getState();
+          const elapsedMs = Date.now() - activityStartedAt;
+          if (elapsedMs > 0) {
+            useSessionStore.getState().addAppTime(userId, currentAppName ?? "", elapsedMs / 1000);
+          }
+        }
+
         setActivity(activity, app_name);
       },
     );

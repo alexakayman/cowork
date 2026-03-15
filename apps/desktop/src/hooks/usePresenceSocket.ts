@@ -25,6 +25,7 @@ export function usePresenceSocket() {
   const setSession = useSessionStore((s) => s.setSession);
   const upsertUser = useSessionStore((s) => s.upsertUser);
   const removeUser = useSessionStore((s) => s.removeUser);
+  const addAppTime = useSessionStore((s) => s.addAppTime);
 
   const send = useCallback((msg: ClientMessage) => {
     if (ws.current?.readyState === WebSocket.OPEN) {
@@ -98,12 +99,22 @@ export function usePresenceSocket() {
               log(`← USER_LEFT ${msg.payload.userId.slice(0, 8)}`);
               removeUser(msg.payload.userId);
               break;
-            case "USER_UPDATED":
+            case "USER_UPDATED": {
+              const newUser = msg.payload.user;
               log(
-                `← USER_UPDATED "${msg.payload.user.displayName}" activity=${msg.payload.user.activity} app="${msg.payload.user.appName}"`,
+                `← USER_UPDATED "${newUser.displayName}" activity=${newUser.activity} app="${newUser.appName}"`,
               );
-              upsertUser(msg.payload.user);
+              // Accumulate previous segment into app time (so we can show "VS Code | 10m")
+              const prevUser = useSessionStore.getState().users.get(newUser.userId);
+              if (prevUser && prevUser.activityStartedAt !== newUser.activityStartedAt) {
+                const elapsedMs = newUser.activityStartedAt - prevUser.activityStartedAt;
+                if (elapsedMs > 0) {
+                  addAppTime(prevUser.userId, prevUser.appName ?? "", elapsedMs / 1000);
+                }
+              }
+              upsertUser(newUser);
               break;
+            }
             case "PONG":
               log(`← PONG serverTime=${msg.payload.serverTime}`);
               break;

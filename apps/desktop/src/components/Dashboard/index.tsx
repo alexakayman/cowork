@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useAppStore } from "../../stores/app";
 import { useSessionStore } from "../../stores/session";
@@ -10,7 +10,8 @@ import { ThoughtBubble } from "../ThoughtBubble";
 import { BlocklistSettings } from "./BlocklistSettings";
 import { CharacterSelect } from "./CharacterSelect";
 import { useOverlayBridge } from "../../hooks/useOverlayBridge";
-import { ActivityType } from "@cowork/shared";
+import { ActivityType, type UserState } from "@cowork/shared";
+import { getSessionAppBreakdown } from "../../lib/sessionBreakdown";
 
 /** Tiny wrapper so we can call useElapsedTime per-user inside a list */
 function MemberDuration({ sinceMs }: { sinceMs: number }) {
@@ -22,10 +23,30 @@ function MemberDuration({ sinceMs }: { sinceMs: number }) {
   );
 }
 
+/** Session time by app for one friend: top 5 apps, "App name | 10m", longest first. */
+function MemberBreakdown({ user, appSeconds }: { user: UserState; appSeconds: Record<string, number> | undefined }) {
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const segments = getSessionAppBreakdown(user, appSeconds, now);
+  if (segments.length === 0) return null;
+  return (
+    <ul className="w-full mt-1 space-y-0.5">
+      {segments.map((s) => (
+        <li key={s.appName} className="text-[9px] text-cocoa-light flex justify-between gap-1 truncate max-w-full">
+          <span className="truncate min-w-0" title={s.appName}>{s.appName}</span>
+          <span className="shrink-0 font-medium">{s.label}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function Dashboard() {
-  const { displayName, avatarId, currentActivity, currentAppName, activityStartedAt, lastSessionCode, sessionTodo, setSessionTodo, isFocused, setFocusMode } = useAppStore();
-  const selfElapsed = useElapsedTime(activityStartedAt);
-  const { sessionCode, connected, users, clearSession } = useSessionStore();
+  const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, lastSessionCode, sessionTodo, setSessionTodo, isFocused, setFocusMode, setProfile } = useAppStore();
+  const { sessionCode, connected, users, appSeconds, clearSession } = useSessionStore();
   const { send } = usePresenceSocket();
   const [joinCode, setJoinCode] = useState(lastSessionCode);
   const [showCharacterSelect, setShowCharacterSelect] = useState(false);
@@ -63,6 +84,7 @@ export function Dashboard() {
   }
 
   const usersArray = Array.from(users.values());
+  const otherUsersArray = usersArray.filter((u) => u.userId !== userId); // exclude self to avoid duplicate "You" + name
   const activity = currentActivity ?? ActivityType.IDLE;
   const resolvedAvatar = resolveAvatarId(avatarId);
 
@@ -78,46 +100,20 @@ export function Dashboard() {
         </span>
       </div>
 
-      {/* Your Activity — character + thought bubble + focus toggle */}
+      {/* Character Control — horizontal: character left, name + focus + session goal right */}
       <div className="bg-white rounded-2xl p-4 shadow-cozy animate-bounce-in">
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-xs font-bold text-cocoa-light uppercase tracking-wider">
-            Your Activity
-          </p>
-          {/* Focus status: green = can chat, red = locked in. Shown on overlay bottom-right of avatar. */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-[10px] font-semibold text-cocoa-light">Focus:</span>
-            <button
-              type="button"
-              onClick={() => setFocusMode(false)}
-              className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors ${
-                !isFocused ? "bg-leaf text-white shadow-sm" : "bg-cream text-cocoa-light hover:bg-tan"
-              }`}
-              title="Can chat — green on overlay"
-            >
-              Can chat
-            </button>
-            <button
-              type="button"
-              onClick={() => setFocusMode(true)}
-              className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors ${
-                isFocused ? "bg-rose text-white shadow-sm" : "bg-cream text-cocoa-light hover:bg-tan"
-              }`}
-              title="Locked in — red on overlay"
-            >
-              Locked in
-            </button>
-          </div>
-        </div>
-        <div className="flex items-end gap-4">
-          {/* Character with thought bubble — click to open full-page picker */}
+        <p className="text-xs font-bold text-cocoa-light uppercase tracking-wider mb-3">
+          Character Control
+        </p>
+        <div className="flex flex-row items-start gap-4">
+          {/* Character with edit icon — click to open full-page picker */}
           <button
+            type="button"
             onClick={() => setShowCharacterSelect(true)}
             className="flex flex-col items-center shrink-0 group cursor-pointer"
             title="Change character"
           >
-            <ThoughtBubble activity={activity} size="md" />
-            <div className="w-16 aspect-[3/4] mt-0.5 relative">
+            <div className="w-16 aspect-[3/4] relative">
               <img
                 src={`/avatars/${resolvedAvatar}.png`}
                 alt={displayName}
@@ -130,13 +126,96 @@ export function Dashboard() {
                 </span>
               </div>
             </div>
-            {/* Activity duration — Discord-style rich presence */}
-            <div className="text-xs font-semibold text-cocoa-light mt-1 text-center">
-              {currentAppName || "Idle"} · {selfElapsed}
-            </div>
           </button>
+          {/* Right: name, focus, session goal */}
+          <div className="flex flex-col gap-3 flex-1 min-w-0">
+            <div>
+              <label htmlFor="display-name" className="text-[10px] font-semibold text-cocoa-light uppercase tracking-wider block mb-1">
+                Name
+              </label>
+              <input
+                id="display-name"
+                type="text"
+                value={displayName}
+                onChange={(e) => setProfile(e.target.value, avatarId)}
+                placeholder="Your name"
+                className="w-full bg-cream border-2 border-tan rounded-xl px-3 py-2 text-sm text-cocoa placeholder:text-sand focus:outline-none focus:border-leaf transition-colors duration-200"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-semibold text-cocoa-light shrink-0">Focus:</span>
+              <div className="flex gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setFocusMode(false)}
+                  className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors ${
+                    !isFocused ? "bg-leaf text-white shadow-sm" : "bg-cream text-cocoa-light hover:bg-tan"
+                  }`}
+                  title="Can chat — green on overlay"
+                >
+                  Can chat
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFocusMode(true)}
+                  className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors ${
+                    isFocused ? "bg-rose text-white shadow-sm" : "bg-cream text-cocoa-light hover:bg-tan"
+                  }`}
+                  title="Locked in — red on overlay"
+                >
+                  Locked in
+                </button>
+              </div>
+            </div>
+            <div>
+              <label htmlFor="session-goal" className="text-[10px] font-semibold text-cocoa-light uppercase tracking-wider block mb-1">
+                Session goal {"\u{2705}"} <span className="normal-case font-normal">(optional)</span>
+              </label>
+              <input
+                id="session-goal"
+                type="text"
+                value={sessionTodo}
+                onChange={(e) => setSessionTodo(e.target.value)}
+                placeholder="e.g. Ship the login flow"
+                className="w-full bg-cream border-2 border-tan rounded-xl px-3 py-2 text-sm text-cocoa placeholder:text-sand focus:outline-none focus:border-leaf transition-colors duration-200"
+              />
+              <p className="text-[10px] text-cocoa-light mt-0.5">Friends see this on your character; hover to read.</p>
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Activity Breakdowns — cascading table (only when in a session) */}
+      {sessionCode && (
+        <div className="bg-white rounded-2xl p-4 shadow-cozy flex flex-col gap-3 animate-bounce-in">
+          <p className="text-xs font-bold text-cocoa-light uppercase tracking-wider">
+            Activity Breakdowns
+          </p>
+          <div className="flex flex-col gap-3">
+            <div className="pl-2 border-l-2 border-tan">
+              <p className="text-sm font-semibold text-cocoa mb-1">You</p>
+              <MemberBreakdown
+                user={{
+                  userId,
+                  displayName: "",
+                  avatarId: "",
+                  activity: activity,
+                  appName: currentAppName ?? "",
+                  updatedAt: 0,
+                  activityStartedAt,
+                }}
+                appSeconds={appSeconds[userId]}
+              />
+            </div>
+            {otherUsersArray.map((user) => (
+              <div key={user.userId} className="pl-2 border-l-2 border-tan">
+                <p className="text-sm font-semibold text-cocoa mb-1">{user.displayName || "Friend"}</p>
+                <MemberBreakdown user={user} appSeconds={appSeconds[user.userId]} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Session */}
       {sessionCode ? (
@@ -168,21 +247,6 @@ export function Dashboard() {
           >
             Copy session code {"\u{1F4CB}"}
           </button>
-
-          <div>
-            <label htmlFor="session-goal" className="text-xs font-bold text-cocoa-light uppercase tracking-wider block mb-1.5">
-              Session goal {"\u{2705}"} <span className="normal-case font-normal">(optional)</span>
-            </label>
-            <input
-              id="session-goal"
-              type="text"
-              value={sessionTodo}
-              onChange={(e) => setSessionTodo(e.target.value)}
-              placeholder="e.g. Ship the login flow"
-              className="w-full bg-cream border-2 border-tan rounded-xl px-3 py-2 text-sm text-cocoa placeholder:text-sand focus:outline-none focus:border-leaf transition-colors duration-200"
-            />
-            <p className="text-[10px] text-cocoa-light mt-1">Friends see this as a checkmark on your character; hover to read.</p>
-          </div>
 
           <button
             onClick={handleShowOverlay}

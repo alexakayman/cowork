@@ -1,100 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cowork — Coworking presence for your desktop</title>
-  <meta name="description" content="See what your friends are working on in real time. Animal Crossing-style coworking presence app." />
-  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            cream: '#FFF8F0',
-            warm: '#5C4433',
-          },
-          fontFamily: {
-            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cowork — Coworking presence for your desktop</title>
+    <meta
+      name="description"
+      content="See what your friends are working on in real time. Animal Crossing-style coworking presence app."
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cream: "#FFF8F0",
+              warm: "#5C4433",
+            },
+            fontFamily: {
+              sans: ['"Inter"', "system-ui", "sans-serif"],
+            },
           },
         },
-      },
-    };
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    body { font-family: 'Inter', system-ui, sans-serif; }
-    .download-btn { transition: all 0.15s ease; }
-    .download-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-    .download-btn:active { transform: translateY(0); }
-  </style>
-</head>
-<body class="bg-cream text-warm min-h-screen">
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .download-btn {
+        transition: all 0.15s ease;
+      }
+      .download-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      .download-btn:active {
+        transform: translateY(0);
+      }
+    </style>
+  </head>
+  <body class="bg-cream text-warm min-h-screen">
+    <!-- Hero -->
+    <main class="max-w-2xl mx-auto px-6 pt-24 pb-16 text-center">
+      <div class="text-6xl mb-6">🏠</div>
+      <h1 class="text-4xl font-bold tracking-tight mb-3">Cowork</h1>
+      <p class="text-lg text-warm/70 mb-12 max-w-md mx-auto">
+        See what your friends are working on in real time. A tiny desktop
+        companion that shows everyone's activity in a cute overlay.
+      </p>
 
-  <!-- Hero -->
-  <main class="max-w-2xl mx-auto px-6 pt-24 pb-16 text-center">
-    <div class="text-6xl mb-6">🏠</div>
-    <h1 class="text-4xl font-bold tracking-tight mb-3">Cowork</h1>
-    <p class="text-lg text-warm/70 mb-12 max-w-md mx-auto">
-      See what your friends are working on in real time. A tiny desktop companion that shows everyone's activity in a cute overlay.
-    </p>
-
-    <!-- Download buttons (macOS & Windows only) -->
-    <div class="flex flex-col sm:flex-row gap-3 justify-center mb-8">
-      <a href="https://github.com/alexakayman/cowork/releases/latest/download/Cowork-macos.dmg"
-         class="download-btn inline-flex items-center justify-center gap-2 bg-warm text-cream px-6 py-3 rounded-xl font-medium text-sm">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        macOS
-      </a>
-      <a href="https://github.com/alexakayman/cowork/releases/latest/download/Cowork-windows-setup.exe"
-         class="download-btn inline-flex items-center justify-center gap-2 bg-warm text-cream px-6 py-3 rounded-xl font-medium text-sm">
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 12V6.75l8-1.25V12H3zm0 .5h8v6.5l-8-1.25V12.5zM11.5 12V5.35l9.5-1.6V12H11.5zm0 .5H21v7.75l-9.5-1.6V12.5z"/></svg>
-        Windows
-      </a>
-    </div>
-
-    <p class="text-xs text-warm/40 mb-16">
-      Free &amp; open source &middot;
-      <a href="https://github.com/alexakayman/cowork" class="underline hover:text-warm/60">GitHub</a>
-    </p>
-
-    <!-- How it works -->
-    <div class="text-left max-w-md mx-auto space-y-6">
-      <h2 class="text-xl font-semibold text-center mb-6">How it works</h2>
-
-      <div class="flex gap-4">
-        <div class="text-2xl">1️⃣</div>
-        <div>
-          <p class="font-medium">Pick a name &amp; avatar</p>
-          <p class="text-sm text-warm/60">Choose your character from the Animal Crossing-inspired roster.</p>
-        </div>
+      <!-- Download buttons (macOS & Windows only) -->
+      <div class="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+        <a
+          href="https://github.com/alexakayman/cowork/releases/latest/download/Cowork-macos.dmg"
+          class="download-btn inline-flex items-center justify-center gap-2 bg-warm text-cream px-6 py-3 rounded-xl font-medium text-sm"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+            />
+          </svg>
+          macOS
+        </a>
+        <a
+          href="https://github.com/alexakayman/cowork/releases/latest/download/Cowork-windows-setup.exe"
+          class="download-btn inline-flex items-center justify-center gap-2 bg-warm text-cream px-6 py-3 rounded-xl font-medium text-sm"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M3 12V6.75l8-1.25V12H3zm0 .5h8v6.5l-8-1.25V12.5zM11.5 12V5.35l9.5-1.6V12H11.5zm0 .5H21v7.75l-9.5-1.6V12.5z"
+            />
+          </svg>
+          Windows
+        </a>
       </div>
 
-      <div class="flex gap-4">
-        <div class="text-2xl">2️⃣</div>
-        <div>
-          <p class="font-medium">Share a session code</p>
-          <p class="text-sm text-warm/60">Create a room and share the code with friends — anyone with the code can join.</p>
+      <!-- How it works -->
+      <div class="text-left max-w-md mx-auto space-y-6">
+        <h2 class="text-xl font-semibold text-center mb-6">How it works</h2>
+
+        <div class="flex gap-4">
+          <div class="text-2xl">1️⃣</div>
+          <div>
+            <p class="font-medium">Pick a name &amp; avatar</p>
+            <p class="text-sm text-warm/60">
+              Choose your character from the Animal Crossing-inspired roster.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="text-2xl">2️⃣</div>
+          <div>
+            <p class="font-medium">Share a session code</p>
+            <p class="text-sm text-warm/60">
+              Create a room and share the code with friends — anyone with the
+              code can join.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="text-2xl">3️⃣</div>
+          <div>
+            <p class="font-medium">See each other's activity</p>
+            <p class="text-sm text-warm/60">
+              A small overlay on your desktop shows what everyone's doing —
+              coding, browsing, in a meeting, etc.
+            </p>
+          </div>
         </div>
       </div>
+    </main>
 
-      <div class="flex gap-4">
-        <div class="text-2xl">3️⃣</div>
-        <div>
-          <p class="font-medium">See each other's activity</p>
-          <p class="text-sm text-warm/60">A small overlay on your desktop shows what everyone's doing — coding, browsing, in a meeting, etc.</p>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="text-center py-8 text-xs text-warm/30">
-    Made by <a href="https://github.com/alexakayman" class="underline hover:text-warm/50">alexakayman</a>
-  </footer>
-
-</body>
+    <!-- Footer -->
+    <footer class="text-center py-8 text-xs text-warm/30">
+      Made by
+      <a
+        href="https://github.com/alexakayman"
+        class="underline hover:text-warm/50"
+        >alexakayman</a
+      >
+    </footer>
+  </body>
 </html>
