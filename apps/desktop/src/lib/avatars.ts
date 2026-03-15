@@ -9,31 +9,33 @@ export interface AvatarDef {
 }
 
 export const AVATARS: AvatarDef[] = [
-  { id: "cat",         label: "Cat"          },
-  { id: "fox",         label: "Fox"          },
-  { id: "rabbit",      label: "Rabbit"       },
-  { id: "penguin",     label: "Penguin"      },
-  { id: "otter",       label: "Otter"        },
-  { id: "ferret",      label: "Ferret"       },
-  { id: "narwhal",     label: "Narwhal"      },
-  { id: "pig",         label: "Pig"          },
-  { id: "lemur",       label: "Lemur"        },
-  { id: "corgi",       label: "Corgi"        },
-  { id: "tabby",       label: "Tabby"        },
-  { id: "blackcat",    label: "Black Cat"    },
-  { id: "panda",       label: "Panda"        },
-  { id: "orangetabby", label: "Orange Tabby"  },
-  { id: "collie",      label: "Collie"       },
-  { id: "redpanda",    label: "Red Panda"    },
-  { id: "panther",     label: "Panther"      },
-  { id: "sloth",       label: "Sloth"        },
-  { id: "sheep",       label: "Sheep"        },
-  { id: "cheetah",     label: "Cheetah"      },
-  { id: "whiteferret", label: "White Ferret"  },
+  { id: "cat", label: "Cat" },
+  { id: "fox", label: "Fox" },
+  { id: "rabbit", label: "Rabbit" },
+  { id: "penguin", label: "Penguin" },
+  { id: "otter", label: "Otter" },
+  { id: "ferret", label: "Ferret" },
+  { id: "narwhal", label: "Narwhal" },
+  { id: "pig", label: "Pig" },
+  { id: "lemur", label: "Lemur" },
+  { id: "corgi", label: "Corgi" },
+  { id: "tabby", label: "Tabby" },
+  { id: "blackcat", label: "Black Cat" },
+  { id: "panda", label: "Panda" },
+  { id: "orangetabby", label: "Orange Cat" },
+  { id: "collie", label: "Collie" },
+  { id: "redpanda", label: "Red Panda" },
+  { id: "panther", label: "Panther" },
+  { id: "sloth", label: "Sloth" },
+  { id: "sheep", label: "Sheep" },
+  { id: "cheetah", label: "Cheetah" },
+  { id: "whiteferret", label: "White Ferret" },
 ];
 
 /** Avatars shown in the public roster (excludes special/redeem-only characters). */
-export const PUBLIC_AVATARS: AvatarDef[] = AVATARS.filter((a) => a.id !== "whiteferret");
+export const PUBLIC_AVATARS: AvatarDef[] = AVATARS.filter(
+  (a) => a.id !== "whiteferret",
+);
 
 /** Code → avatar id for redeem-only characters. */
 export const SPECIAL_CHARACTER_CODES: Record<string, string> = {
