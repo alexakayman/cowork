@@ -1,8 +1,44 @@
 # Cowork
 
-Animal Crossing-style coworking presence app. See what your friends are working on in real time with a cute transparent overlay on your desktop.
+<div align="center">
+  <img alt="Cowork logo" src="apps/landing/logo.png" width="140" />
+</div>
 
-## How it works
+Animal Crossing–style coworking presence app for remote teams and friends. See what everyone is working on in real time with a cute, low‑distraction overlay that floats on top of your desktop.
+
+Cowork gives you the vibe of being in the same room without the pressure of a call: just open the app, join a shared session, and your current activity shows up as a tiny avatar with a thought bubble (coding, writing, browsing, etc.). It’s perfect for deep‑work sessions, virtual office hours, or keeping up with what your friends are hacking on.
+
+### Meet your characters
+
+<p align="center">
+  <img alt="Cowork avatar - cat" src="apps/landing/avatars/cat.png" width="96" />
+  <img alt="Cowork avatar - corgi" src="apps/landing/avatars/corgi.png" width="96" />
+  <img alt="Cowork avatar - lemur" src="apps/landing/avatars/lemur.png" width="96" />
+  <img alt="Cowork avatar - fox" src="apps/landing/avatars/fox.png" width="96" />
+  <img alt="Cowork avatar - tabby" src="apps/landing/avatars/tabby.png" width="96" />
+  <img alt="Cowork avatar - rabbit" src="apps/landing/avatars/rabbit.png" width="96" />
+</p>
+
+### What you get
+
+- **Lightweight presence, zero mic/camera** – feel “together” without a meeting.
+- **Always‑on overlay** – a transparent strip that sits above your windows so you can glance at who’s online and what they’re doing.
+- **Simple sessions** – create a room code, share it, and everyone’s presence stays in sync over a hosted WebSocket server.
+- **Cross‑platform activity detection** – native integrations on macOS, Windows, and Linux so activity feels accurate and responsive.
+
+### Try it
+
+- **Download** the latest macOS build from the GitHub Releases page.
+- **Create a session**, send the code to your friends or team, and watch everyone’s avatars light up as they work.
+- **Run your own server** if you want full control over presence traffic (see the sections below).
+
+---
+
+## Contributing & development
+
+The sections below are for people who want to run Cowork from source, self‑host the server, or contribute to the project.
+
+### How it works
 
 Cowork is a Tauri 2 desktop app that detects your foreground application and shares your activity with others over WebSocket. It has two windows:
 
@@ -11,7 +47,7 @@ Cowork is a Tauri 2 desktop app that detects your foreground application and sha
 
 Activity detection runs natively via Rust on macOS (NSWorkspace), Windows (Win32), and Linux (xdotool).
 
-## Tech stack
+### Tech stack
 
 | Layer | Tech |
 |---|---|
@@ -23,7 +59,7 @@ Activity detection runs natively via Rust on macOS (NSWorkspace), Windows (Win32
 | Server | uWebSockets.js (Node.js) |
 | Shared types | `@cowork/shared` (pure TS) |
 
-## Prerequisites
+### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v18+)
 - [pnpm](https://pnpm.io/) (v9+)
@@ -35,7 +71,7 @@ On macOS you'll also need Xcode Command Line Tools:
 xcode-select --install
 ```
 
-## Quick start
+### Quick start
 
 ```sh
 # Clone and enter the repo
@@ -61,7 +97,7 @@ cp apps/server/.env.example apps/server/.env
 pnpm dev
 ```
 
-## Project structure
+### Project structure
 
 ```
 cowork/
@@ -77,7 +113,7 @@ cowork/
 └── pnpm-workspace.yaml
 ```
 
-## Scripts
+### Scripts
 
 From the repo root:
 
@@ -89,15 +125,15 @@ From the repo root:
 | `pnpm build:server` | Builds the server to `apps/server/dist` |
 | `pnpm build:desktop` | Builds the Tauri app for production |
 
-## Environment variables
+### Environment variables
 
-### `apps/desktop/.env`
+#### `apps/desktop/.env`
 
 | Variable | Default | Description |
 |---|---|---|
 | `VITE_WS_URL` | `ws://localhost:3333` | WebSocket URL for the presence server |
 
-### `apps/server/.env`
+#### `apps/server/.env`
 
 | Variable | Default | Description |
 |---|---|---|
@@ -105,11 +141,11 @@ From the repo root:
 
 See `.env.example` files in each app for reference.
 
-## Deploying the server
+### Deploying the server
 
 The WebSocket server needs a platform that supports **persistent connections** (not serverless). Vercel/Cloudflare Workers won't work. The best free option is [Fly.io](https://fly.io/).
 
-### Deploy to Fly.io (free tier)
+#### Deploy to Fly.io (free tier)
 
 ```sh
 # Install the Fly CLI
@@ -134,11 +170,11 @@ VITE_WS_URL=wss://cowork-server.fly.dev
 
 Rebuild the desktop app and share it with friends. Everyone connects to the same server, creates a session code, and they're in.
 
-## Releases and the landing page download link
+### Releases and the landing page download link
 
 The repo uses **Vercel Blob** so the public landing page can offer a direct download of the macOS app even when the GitHub repo is private.
 
-### One-time setup
+#### One-time setup
 
 1. **Create a Vercel Blob store** (same Vercel team/project as your landing, or any project):
    - [Vercel Dashboard](https://vercel.com/dashboard) → your project → Storage → Create Database → Blob. Name it (e.g. `cowork-releases`), set access to **Public**, create it.
