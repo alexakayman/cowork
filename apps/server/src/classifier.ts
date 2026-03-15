@@ -2,10 +2,21 @@
  * Server-side activity classifier. Single source of truth for app → activity mapping.
  * Add new apps (e.g. browsers) here; no desktop app update required.
  *
- * Mirrors apps/desktop/src-tauri/src/activity/mapper.rs — keep in sync when
- * adding platform-specific rules that must work offline; prefer extending this.
+ * Optional dynamic list (from APPS_LIST_URL): crowdsourced app list from the landing
+ * page; checked first so submitted apps are recognized without a server deploy.
  */
 import { ActivityType } from "@cowork/shared";
+
+export interface AppEntry {
+  appName: string;
+  category: string;
+}
+
+let dynamicAppList: AppEntry[] = [];
+
+export function setDynamicAppList(list: AppEntry[]): void {
+  dynamicAppList = Array.isArray(list) ? list : [];
+}
 
 export function classifyActivity(
   process: string,
@@ -17,6 +28,17 @@ export function classifyActivity(
     .filter((s) => s.length > 0);
 
   for (const t of tokens) {
+    // Dynamic list from landing /api/apps (checked first)
+    for (const entry of dynamicAppList) {
+      const key = entry.appName.trim().toLowerCase();
+      if (key.length > 0 && t.includes(key)) {
+        const cat = entry.category.trim().toLowerCase();
+        if (Object.values(ActivityType).includes(cat as ActivityType)) {
+          return cat as ActivityType;
+        }
+      }
+    }
+
     // --- Code editors ---
     if (
       t.includes("vscode") ||

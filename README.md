@@ -138,6 +138,7 @@ From the repo root:
 | Variable | Default | Description |
 |---|---|---|
 | `PORT` | `3333` | Port the WebSocket server listens on |
+| `APPS_LIST_URL` | — | Optional. URL of the landing app list API (e.g. `https://your-landing.vercel.app/api/apps`). When set, the server fetches this list and uses it for activity classification so crowdsourced submissions take effect without a deploy. |
 
 See `.env.example` files in each app for reference.
 
@@ -172,7 +173,7 @@ Rebuild the desktop app and share it with friends. Everyone connects to the same
 
 ### Releases and the landing page download link
 
-The repo uses **Vercel Blob** so the public landing page can offer a direct download of the macOS app even when the GitHub repo is private.
+The repo uses **Vercel Blob** so the public landing page can offer a direct download of the macOS app even when the GitHub repo is private. The same `BLOB_READ_WRITE_TOKEN` is used for the **Recognized apps** list: the landing’s `/api/apps` (GET/POST) stores the crowdsourced app list in Blob; new submissions are approved by default and appear in the table. If you run the presence server, set `APPS_LIST_URL` to your landing’s `/api/apps` URL so the server uses that list for classification.
 
 #### One-time setup
 
