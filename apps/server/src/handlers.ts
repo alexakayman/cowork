@@ -78,6 +78,9 @@ export function handleMessage(
       if ('sessionTodo' in msg.payload) {
         user.sessionTodo = msg.payload.sessionTodo ?? null;
       }
+      if ('isFocused' in msg.payload) {
+        user.isFocused = Boolean(msg.payload.isFocused);
+      }
 
       if (prevActivity !== activity || prevAvatar !== avatarId) {
         console.log(

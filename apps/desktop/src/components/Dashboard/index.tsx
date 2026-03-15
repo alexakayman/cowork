@@ -23,7 +23,7 @@ function MemberDuration({ sinceMs }: { sinceMs: number }) {
 }
 
 export function Dashboard() {
-  const { displayName, avatarId, currentActivity, currentAppName, activityStartedAt, lastSessionCode, sessionTodo, setSessionTodo } = useAppStore();
+  const { displayName, avatarId, currentActivity, currentAppName, activityStartedAt, lastSessionCode, sessionTodo, setSessionTodo, isFocused, setFocusMode } = useAppStore();
   const selfElapsed = useElapsedTime(activityStartedAt);
   const { sessionCode, connected, users, clearSession } = useSessionStore();
   const { send } = usePresenceSocket();
@@ -78,11 +78,37 @@ export function Dashboard() {
         </span>
       </div>
 
-      {/* Your Activity — character + thought bubble */}
+      {/* Your Activity — character + thought bubble + focus toggle */}
       <div className="bg-white rounded-2xl p-4 shadow-cozy animate-bounce-in">
-        <p className="text-xs font-bold text-cocoa-light uppercase tracking-wider mb-3">
-          Your Activity
-        </p>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs font-bold text-cocoa-light uppercase tracking-wider">
+            Your Activity
+          </p>
+          {/* Focus status: green = can chat, red = locked in. Shown on overlay bottom-right of avatar. */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] font-semibold text-cocoa-light">Focus:</span>
+            <button
+              type="button"
+              onClick={() => setFocusMode(false)}
+              className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors ${
+                !isFocused ? "bg-leaf text-white shadow-sm" : "bg-cream text-cocoa-light hover:bg-tan"
+              }`}
+              title="Can chat — green on overlay"
+            >
+              Can chat
+            </button>
+            <button
+              type="button"
+              onClick={() => setFocusMode(true)}
+              className={`rounded-full px-2.5 py-1 text-[10px] font-bold transition-colors ${
+                isFocused ? "bg-rose text-white shadow-sm" : "bg-cream text-cocoa-light hover:bg-tan"
+              }`}
+              title="Locked in — red on overlay"
+            >
+              Locked in
+            </button>
+          </div>
+        </div>
         <div className="flex items-end gap-4">
           {/* Character with thought bubble — click to open full-page picker */}
           <button

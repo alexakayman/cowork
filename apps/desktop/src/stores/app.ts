@@ -15,11 +15,14 @@ interface AppState {
   currentActivity: ActivityType | null;
   currentAppName: string;
   activityStartedAt: number; // Unix ms — when current activity began (rich presence)
-  /** Session goal/todo — shown on overlay as checkmark + tooltip. Not persisted. */
+  /** Session goal/todo — shown on overlay as 📝 + tooltip. Not persisted. */
   sessionTodo: string;
+  /** Focus status: false = can chat (green), true = locked in (red). Not persisted. */
+  isFocused: boolean;
   // Actions
   setProfile: (name: string, avatarId: string) => void;
   setSessionTodo: (text: string) => void;
+  setFocusMode: (isFocused: boolean) => void;
   setAvatar: (avatarId: string) => void;
   addToBlocklist: (process: string) => void;
   removeFromBlocklist: (process: string) => void;
@@ -40,6 +43,7 @@ export const useAppStore = create<AppState>()(
       currentAppName: "",
       activityStartedAt: Date.now(),
       sessionTodo: "",
+      isFocused: false,
       setProfile: (displayName, avatarId) =>
         set({ displayName, avatarId, hasProfile: true }),
       setAvatar: (avatarId) => set({ avatarId }),
@@ -59,6 +63,7 @@ export const useAppStore = create<AppState>()(
         })),
       setLastSessionCode: (lastSessionCode) => set({ lastSessionCode }),
       setSessionTodo: (sessionTodo) => set({ sessionTodo }),
+      setFocusMode: (isFocused) => set({ isFocused }),
     }),
     {
       name: "cowork-app-state",

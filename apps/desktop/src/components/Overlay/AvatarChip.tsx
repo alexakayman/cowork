@@ -15,8 +15,8 @@ interface Props {
  * Designed for the always-on-top transparent overlay window.
  *
  * Shows: thought-bubble → avatar → name → activity / app label.
- * When user has a session goal (✓ on avatar), hovering only the checkmark
- * shows a white pill with the goal text. Hover is limited to the checkmark.
+ * Task icon (📝) bottom-left when user has a session goal; hover shows goal pill.
+ * Focus status (green = can chat, red = locked in) bottom-right.
  */
 export function AvatarChip({ user, isSelf }: Props) {
   const [hovered, setHovered] = useState(false);
@@ -59,7 +59,7 @@ export function AvatarChip({ user, isSelf }: Props) {
         )}
       </div>
 
-      {/* Standing character — 3:4 ratio, with optional goal checkmark badge */}
+      {/* Standing character — 3:4 ratio. Bottom-left: task (📝). Bottom-right: focus (green/red). */}
       <div className="relative w-16 aspect-[3/4] mt-0.5 shrink-0">
         <img
           src={`/avatars/${avatar}.png`}
@@ -67,16 +67,25 @@ export function AvatarChip({ user, isSelf }: Props) {
           className="w-full h-full object-contain drop-shadow-[0_1px_4px_rgba(0,0,0,0.12)]"
           draggable={false}
         />
+        {/* Task icon — bottom-left, hover shows goal pill */}
         {hasGoal && (
           <div
-            className="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-leaf flex items-center justify-center shadow-md border-2 border-white/90 cursor-default"
+            className="absolute bottom-0 left-0 w-6 h-6 rounded-full bg-white/95 flex items-center justify-center shadow-md border border-black/10 cursor-default text-sm leading-none"
             aria-label={goalText ? `Session goal: ${goalText}` : "Session goal"}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           >
-            <span className="text-white text-[10px] font-bold leading-none pointer-events-none" style={{ marginTop: "-1px" }}>✓</span>
+            📝
           </div>
         )}
+        {/* Focus status — bottom-right: green = can chat, red = locked in */}
+        <div
+          className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white/90 shadow-md ${
+            user.isFocused ? "bg-rose" : "bg-leaf"
+          }`}
+          title={user.isFocused ? "Locked in" : "Can chat"}
+          aria-hidden
+        />
       </div>
 
       {/* Name label */}

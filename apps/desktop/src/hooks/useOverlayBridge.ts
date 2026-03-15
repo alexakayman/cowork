@@ -23,6 +23,7 @@ export function useOverlayBridge() {
   const currentAppName = useAppStore((s) => s.currentAppName);
   const activityStartedAt = useAppStore((s) => s.activityStartedAt);
   const sessionTodo = useAppStore((s) => s.sessionTodo);
+  const isFocused = useAppStore((s) => s.isFocused);
 
   const users = useSessionStore((s) => s.users);
   const sessionCode = useSessionStore((s) => s.sessionCode);
@@ -38,6 +39,7 @@ export function useOverlayBridge() {
       updatedAt: Date.now(),
       activityStartedAt,
       sessionTodo: sessionTodo?.trim() || null,
+      isFocused,
     };
 
     // Other session members (exclude self to avoid duplication)
@@ -60,6 +62,7 @@ export function useOverlayBridge() {
     currentAppName,
     activityStartedAt,
     sessionTodo,
+    isFocused,
     users,
     sessionCode,
   ]);
