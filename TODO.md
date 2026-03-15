@@ -7,3 +7,4 @@
 6. buy me a coffee
 7. focus modes, like raycast
 8. changelog with feature request -> prompt input
+9. add an application drag background and wisprflow-like download guide
