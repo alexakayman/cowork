@@ -7,7 +7,8 @@
     "dev:desktop": "pnpm --filter desktop dev",
     "dev:server": "pnpm --filter server dev",
     "build:desktop": "pnpm --filter desktop build",
-    "build:server": "pnpm --filter server build"
+    "build:server": "pnpm --filter server build",
+    "preview:landing": "cd apps/landing && node inject-download-url.mjs && npx serve ."
   },
   "devDependencies": {
     "@vercel/blob": "^0.26.0",

@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recognized apps — Cowork</title>
+    <meta
+      name="description"
+      content="Apps Cowork recognizes and how to add new ones."
+    />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { cream: "#FFF8F0", warm: "#5C4433" },
+            fontFamily: { sans: ['"Inter"', "system-ui", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body { font-family: "Inter", system-ui, sans-serif; }
+      .download-btn { transition: all 0.15s ease; }
+      .download-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+      .download-btn:active { transform: translateY(0); }
+    </style>
+  </head>
+  <body class="bg-cream text-warm min-h-screen">
+    <nav class="border-b border-warm/20 bg-cream sticky top-0 z-10">
+      <div
+        class="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between"
+      >
+        <a href="index.html" class="font-bold text-warm text-lg">Cowork</a>
+        <div class="flex items-center gap-6 text-sm">
+          <a href="privacy.html" class="text-warm/70 hover:text-warm"
+            >Privacy</a
+          >
+          <a href="apps.html" class="text-warm font-medium">Apps</a>
+          <a href="changelog.html" class="text-warm/70 hover:text-warm"
+            >Changelog</a
+          >
+          <span data-download-button data-compact></span>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-6 pt-12 pb-16 text-left">
+      <h1 class="text-2xl font-semibold text-center mb-6">Recognized apps</h1>
+      <p class="text-sm text-warm/60 text-center mb-4">
+        Cowork detects your foreground app and maps it to a category. The list
+        below is used for server-side classification; new submissions are added
+        immediately.
+      </p>
+      <p class="text-xs text-warm/50 text-center mb-6 max-w-lg mx-auto">
+        <strong>How matching works:</strong> We match on a <em>substring</em> of
+        the app name (as in the title bar), the process name, or the bundle ID
+        (macOS). Use the name as you see it — e.g. "Helium", "Arc", "VS Code".
+        Matching is case-insensitive. If your app isn't listed, add it below.
+      </p>
+
+      <div
+        class="overflow-x-auto rounded-xl border border-warm/20 bg-white/50 mb-8"
+      >
+        <table class="w-full text-sm text-left" id="apps-table">
+          <thead>
+            <tr class="border-b border-warm/20 bg-warm/5">
+              <th class="px-4 py-3 font-semibold text-warm">App name</th>
+              <th class="px-4 py-3 font-semibold text-warm">Category</th>
+            </tr>
+          </thead>
+          <tbody id="apps-tbody">
+            <tr>
+              <td colspan="2" class="px-4 py-4 text-warm/50">Loading…</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <form
+        id="apps-form"
+        class="flex flex-wrap items-end gap-3 p-4 rounded-xl border border-warm/20 bg-warm/5"
+      >
+        <div class="flex-1 min-w-[140px]">
+          <label
+            for="app-name"
+            class="block text-xs font-medium text-warm/70 mb-1"
+            >App name</label
+          >
+          <input
+            type="text"
+            id="app-name"
+            name="appName"
+            required
+            placeholder="e.g. Helium, Notion"
+            class="w-full bg-white border border-warm/20 rounded-lg px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none focus:ring-2 focus:ring-warm/30"
+          />
+        </div>
+        <div class="w-[160px]">
+          <label
+            for="app-category"
+            class="block text-xs font-medium text-warm/70 mb-1"
+            >Category</label
+          >
+          <select
+            id="app-category"
+            name="category"
+            required
+            class="w-full bg-white border border-warm/20 rounded-lg px-3 py-2 text-sm text-warm focus:outline-none focus:ring-2 focus:ring-warm/30"
+          >
+            <option value="coding">Coding</option>
+            <option value="browsing">Browsing</option>
+            <option value="writing">Writing</option>
+            <option value="email">Email</option>
+            <option value="designing">Designing</option>
+            <option value="communicating">Communicating</option>
+            <option value="spreadsheet">Spreadsheet</option>
+            <option value="meeting">Meeting</option>
+            <option value="terminal">Terminal</option>
+            <option value="media">Media</option>
+          </select>
+        </div>
+        <button
+          type="submit"
+          id="apps-submit"
+          class="px-4 py-2 bg-warm text-cream rounded-lg text-sm font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-warm/50"
+        >
+          Add app
+        </button>
+      </form>
+      <p id="apps-message" class="mt-2 text-sm text-warm/60 hidden"></p>
+    </main>
+
+    <footer class="text-center py-8 text-xs text-warm/30">
+      <a href="index.html" class="underline hover:text-warm/50">Home</a>
+      · Made by
+      <a
+        href="https://github.com/alexakayman"
+        class="underline hover:text-warm/50"
+        >alexakayman</a
+      >
+    </footer>
+    <script>
+      (function () {
+        var appsTbody = document.getElementById("apps-tbody");
+        var appsForm = document.getElementById("apps-form");
+        var appsMessage = document.getElementById("apps-message");
+        var appsSubmit = document.getElementById("apps-submit");
+
+        function categoryLabel(cat) {
+          var labels = { coding: "Coding", browsing: "Browsing", writing: "Writing", email: "Email", designing: "Designing", communicating: "Communicating", spreadsheet: "Spreadsheet", meeting: "Meeting", terminal: "Terminal", media: "Media" };
+          return labels[cat] || cat;
+        }
+
+        function escapeHtml(s) {
+          var div = document.createElement("div");
+          div.textContent = s;
+          return div.innerHTML;
+        }
+
+        function renderApps(list) {
+          if (!appsTbody) return;
+          appsTbody.innerHTML = "";
+          if (!list || list.length === 0) {
+            appsTbody.innerHTML = '<tr><td colspan="2" class="px-4 py-4 text-warm/50">No apps yet. Add one below.</td></tr>';
+            return;
+          }
+          list.forEach(function (a) {
+            var tr = document.createElement("tr");
+            tr.className = "border-b border-warm/10 hover:bg-warm/5";
+            tr.innerHTML = '<td class="px-4 py-2.5 font-medium">' + escapeHtml(a.appName) + '</td><td class="px-4 py-2.5 text-warm/70">' + escapeHtml(categoryLabel(a.category)) + "</td>";
+            appsTbody.appendChild(tr);
+          });
+        }
+
+        function showMessage(text, isError) {
+          if (!appsMessage) return;
+          appsMessage.textContent = text;
+          appsMessage.classList.remove("hidden");
+          appsMessage.classList.toggle("text-red-600", !!isError);
+          appsMessage.classList.toggle("text-warm/60", !isError);
+        }
+
+        function loadApps() {
+          fetch("/api/apps")
+            .then(function (r) { return r.json(); })
+            .then(function (list) { renderApps(list); })
+            .catch(function () {
+              if (appsTbody) appsTbody.innerHTML = '<tr><td colspan="2" class="px-4 py-4 text-warm/50">Could not load list. If you're not on the deployed site, the API may be unavailable.</td></tr>';
+            });
+        }
+
+        if (appsForm) {
+          appsForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            var nameInput = document.getElementById("app-name");
+            var catInput = document.getElementById("app-category");
+            var appName = ((nameInput && nameInput.value) || "").trim();
+            var category = ((catInput && catInput.value) || "").trim();
+            if (!appName) return;
+            if (appsSubmit) { appsSubmit.disabled = true; appsSubmit.textContent = "Adding…"; }
+            fetch("/api/apps", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ appName: appName, category: category }),
+            })
+              .then(function (r) {
+                if (!r.ok) return r.json().then(function (d) { throw new Error(d.error || r.statusText); });
+                return r.json();
+              })
+              .then(function (list) {
+                renderApps(list);
+                showMessage("Added. The list is updated and will be used for future app detection.", false);
+                if (nameInput) nameInput.value = "";
+              })
+              .catch(function (err) { showMessage(err.message || "Failed to add app.", true); })
+              .finally(function () {
+                if (appsSubmit) { appsSubmit.disabled = false; appsSubmit.textContent = "Add app"; }
+              });
+          });
+        }
+
+        loadApps();
+      })();
+    </script>
+    <script src="download-button.js"></script>
+  </body>
+</html>

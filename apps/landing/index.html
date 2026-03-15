@@ -46,40 +46,179 @@
         transform: translateY(0);
       }
     </style>
+    <script>window.COWORK_DOWNLOAD_URL = "__DOWNLOAD_URL__";</script>
   </head>
   <body class="bg-cream text-warm min-h-screen">
+    <nav class="border-b border-warm/20 bg-cream sticky top-0 z-10">
+      <div
+        class="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between"
+      >
+        <a href="index.html" class="font-bold text-warm text-lg">Cowork</a>
+        <div class="flex items-center gap-6 text-sm">
+          <a href="privacy.html" class="text-warm/70 hover:text-warm"
+            >Privacy</a
+          >
+          <a href="apps.html" class="text-warm/70 hover:text-warm">Apps</a>
+          <a href="changelog.html" class="text-warm/70 hover:text-warm"
+            >Changelog</a
+          >
+          <span data-download-button data-compact></span>
+        </div>
+      </div>
+    </nav>
+
     <!-- Hero -->
-    <main class="max-w-2xl mx-auto px-6 pt-24 pb-16 text-center">
-      <img src="logo.png" alt="Cowork" class="w-24 h-24 mx-auto mb-6 object-contain drop-shadow-sm" width="96" height="96" />
+    <main class="max-w-2xl mx-auto px-6 pt-12 pb-16 text-center">
+      <img
+        src="logo.png"
+        alt="Cowork"
+        class="w-24 h-24 mx-auto mb-6 object-contain drop-shadow-sm"
+        width="96"
+        height="96"
+      />
       <h1 class="text-4xl font-bold tracking-tight mb-3">Cowork</h1>
-      <p class="text-lg text-warm/70 mb-12 max-w-md mx-auto">
-        See what your friends are working on in real time. A tiny desktop
-        companion that shows everyone's activity in a cute overlay.
+      <p class="text-lg text-warm/70 mb-6 max-w-md mx-auto">
+        See what your friends are working on in real time with desktop
+        companions.
       </p>
 
-      <!-- Download (macOS only) -->
-      <div class="flex justify-center mb-8">
-        <a
-          href="__DOWNLOAD_URL__"
-          class="download-btn inline-flex items-center justify-center gap-2 bg-warm text-cream px-6 py-3 rounded-xl font-medium text-sm"
+      <!-- App preview: mock desktop with overlay chips -->
+      <div class="max-w-3xl mx-auto mb-10 px-4">
+        <div
+          class="relative rounded-xl border-2 border-warm/25 bg-gradient-to-b from-warm/5 to-cream shadow-xl overflow-hidden"
+          style="aspect-ratio: 16/10; min-height: 280px"
         >
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path
-              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
-            />
-          </svg>
-          Download for macOS
-        </a>
+          <!-- Fake desktop: menu bar -->
+          <div
+            class="absolute top-0 left-0 right-0 h-7 bg-warm/10 border-b border-warm/15 flex items-center pl-3 gap-2"
+          >
+            <span class="w-2.5 h-2.5 rounded-full bg-warm/30"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-warm/30"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-warm/30"></span>
+          </div>
+          <!-- Mock overlay chips: bottom-right, like the real app -->
+          <div
+            id="mock-overlay"
+            class="absolute bottom-4 right-4 flex gap-3 items-end flex-row-reverse"
+          >
+            <!-- Alexa (Penguin) - green focus -->
+            <div
+              class="mock-chip flex flex-col items-center min-w-0"
+              data-user="alexa"
+            >
+              <div class="relative w-14 aspect-[3/4] shrink-0">
+                <img
+                  src="/avatars/penguin.png"
+                  alt=""
+                  class="w-full h-full object-contain drop-shadow-md"
+                />
+                <span
+                  class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white shadow bg-[#6ABFB5]"
+                  title="Can chat"
+                ></span>
+              </div>
+              <span
+                class="text-[10px] font-bold text-white rounded-full px-2 mt-0.5 max-w-[72px] truncate bg-warm/70"
+                >Alexa</span
+              >
+              <span
+                class="mock-activity text-[9px] font-semibold max-w-[72px] mt-px truncate text-center"
+                style="color: #7ed6a8"
+                >&#x1F310; Arc · 2m</span
+              >
+              <span
+                class="mock-goal text-[9px] max-w-[72px] mt-px truncate text-center opacity-90"
+                style="color: #7ed6a8"
+                >launch CoWork</span
+              >
+            </div>
+            <!-- Brandon (Ferret) - red focus -->
+            <div
+              class="mock-chip flex flex-col items-center min-w-0"
+              data-user="brandon"
+            >
+              <div class="relative w-14 aspect-[3/4] shrink-0">
+                <img
+                  src="/avatars/ferret.png"
+                  alt=""
+                  class="w-full h-full object-contain drop-shadow-md"
+                />
+                <span
+                  class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white shadow"
+                  style="background-color: #f43f5e"
+                  title="Locked in"
+                ></span>
+              </div>
+              <span
+                class="text-[10px] font-bold text-white rounded-full px-2 mt-0.5 max-w-[72px] truncate bg-warm/70"
+                >Brandon</span
+              >
+              <span
+                class="mock-activity text-[9px] font-semibold max-w-[72px] mt-px truncate text-center"
+                style="color: #7eb5e8"
+                >&#x1F4BB; Cursor · 5m</span
+              >
+              <span
+                class="mock-goal text-[9px] max-w-[72px] mt-px truncate text-center opacity-90"
+                style="color: #7eb5e8"
+                >Ship Harness</span
+              >
+            </div>
+            <!-- Waela (Corgi) - green focus -->
+            <div
+              class="mock-chip flex flex-col items-center min-w-0"
+              data-user="waela"
+            >
+              <div class="relative w-14 aspect-[3/4] shrink-0">
+                <img
+                  src="/avatars/corgi.png"
+                  alt=""
+                  class="w-full h-full object-contain drop-shadow-md"
+                />
+                <span
+                  class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white shadow bg-[#6ABFB5]"
+                  title="Can chat"
+                ></span>
+              </div>
+              <span
+                class="text-[10px] font-bold text-white rounded-full px-2 mt-0.5 max-w-[72px] truncate bg-warm/70"
+                >Waela</span
+              >
+              <span
+                class="mock-activity text-[9px] font-semibold max-w-[72px] mt-px truncate text-center"
+                style="color: #c4b9a8"
+                >&#x1F634; Idle · 0m</span
+              >
+              <span
+                class="mock-goal text-[9px] max-w-[72px] mt-px truncate text-center opacity-90"
+                style="color: #c4b9a8"
+                >Robotics TMU</span
+              >
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- Download (macOS only) -->
+      <div data-download-button></div>
       <div class="max-w-md mx-auto mb-8 text-left">
         <p class="text-sm font-medium text-warm mb-1">
           Before opening the app — run this once in Terminal
         </p>
         <p class="text-sm text-warm/60 mb-2">
-          macOS blocks apps from unidentified developers. Run the command below <strong>after</strong> you drag Cowork to Applications and <strong>before</strong> you open it. (No Apple dev license here — it's a friendly side project, promise it's not malware 🏠)
+          macOS blocks apps from unidentified developers. Run the command below
+          <strong>after</strong> you drag Cowork to Applications and
+          <strong>before</strong> you open it. (No Apple dev license here — it's
+          a friendly side project, promise it's not malware 🏠)
         </p>
-        <div class="flex items-stretch gap-1 rounded-lg overflow-hidden bg-warm/10 border border-warm/20">
-          <code id="xattr-cmd" class="flex-1 text-xs font-mono text-warm px-3 py-2.5 break-all self-center">sudo xattr -c /Applications/Cowork.app</code>
+        <div
+          class="flex items-stretch gap-1 rounded-lg overflow-hidden bg-warm/10 border border-warm/20"
+        >
+          <code
+            id="xattr-cmd"
+            class="flex-1 text-xs font-mono text-warm px-3 py-2.5 break-all self-center"
+            >sudo xattr -c /Applications/Cowork.app</code
+          >
           <button
             type="button"
             id="copy-xattr-btn"
@@ -92,32 +231,91 @@
       </div>
 
       <!-- How it works -->
-      <div class="text-left max-w-md mx-auto space-y-6">
+      <div class="text-left max-w-lg mx-auto space-y-10">
         <h2 class="text-xl font-semibold text-center mb-6">How it works</h2>
 
+        <!-- Step 1: Character control preview -->
         <div class="flex gap-4">
-          <div class="text-2xl">1️⃣</div>
-          <div>
+          <div class="text-2xl shrink-0">1️⃣</div>
+          <div class="min-w-0 flex-1">
             <p class="font-medium">Pick a name &amp; avatar</p>
-            <p class="text-sm text-warm/60">
+            <p class="text-sm text-warm/60 mb-4">
               Choose your character from the Animal Crossing-inspired roster.
             </p>
+            <div class="bg-white rounded-2xl p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10">
+              <p class="text-xs font-bold text-warm/60 uppercase tracking-wider mb-3">Character Control</p>
+              <div class="flex flex-row items-start gap-4">
+                <div class="flex flex-col items-center shrink-0">
+                  <div class="w-16 aspect-[3/4] relative">
+                    <img src="/avatars/penguin.png" alt="Penguin" class="w-full h-full object-contain" />
+                  </div>
+                </div>
+                <div class="flex flex-col gap-3 flex-1 min-w-0">
+                  <div>
+                    <label class="text-[10px] font-semibold text-warm/60 uppercase tracking-wider block mb-1">Name</label>
+                    <input type="text" value="Alexa" readonly class="w-full bg-cream border-2 border-warm/20 rounded-xl px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none" />
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-[10px] font-semibold text-warm/60 shrink-0">Focus:</span>
+                    <div class="flex gap-1.5">
+                      <span class="rounded-full px-2.5 py-1 text-[10px] font-bold bg-[#56BA5A] text-white">Can chat</span>
+                      <span class="rounded-full px-2.5 py-1 text-[10px] font-bold bg-cream text-warm/50">Locked in</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="text-[10px] font-semibold text-warm/60 uppercase tracking-wider block mb-1">Session goal ✓ <span class="normal-case font-normal">(optional)</span></label>
+                    <input type="text" value="launch CoWork" readonly class="w-full bg-cream border-2 border-warm/20 rounded-xl px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none" />
+                    <p class="text-[10px] text-warm/50 mt-0.5">Friends see this on your character; hover to read.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Step 2: Session code preview -->
         <div class="flex gap-4">
-          <div class="text-2xl">2️⃣</div>
-          <div>
+          <div class="text-2xl shrink-0">2️⃣</div>
+          <div class="min-w-0 flex-1">
             <p class="font-medium">Share a session code</p>
-            <p class="text-sm text-warm/60">
-              Create a room and share the code with friends — anyone with the
-              code can join.
+            <p class="text-sm text-warm/60 mb-4">
+              Create a room and share the code with friends — anyone with the code can join.
             </p>
+            <div id="session-preview" class="bg-white rounded-2xl p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10">
+              <!-- Start a Session (default) -->
+              <div id="session-start-view">
+                <p class="text-xs font-bold text-warm/60 uppercase tracking-wider mb-3">Start a Session ✨</p>
+                <button type="button" id="session-create-btn" class="w-full bg-[#56BA5A] hover:bg-[#459A48] text-white rounded-full px-4 py-3 text-sm font-bold transition-colors mb-3">
+                  Create Session 🏠
+                </button>
+                <div class="flex gap-2">
+                  <input type="text" id="session-join-input" placeholder="Enter session code" class="flex-1 bg-cream border-2 border-warm/20 rounded-xl px-3 py-2.5 text-sm text-warm placeholder:text-warm/40 focus:outline-none focus:border-warm/40" />
+                  <button type="button" id="session-join-btn" class="bg-[#E8764A] hover:bg-[#d9683d] text-white rounded-xl px-4 py-2.5 text-sm font-bold transition-colors">Join</button>
+                </div>
+              </div>
+              <!-- In session (hidden until Create clicked) -->
+              <div id="session-active-view" class="hidden">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <p class="text-xs font-bold text-warm/60 uppercase tracking-wider">Session</p>
+                    <p id="session-code-display" class="font-mono text-lg font-extrabold text-warm">——</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-[#56BA5A]"></span>
+                    <span class="text-xs font-semibold text-warm/60">Connected</span>
+                  </div>
+                </div>
+                <button type="button" id="session-copy-btn" class="text-sm font-semibold text-[#56BA5A] hover:text-[#459A48] text-left transition-colors">
+                  Copy session code 📋
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Step 3 -->
         <div class="flex gap-4">
-          <div class="text-2xl">3️⃣</div>
+          <div class="text-2xl shrink-0">3️⃣</div>
           <div>
             <p class="font-medium">See each other's activity</p>
             <p class="text-sm text-warm/60">
@@ -128,87 +326,6 @@
         </div>
       </div>
 
-      <!-- Privacy -->
-      <div class="text-left max-w-md mx-auto mt-16">
-        <h2 class="text-xl font-semibold text-center mb-6">Privacy</h2>
-        <p class="text-sm text-warm/60 mb-4">
-          Cowork is designed to be minimal and respectful of your privacy:
-        </p>
-        <ul class="text-sm text-warm/70 space-y-2 list-disc list-outside pl-5">
-          <li><strong>No keylogging or history.</strong> We don't track keystrokes, save browsing history, or capture what you type. We only detect which app is in the foreground (e.g. "VS Code", "Chrome") — never specific URLs or page titles.</li>
-          <li><strong>Only your session can see you.</strong> Your activity is streamed in real time only to friends in the same session. Nothing is stored on our servers; when the session ends, it's gone.</li>
-          <li><strong>No account required.</strong> You pick a display name and avatar per session. We don't collect email, passwords, or identity.</li>
-          <li><strong>Open source.</strong> The code is on GitHub so you can verify what the app does.</li>
-        </ul>
-      </div>
-
-      <!-- Recognized apps -->
-      <div class="text-left max-w-2xl mx-auto mt-16 px-4">
-        <h2 class="text-xl font-semibold text-center mb-6">Recognized apps</h2>
-        <p class="text-sm text-warm/60 text-center mb-4">
-          Cowork detects your foreground app and maps it to a category. The list below is used for server-side classification; new submissions are added immediately.
-        </p>
-        <p class="text-xs text-warm/50 text-center mb-6 max-w-lg mx-auto">
-          <strong>How matching works:</strong> We match on a <em>substring</em> of the app name (as in the title bar), the process name, or the bundle ID (macOS). Use the name as you see it — e.g. &quot;Helium&quot;, &quot;Arc&quot;, &quot;VS Code&quot;. Matching is case-insensitive. If your app isn’t listed, add it below.
-        </p>
-
-        <div class="overflow-x-auto rounded-xl border border-warm/20 bg-white/50 mb-8">
-          <table class="w-full text-sm text-left" id="apps-table">
-            <thead>
-              <tr class="border-b border-warm/20 bg-warm/5">
-                <th class="px-4 py-3 font-semibold text-warm">App name</th>
-                <th class="px-4 py-3 font-semibold text-warm">Category</th>
-              </tr>
-            </thead>
-            <tbody id="apps-tbody">
-              <tr><td colspan="2" class="px-4 py-4 text-warm/50">Loading…</td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <form id="apps-form" class="flex flex-wrap items-end gap-3 p-4 rounded-xl border border-warm/20 bg-warm/5">
-          <div class="flex-1 min-w-[140px]">
-            <label for="app-name" class="block text-xs font-medium text-warm/70 mb-1">App name</label>
-            <input
-              type="text"
-              id="app-name"
-              name="appName"
-              required
-              placeholder="e.g. Helium, Notion"
-              class="w-full bg-white border border-warm/20 rounded-lg px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none focus:ring-2 focus:ring-warm/30"
-            />
-          </div>
-          <div class="w-[160px]">
-            <label for="app-category" class="block text-xs font-medium text-warm/70 mb-1">Category</label>
-            <select
-              id="app-category"
-              name="category"
-              required
-              class="w-full bg-white border border-warm/20 rounded-lg px-3 py-2 text-sm text-warm focus:outline-none focus:ring-2 focus:ring-warm/30"
-            >
-              <option value="coding">Coding</option>
-              <option value="browsing">Browsing</option>
-              <option value="writing">Writing</option>
-              <option value="email">Email</option>
-              <option value="designing">Designing</option>
-              <option value="communicating">Communicating</option>
-              <option value="spreadsheet">Spreadsheet</option>
-              <option value="meeting">Meeting</option>
-              <option value="terminal">Terminal</option>
-              <option value="media">Media</option>
-            </select>
-          </div>
-          <button
-            type="submit"
-            id="apps-submit"
-            class="px-4 py-2 bg-warm text-cream rounded-lg text-sm font-medium hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-warm/50"
-          >
-            Add app
-          </button>
-        </form>
-        <p id="apps-message" class="mt-2 text-sm text-warm/60 hidden"></p>
-      </div>
-
       <!-- Characters -->
       <div class="text-left max-w-md mx-auto mt-16">
         <h2 class="text-xl font-semibold text-center mb-6">Characters</h2>
@@ -217,131 +334,106 @@
         </p>
         <div class="grid grid-cols-4 sm:grid-cols-6 gap-3">
           <div class="flex flex-col items-center">
-            <img src="/avatars/cat.png" alt="Cat" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/cat.png"
+              alt="Cat"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Cat</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/fox.png" alt="Fox" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/fox.png"
+              alt="Fox"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Fox</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/rabbit.png" alt="Rabbit" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/rabbit.png"
+              alt="Rabbit"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Rabbit</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/penguin.png" alt="Penguin" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/penguin.png"
+              alt="Penguin"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Penguin</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/otter.png" alt="Otter" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/otter.png"
+              alt="Otter"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Otter</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/ferret.png" alt="Ferret" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/ferret.png"
+              alt="Ferret"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Ferret</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/narwhal.png" alt="Narwhal" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/narwhal.png"
+              alt="Narwhal"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Narwhal</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/pig.png" alt="Pig" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/pig.png"
+              alt="Pig"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Pig</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/lemur.png" alt="Lemur" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/lemur.png"
+              alt="Lemur"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Lemur</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/corgi.png" alt="Corgi" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/corgi.png"
+              alt="Corgi"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Corgi</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/tabby.png" alt="Tabby" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/tabby.png"
+              alt="Tabby"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Tabby</span>
           </div>
           <div class="flex flex-col items-center">
-            <img src="/avatars/blackcat.png" alt="Black Cat" class="w-14 aspect-[3/4] object-contain" />
+            <img
+              src="/avatars/blackcat.png"
+              alt="Black Cat"
+              class="w-14 aspect-[3/4] object-contain"
+            />
             <span class="text-[10px] font-medium mt-1">Black Cat</span>
           </div>
         </div>
       </div>
-
-      <!-- Changelog -->
-      <div class="text-left max-w-md mx-auto mt-16">
-        <h2 class="text-xl font-semibold text-center mb-6">Changelog</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="font-semibold text-warm flex items-center gap-2">
-              <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.3.0</span>
-            </h3>
-            <ul class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5">
-              <li>Focus modes — green (can chat) or red (locked in), visible on overlay</li>
-              <li>Goal displays — set a session goal; friends see it under your activity on the overlay</li>
-              <li>Fixes to WebSocket event listeners so goal and focus changes sync reliably for everyone (including when someone joins after you've set your goal)</li>
-              <li>UI updates for character control — clearer layout for name, focus, and session goal</li>
-              <li>Activity breakdowns — see time spent per app per friend in the session</li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="font-semibold text-warm flex items-center gap-2">
-              <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.2.1</span>
-            </h3>
-            <ul class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5">
-              <li>If the app won't open on macOS, run: <code class="font-mono text-xs">sudo xattr -c /Applications/Cowork.app</code></li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="font-semibold text-warm flex items-center gap-2">
-              <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.1.0</span>
-            </h3>
-            <ul class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5">
-              <li>Session goals — set a goal for the session; visible to friends under your activity</li>
-              <li>Focus status — green (can chat) or red (locked in), toggle in the app</li>
-              <li>Overlay redesign — emoji + app name, goal line, no chat bubbles</li>
-              <li>Cowork window no longer counts as “active app” — previous app stays visible</li>
-              <li>Releases: macOS only</li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="font-semibold text-warm flex items-center gap-2">
-              <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.0.0</span>
-            </h3>
-            <ul class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-outside pl-5">
-              <li>Initial release</li>
-              <li>Create or join sessions with a 6-character code</li>
-              <li>Activity detection (coding, browsing, meeting, etc.) with app name</li>
-              <li>Draggable overlay with character avatars</li>
-              <li>macOS support</li>
-            </ul>
-          </div>
-
-        <!-- Feature request -->
-        <div class="mt-8 pt-6 border-t border-warm/15">
-          <h3 class="font-semibold text-warm mb-2">Suggest a feature</h3>
-          <p class="text-sm text-warm/60 mb-3">
-            Have an idea? Send it by email and we'll consider it for a future release.
-          </p>
-          <form id="feature-request-form" class="flex flex-col gap-2">
-            <textarea
-              id="feature-request-input"
-              name="body"
-              rows="3"
-              placeholder="e.g. Dark mode for the overlay, or Windows support..."
-              class="w-full bg-white border border-warm/20 rounded-lg px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none focus:ring-2 focus:ring-warm/30 focus:border-warm/40"
-            ></textarea>
-            <button
-              type="submit"
-              class="self-start text-sm font-semibold text-warm hover:text-warm/80 underline"
-            >
-              Email feature request →
-            </button>
-          </form>
-        </div>
-        </div>
-      </div>
     </main>
 
+    <script src="download-button.js"></script>
     <!-- Footer -->
     <footer class="text-center py-8 text-xs text-warm/30">
       Made by
@@ -353,115 +445,199 @@
     </footer>
     <script>
       (function () {
-        var btn = document.getElementById('copy-xattr-btn');
-        var code = document.getElementById('xattr-cmd');
+        var btn = document.getElementById("copy-xattr-btn");
+        var code = document.getElementById("xattr-cmd");
         if (btn && code) {
-          btn.addEventListener('click', function () {
+          btn.addEventListener("click", function () {
             var text = code.textContent.trim();
             navigator.clipboard.writeText(text).then(
               function () {
-                btn.textContent = 'Copied!';
-                setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+                btn.textContent = "Copied!";
+                setTimeout(function () {
+                  btn.textContent = "Copy";
+                }, 2000);
               },
-              function () { btn.textContent = 'Copy failed'; setTimeout(function () { btn.textContent = 'Copy'; }, 2000); }
+              function () {
+                btn.textContent = "Copy failed";
+                setTimeout(function () {
+                  btn.textContent = "Copy";
+                }, 2000);
+              },
             );
           });
         }
 
-        var form = document.getElementById('feature-request-form');
-        var input = document.getElementById('feature-request-input');
-        if (form && input) {
-          form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            var body = (input.value || '').trim();
-            var subject = 'Cowork feature request';
-            var mailto = 'mailto:alexa@kayman.ventures?subject=' + encodeURIComponent(subject) + (body ? '&body=' + encodeURIComponent(body) : '');
-            window.location.href = mailto;
-          });
-        }
+        // Session preview: Create Session → show code; Copy session code
+        (function () {
+          var startView = document.getElementById("session-start-view");
+          var activeView = document.getElementById("session-active-view");
+          var codeDisplay = document.getElementById("session-code-display");
+          var createBtn = document.getElementById("session-create-btn");
+          var copyBtn = document.getElementById("session-copy-btn");
+          var joinInput = document.getElementById("session-join-input");
+          var joinBtn = document.getElementById("session-join-btn");
+          var currentCode = "";
 
-        // Recognized apps: load table and handle form submit
-        var appsTbody = document.getElementById('apps-tbody');
-        var appsForm = document.getElementById('apps-form');
-        var appsMessage = document.getElementById('apps-message');
-        var appsSubmit = document.getElementById('apps-submit');
-
-        function categoryLabel(cat) {
-          var labels = { coding: 'Coding', browsing: 'Browsing', writing: 'Writing', email: 'Email', designing: 'Designing', communicating: 'Communicating', spreadsheet: 'Spreadsheet', meeting: 'Meeting', terminal: 'Terminal', media: 'Media' };
-          return labels[cat] || cat;
-        }
-
-        function renderApps(list) {
-          if (!appsTbody) return;
-          appsTbody.innerHTML = '';
-          if (!list || list.length === 0) {
-            appsTbody.innerHTML = '<tr><td colspan="2" class="px-4 py-4 text-warm/50">No apps yet. Add one below.</td></tr>';
-            return;
+          function showActiveSession(code) {
+            currentCode = code;
+            codeDisplay.textContent = code;
+            if (startView) startView.classList.add("hidden");
+            if (activeView) activeView.classList.remove("hidden");
           }
-          list.forEach(function (a) {
-            var tr = document.createElement('tr');
-            tr.className = 'border-b border-warm/10 hover:bg-warm/5';
-            tr.innerHTML = '<td class="px-4 py-2.5 font-medium">' + escapeHtml(a.appName) + '</td><td class="px-4 py-2.5 text-warm/70">' + escapeHtml(categoryLabel(a.category)) + '</td>';
-            appsTbody.appendChild(tr);
-          });
-        }
 
-        function escapeHtml(s) {
-          var div = document.createElement('div');
-          div.textContent = s;
-          return div.innerHTML;
-        }
+          function showStart() {
+            if (startView) startView.classList.remove("hidden");
+            if (activeView) activeView.classList.add("hidden");
+          }
 
-        function showMessage(text, isError) {
-          if (!appsMessage) return;
-          appsMessage.textContent = text;
-          appsMessage.classList.remove('hidden');
-          appsMessage.classList.toggle('text-red-600', !!isError);
-          appsMessage.classList.toggle('text-warm/60', !isError);
-        }
-
-        function loadApps() {
-          fetch('/api/apps')
-            .then(function (r) { return r.json(); })
-            .then(function (list) { renderApps(list); })
-            .catch(function () {
-              if (appsTbody) appsTbody.innerHTML = '<tr><td colspan="2" class="px-4 py-4 text-warm/50">Could not load list. If you’re not on the deployed site, the API may be unavailable.</td></tr>';
+          if (createBtn) {
+            createBtn.addEventListener("click", function () {
+              var code = Math.random().toString(36).substring(2, 8).toUpperCase();
+              showActiveSession(code);
             });
-        }
+          }
+          if (copyBtn) {
+            copyBtn.addEventListener("click", function () {
+              if (!currentCode) return;
+              navigator.clipboard.writeText(currentCode).then(
+                function () {
+                  copyBtn.textContent = "Copied! \u{1F4CB}";
+                  setTimeout(function () {
+                    copyBtn.textContent = "Copy session code \u{1F4CB}";
+                  }, 2000);
+                }
+              );
+            });
+          }
+          if (joinBtn && joinInput) {
+            joinBtn.addEventListener("click", function () {
+              var code = joinInput.value.trim().toUpperCase();
+              if (code) showActiveSession(code);
+            });
+            joinInput.addEventListener("keydown", function (e) {
+              if (e.key === "Enter") {
+                var code = joinInput.value.trim().toUpperCase();
+                if (code) showActiveSession(code);
+              }
+            });
+          }
+        })();
 
-        if (appsForm) {
-          appsForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            var nameInput = document.getElementById('app-name');
-            var catInput = document.getElementById('app-category');
-            var appName = (nameInput && nameInput.value || '').trim();
-            var category = (catInput && catInput.value || '').trim();
-            if (!appName) return;
-            if (appsSubmit) { appsSubmit.disabled = true; appsSubmit.textContent = 'Adding…'; }
-            fetch('/api/apps', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ appName: appName, category: category }),
-            })
-              .then(function (r) {
-                if (!r.ok) return r.json().then(function (d) { throw new Error(d.error || r.statusText); });
-                return r.json();
-              })
-              .then(function (list) {
-                renderApps(list);
-                showMessage('Added. The list is updated and will be used for future app detection.', false);
-                if (nameInput) nameInput.value = '';
-              })
-              .catch(function (err) {
-                showMessage(err.message || 'Failed to add app.', true);
-              })
-              .finally(function () {
-                if (appsSubmit) { appsSubmit.disabled = false; appsSubmit.textContent = 'Add app'; }
-              });
-          });
-        }
-
-        loadApps();
+        // Mock overlay: cycle active apps for Alexa, Brandon, Waela
+        (function () {
+          var MOCK_APPS = {
+            alexa: [
+              {
+                app: "Arc · 2m",
+                icon: "\u{1F310}",
+                color: "#7ED6A8",
+                goal: "launch CoWork",
+              },
+              {
+                app: "Slack · 5m",
+                icon: "\u{1F4AC}",
+                color: "#929ADB",
+                goal: "launch CoWork",
+              },
+              {
+                app: "Cursor · 3m",
+                icon: "\u{1F4BB}",
+                color: "#7EB5E8",
+                goal: "launch CoWork",
+              },
+              {
+                app: "VS Code · 8m",
+                icon: "\u{1F4BB}",
+                color: "#7EB5E8",
+                goal: "launch CoWork",
+              },
+              {
+                app: "Messages · 1m",
+                icon: "\u{1F4AC}",
+                color: "#929ADB",
+                goal: "launch CoWork",
+              },
+            ],
+            brandon: [
+              {
+                app: "Cursor · 5m",
+                icon: "\u{1F4BB}",
+                color: "#7EB5E8",
+                goal: "Ship Harness",
+              },
+              {
+                app: "Figma · 12m",
+                icon: "\u{1F3A8}",
+                color: "#F2A5B8",
+                goal: "Ship Harness",
+              },
+              {
+                app: "Arc · 4m",
+                icon: "\u{1F310}",
+                color: "#7ED6A8",
+                goal: "Ship Harness",
+              },
+              {
+                app: "Slack · 2m",
+                icon: "\u{1F4AC}",
+                color: "#929ADB",
+                goal: "Ship Harness",
+              },
+            ],
+            waela: [
+              {
+                app: "Arc · 12m",
+                icon: "\u{1F310}",
+                color: "#7ED6A8",
+                goal: "Robotics TMU",
+              },
+              {
+                app: "Idle · 0m",
+                icon: "\u{1F634}",
+                color: "#C4B9A8",
+                goal: "Robotics TMU",
+              },
+              {
+                app: "Slack · 3m",
+                icon: "\u{1F4AC}",
+                color: "#929ADB",
+                goal: "Robotics TMU",
+              },
+              {
+                app: "Figma · 6m",
+                icon: "\u{1F3A8}",
+                color: "#F2A5B8",
+                goal: "Robotics TMU",
+              },
+            ],
+          };
+          var indices = { alexa: 0, brandon: 0, waela: 0 };
+          var container = document.getElementById("mock-overlay");
+          if (!container) return;
+          function update() {
+            ["alexa", "brandon", "waela"].forEach(function (user) {
+              var list = MOCK_APPS[user];
+              var idx = indices[user] % list.length;
+              var d = list[idx];
+              var chip = container.querySelector(
+                '.mock-chip[data-user="' + user + '"]',
+              );
+              if (!chip) return;
+              var activityEl = chip.querySelector(".mock-activity");
+              var goalEl = chip.querySelector(".mock-goal");
+              if (activityEl) {
+                activityEl.textContent = d.icon + " " + d.app;
+                activityEl.style.color = d.color;
+              }
+              if (goalEl) {
+                goalEl.textContent = d.goal;
+                goalEl.style.color = d.color;
+              }
+              indices[user] = idx + 1;
+            });
+          }
+          setInterval(update, 2500);
+        })();
       })();
     </script>
   </body>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy — Cowork</title>
+    <meta name="description" content="Cowork privacy: no keylogging, no history, only your session sees you." />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { cream: "#FFF8F0", warm: "#5C4433" },
+            fontFamily: { sans: ['"Inter"', "system-ui", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>body { font-family: "Inter", system-ui, sans-serif; } .download-btn { transition: all 0.15s ease; } .download-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); } .download-btn:active { transform: translateY(0); }</style>
+  </head>
+  <body class="bg-cream text-warm min-h-screen">
+    <nav class="border-b border-warm/20 bg-cream sticky top-0 z-10">
+      <div class="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between">
+        <a href="index.html" class="font-bold text-warm text-lg">Cowork</a>
+        <div class="flex items-center gap-6 text-sm">
+          <a href="privacy.html" class="text-warm font-medium">Privacy</a>
+          <a href="apps.html" class="text-warm/70 hover:text-warm">Apps</a>
+          <a href="changelog.html" class="text-warm/70 hover:text-warm">Changelog</a>
+          <span data-download-button data-compact></span>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-md mx-auto px-6 pt-12 pb-16 text-left">
+      <h1 class="text-2xl font-semibold text-center mb-6">Privacy</h1>
+      <p class="text-sm text-warm/60 mb-4">
+        Cowork is designed to be minimal and respectful of your privacy:
+      </p>
+      <ul class="text-sm text-warm/70 space-y-2 list-disc list-outside pl-5">
+        <li><strong>No keylogging or history.</strong> We don't track keystrokes, save browsing history, or capture what you type. We only detect which app is in the foreground (e.g. "VS Code", "Chrome") — never specific URLs or page titles.</li>
+        <li><strong>Only your session can see you.</strong> Your activity is streamed in real time only to friends in the same session. Nothing is stored on our servers; when the session ends, it's gone.</li>
+        <li><strong>No account required.</strong> You pick a display name and avatar per session. We don't collect email, passwords, or identity.</li>
+        <li><strong>Open source.</strong> The code is on GitHub so you can verify what the app does.</li>
+      </ul>
+    </main>
+
+    <footer class="text-center py-8 text-xs text-warm/30">
+      <a href="index.html" class="underline hover:text-warm/50">Home</a>
+      ·
+      Made by <a href="https://github.com/alexakayman" class="underline hover:text-warm/50">alexakayman</a>
+    </footer>
+    <script src="download-button.js"></script>
+  </body>
+</html>
