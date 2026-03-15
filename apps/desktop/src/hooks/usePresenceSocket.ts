@@ -21,6 +21,7 @@ export function usePresenceSocket() {
   const avatarId = useAppStore((s) => s.avatarId);
   const currentActivity = useAppStore((s) => s.currentActivity);
   const currentAppName = useAppStore((s) => s.currentAppName);
+  const sessionTodo = useAppStore((s) => s.sessionTodo);
   const setConnected = useSessionStore((s) => s.setConnected);
   const setSession = useSessionStore((s) => s.setSession);
   const upsertUser = useSessionStore((s) => s.upsertUser);
@@ -102,7 +103,7 @@ export function usePresenceSocket() {
             case "USER_UPDATED": {
               const newUser = msg.payload.user;
               log(
-                `← USER_UPDATED "${newUser.displayName}" activity=${newUser.activity} app="${newUser.appName}"`,
+                `← USER_UPDATED "${newUser.displayName}" activity=${newUser.activity} app="${newUser.appName}" goal=${newUser.sessionTodo ?? "(none)"}`,
               );
               // Accumulate previous segment into app time (so we can show "VS Code | 10m")
               const prevUser = useSessionStore.getState().users.get(newUser.userId);
@@ -168,11 +169,11 @@ export function usePresenceSocket() {
     };
   }, [sessionCode, setConnected, setSession, upsertUser, removeUser]);
 
-  // Broadcast state changes (activity, avatar, name, focus) to the session
+  // Broadcast state changes (activity, avatar, name, focus, goal) to the session
   useEffect(() => {
     if (!sessionCode || !currentActivity) return;
     const { userId, activityStartedAt, sessionTodo: todo, isFocused: focused } = useAppStore.getState();
-    log(`state changed → ${currentActivity} app="${currentAppName}" avatar=${avatarId} since=${new Date(activityStartedAt).toLocaleTimeString()}`);
+    log(`state changed → ${currentActivity} app="${currentAppName}" avatar=${avatarId} goal=${todo ?? "(none)"} since=${new Date(activityStartedAt).toLocaleTimeString()}`);
     send({
       type: "UPDATE",
       payload: {
@@ -186,10 +187,9 @@ export function usePresenceSocket() {
         isFocused: focused,
       },
     });
-  }, [currentActivity, currentAppName, avatarId, displayName, sessionCode, send]);
+  }, [currentActivity, currentAppName, avatarId, displayName, sessionTodo, sessionCode, send]);
 
   // When session goal changes, push an UPDATE so overlay and others see it
-  const sessionTodo = useAppStore((s) => s.sessionTodo);
   useEffect(() => {
     if (!sessionCode) return;
     const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, sessionTodo: todo, isFocused: focused } = useAppStore.getState();
