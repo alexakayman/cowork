@@ -207,6 +207,9 @@ pub fn classify(process: &str, bundle_id: &str, app_name: &str) -> ActivityType 
         if t == "arc" || t.contains("thebrowser") {
             return ActivityType::Browsing;
         }
+        if t.contains("helium") {
+            return ActivityType::Browsing;
+        }
         if t.contains("brave") {
             return ActivityType::Browsing;
         }

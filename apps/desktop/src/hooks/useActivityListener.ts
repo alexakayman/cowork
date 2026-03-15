@@ -11,6 +11,7 @@ interface ActivityChangedPayload {
   activity: ActivityType;
   app_name: string;
   process: string;
+  bundle_id: string;
 }
 
 export function useActivityListener() {
@@ -31,7 +32,7 @@ export function useActivityListener() {
     const unlisten = listen<ActivityChangedPayload>(
       "activity-changed",
       (event) => {
-        const { activity, app_name, process } = event.payload;
+        const { activity, app_name, process, bundle_id } = event.payload;
         // Do not update when Cowork is in foreground — keep showing previous app
         if (app_name && app_name.toLowerCase().includes("cowork")) {
           log(`ignoring (Cowork in foreground), keeping previous app`);
@@ -50,7 +51,7 @@ export function useActivityListener() {
           }
         }
 
-        setActivity(activity, app_name);
+        setActivity(activity, app_name, process ?? "", bundle_id ?? "");
       },
     );
 

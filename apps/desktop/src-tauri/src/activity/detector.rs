@@ -82,6 +82,7 @@ fn get_active_window_state() -> ActivityState {
             activity: "idle".into(),
             app_name: "Blocked".into(),
             process: fg.process,
+            bundle_id: fg.bundle_id,
         };
     }
 
@@ -91,6 +92,7 @@ fn get_active_window_state() -> ActivityState {
         activity: activity.to_string(),
         app_name: fg.app_name,
         process: fg.process,
+        bundle_id: fg.bundle_id,
     }
 }
 

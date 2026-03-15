@@ -58,7 +58,7 @@ export function usePresenceSocket() {
 
         log(`✓ connected to ${WS_URL}`);
 
-        const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, sessionTodo, isFocused } =
+        const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, sessionTodo, isFocused, rawProcess, rawBundleId } =
           useAppStore.getState();
 
         const joinPayload = {
@@ -74,6 +74,7 @@ export function usePresenceSocket() {
             sessionTodo: sessionTodo?.trim() || null,
             isFocused,
           },
+          ...((rawProcess || rawBundleId) && { rawProcess, rawBundleId }),
         };
         log(`→ JOIN`, joinPayload);
         socket.send(JSON.stringify({ type: "JOIN", payload: joinPayload }));
@@ -172,7 +173,7 @@ export function usePresenceSocket() {
   // Broadcast state changes (activity, avatar, name, focus, goal) to the session
   useEffect(() => {
     if (!sessionCode || !currentActivity) return;
-    const { userId, activityStartedAt, sessionTodo: todo, isFocused: focused } = useAppStore.getState();
+    const { userId, activityStartedAt, sessionTodo: todo, isFocused: focused, rawProcess, rawBundleId } = useAppStore.getState();
     log(`state changed → ${currentActivity} app="${currentAppName}" avatar=${avatarId} goal=${todo ?? "(none)"} since=${new Date(activityStartedAt).toLocaleTimeString()}`);
     send({
       type: "UPDATE",
@@ -185,6 +186,7 @@ export function usePresenceSocket() {
         activityStartedAt,
         sessionTodo: todo?.trim() || null,
         isFocused: focused,
+        ...((rawProcess || rawBundleId) && { rawProcess, rawBundleId }),
       },
     });
   }, [currentActivity, currentAppName, avatarId, displayName, sessionTodo, sessionCode, send]);
@@ -192,7 +194,7 @@ export function usePresenceSocket() {
   // When session goal changes, push an UPDATE so overlay and others see it
   useEffect(() => {
     if (!sessionCode) return;
-    const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, sessionTodo: todo, isFocused: focused } = useAppStore.getState();
+    const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, sessionTodo: todo, isFocused: focused, rawProcess, rawBundleId } = useAppStore.getState();
     send({
       type: "UPDATE",
       payload: {
@@ -204,6 +206,7 @@ export function usePresenceSocket() {
         activityStartedAt,
         sessionTodo: todo?.trim() || null,
         isFocused: focused,
+        ...((rawProcess || rawBundleId) && { rawProcess, rawBundleId }),
       },
     });
   }, [sessionTodo, sessionCode, send]);
@@ -212,7 +215,7 @@ export function usePresenceSocket() {
   const isFocused = useAppStore((s) => s.isFocused);
   useEffect(() => {
     if (!sessionCode) return;
-    const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, sessionTodo: todo, isFocused: focused } = useAppStore.getState();
+    const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, sessionTodo: todo, isFocused: focused, rawProcess, rawBundleId } = useAppStore.getState();
     send({
       type: "UPDATE",
       payload: {
@@ -224,6 +227,7 @@ export function usePresenceSocket() {
         activityStartedAt,
         sessionTodo: todo?.trim() || null,
         isFocused: focused,
+        ...((rawProcess || rawBundleId) && { rawProcess, rawBundleId }),
       },
     });
   }, [isFocused, sessionCode, send]);

@@ -22,3 +22,4 @@ dist/
 
 # AI / tooling (do not ignore .github/ — it contains Actions workflows for release/CI)
 .claude/
+.vercel

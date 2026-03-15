@@ -15,6 +15,9 @@ interface AppState {
   currentActivity: ActivityType | null;
   currentAppName: string;
   activityStartedAt: number; // Unix ms — when current activity began (rich presence)
+  /** Raw app identifiers for server-side classification (process, bundle_id from native). */
+  rawProcess: string;
+  rawBundleId: string;
   /** Session goal/todo — shown on overlay as 📝 + tooltip. Not persisted. */
   sessionTodo: string;
   /** Focus status: false = can chat (green), true = locked in (red). Not persisted. */
@@ -26,7 +29,7 @@ interface AppState {
   setAvatar: (avatarId: string) => void;
   addToBlocklist: (process: string) => void;
   removeFromBlocklist: (process: string) => void;
-  setActivity: (activity: ActivityType, appName: string) => void;
+  setActivity: (activity: ActivityType, appName: string, rawProcess?: string, rawBundleId?: string) => void;
   setLastSessionCode: (code: string) => void;
 }
 
@@ -42,6 +45,8 @@ export const useAppStore = create<AppState>()(
       currentActivity: null,
       currentAppName: "",
       activityStartedAt: Date.now(),
+      rawProcess: "",
+      rawBundleId: "",
       sessionTodo: "",
       isFocused: false,
       setProfile: (displayName, avatarId) =>
@@ -53,10 +58,12 @@ export const useAppStore = create<AppState>()(
         set((s) => ({
           blocklist: s.blocklist.filter((p) => p !== process),
         })),
-      setActivity: (currentActivity, currentAppName) =>
+      setActivity: (currentActivity, currentAppName, rawProcess = "", rawBundleId = "") =>
         set((s) => ({
           currentActivity,
           currentAppName,
+          rawProcess,
+          rawBundleId,
           // Reset timer when activity type changes; keep it if only app name changed
           activityStartedAt:
             s.currentActivity !== currentActivity ? Date.now() : s.activityStartedAt,

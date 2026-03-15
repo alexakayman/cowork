@@ -45,7 +45,7 @@ Cowork is a Tauri 2 desktop app that detects your foreground application and sha
 - **Main window** — a dashboard where you set up your profile (name + avatar), create or join a session, and see what everyone's up to
 - **Overlay window** — a transparent, always-on-top strip that shows all session members as little avatar chips with thought bubbles indicating their current activity (coding, writing, browsing, etc.)
 
-Activity detection runs natively via Rust on macOS (NSWorkspace), Windows (Win32), and Linux (xdotool).
+Activity detection runs natively via Rust on macOS (NSWorkspace), Windows (Win32), and Linux (xdotool). **Activity classification** (e.g. “Helium → browsing”) is done **server-side** when the client sends raw app identifiers; add or change app rules in `apps/server/src/classifier.ts` so new apps are recognized without releasing a new desktop build.
 
 ### Tech stack
 

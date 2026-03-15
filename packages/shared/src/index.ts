@@ -39,6 +39,9 @@ export type ClientMessage =
 export interface JoinPayload {
   sessionCode: string;
   user:        UserState;
+  /** Optional raw app identifiers for server-side activity classification. When set, server overrides user.activity. */
+  rawProcess?: string;
+  rawBundleId?: string;
 }
 
 export interface LeavePayload {
@@ -54,6 +57,9 @@ export interface UpdatePayload {
   activityStartedAt: number;  // Unix ms — when this activity began
   sessionTodo?:      string | null;
   isFocused?:        boolean;
+  /** Optional raw app identifiers for server-side activity classification. When set, server overrides activity. */
+  rawProcess?: string;
+  rawBundleId?: string;
 }
 
 export interface PingPayload {

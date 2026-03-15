@@ -7,6 +7,7 @@ import {
   broadcastAll,
   removeUser,
 } from './session.js';
+import { classifyActivity } from './classifier.js';
 import uWS from 'uWebSockets.js';
 
 export function handleMessage(
@@ -16,21 +17,31 @@ export function handleMessage(
 ): void {
   switch (msg.type) {
     case 'JOIN': {
-      const { sessionCode, user } = msg.payload;
+      const { sessionCode, user, rawProcess, rawBundleId } = msg.payload;
       const isNew = !store.has(sessionCode);
       const session = getOrCreateSession(store, sessionCode);
 
+      // Server-side activity classification when raw app identifiers are provided
+      const joinUser = { ...user };
+      if (rawProcess !== undefined || rawBundleId !== undefined) {
+        joinUser.activity = classifyActivity(
+          rawProcess ?? '',
+          rawBundleId ?? '',
+          user.appName ?? ''
+        );
+      }
+
       // Bind socket metadata
-      ws.getUserData().userId = user.userId;
+      ws.getUserData().userId = joinUser.userId;
       ws.getUserData().sessionCode = sessionCode;
       ws.subscribe(sessionCode);
 
       // Register user
-      session.users.set(user.userId, user);
-      session.sockets.set(user.userId, ws);
+      session.users.set(joinUser.userId, joinUser);
+      session.sockets.set(joinUser.userId, ws);
 
       console.log(
-        `[join]  user="${user.displayName}" (${user.userId.slice(0, 8)}) → session=${sessionCode} ${isNew ? '(new session)' : ''} members=${session.users.size}`,
+        `[join]  user="${joinUser.displayName}" (${joinUser.userId.slice(0, 8)}) → session=${sessionCode} ${isNew ? '(new session)' : ''} members=${session.users.size}`,
       );
 
       // Send full session state to the joining user
@@ -46,7 +57,7 @@ export function handleMessage(
       // Send latest state of each existing user to the joiner so they get goals/focus
       // that may have been set after SESSION_STATE was built (avoids race with in-flight UPDATEs)
       for (const existingUser of session.users.values()) {
-        if (existingUser.userId === user.userId) continue;
+        if (existingUser.userId === joinUser.userId) continue;
         const updateMsg: ServerMessage = {
           type: 'USER_UPDATED',
           payload: { user: existingUser },
@@ -57,14 +68,14 @@ export function handleMessage(
       // Tell everyone else about the new user
       const joinMsg: ServerMessage = {
         type: 'USER_JOINED',
-        payload: { user },
+        payload: { user: joinUser },
       };
-      broadcast(session, joinMsg, user.userId);
+      broadcast(session, joinMsg, joinUser.userId);
       break;
     }
 
     case 'UPDATE': {
-      const { userId, displayName, avatarId, activity, appName, activityStartedAt } = msg.payload;
+      const { userId, displayName, avatarId, activity, appName, activityStartedAt, rawProcess, rawBundleId } = msg.payload;
       const code = ws.getUserData().sessionCode;
       const session = store.get(code);
       if (!session) {
@@ -78,11 +89,17 @@ export function handleMessage(
         break;
       }
 
+      // Server-side activity classification when raw app identifiers are provided
+      const resolvedActivity =
+        rawProcess !== undefined || rawBundleId !== undefined
+          ? classifyActivity(rawProcess ?? '', rawBundleId ?? '', appName ?? '')
+          : activity;
+
       const prevActivity = user.activity;
       const prevAvatar = user.avatarId;
       user.displayName = displayName;
       user.avatarId = avatarId;
-      user.activity = activity;
+      user.activity = resolvedActivity;
       user.appName = appName;
       user.updatedAt = Date.now();
       user.activityStartedAt = activityStartedAt;
@@ -93,9 +110,9 @@ export function handleMessage(
         user.isFocused = Boolean(msg.payload.isFocused);
       }
 
-      if (prevActivity !== activity || prevAvatar !== avatarId) {
+      if (prevActivity !== resolvedActivity || prevAvatar !== avatarId) {
         console.log(
-          `[update] user="${user.displayName}" (${userId.slice(0, 8)}) ${prevActivity} → ${activity} avatar=${avatarId} app="${appName}" session=${code}`,
+          `[update] user="${user.displayName}" (${userId.slice(0, 8)}) ${prevActivity} → ${resolvedActivity} avatar=${avatarId} app="${appName}" session=${code}`,
         );
       }
       if ('sessionTodo' in msg.payload) {
