@@ -46,7 +46,9 @@
         transform: translateY(0);
       }
     </style>
-    <script>window.COWORK_DOWNLOAD_URL = "__DOWNLOAD_URL__";</script>
+    <script>
+      window.COWORK_DOWNLOAD_URL = "__DOWNLOAD_URL__";
+    </script>
   </head>
   <body class="bg-cream text-warm min-h-screen">
     <nav class="border-b border-warm/20 bg-cream sticky top-0 z-10">
@@ -106,11 +108,11 @@
               class="mock-chip flex flex-col items-center min-w-0"
               data-user="alexa"
             >
-              <div class="relative w-14 aspect-[3/4] shrink-0">
+              <div class="relative w-14 h-16 shrink-0 flex items-end justify-center">
                 <img
                   src="/avatars/penguin.png"
                   alt=""
-                  class="w-full h-full object-contain drop-shadow-md"
+                  class="max-h-full w-auto object-contain object-bottom drop-shadow-md"
                 />
                 <span
                   class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white shadow bg-[#6ABFB5]"
@@ -137,11 +139,11 @@
               class="mock-chip flex flex-col items-center min-w-0"
               data-user="brandon"
             >
-              <div class="relative w-14 aspect-[3/4] shrink-0">
+              <div class="relative w-14 h-16 shrink-0 flex items-end justify-center">
                 <img
                   src="/avatars/ferret.png"
                   alt=""
-                  class="w-full h-full object-contain drop-shadow-md"
+                  class="max-h-full w-auto object-contain object-bottom drop-shadow-md"
                 />
                 <span
                   class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white shadow"
@@ -169,11 +171,11 @@
               class="mock-chip flex flex-col items-center min-w-0"
               data-user="waela"
             >
-              <div class="relative w-14 aspect-[3/4] shrink-0">
+              <div class="relative w-14 h-16 shrink-0 flex items-end justify-center">
                 <img
                   src="/avatars/corgi.png"
                   alt=""
-                  class="w-full h-full object-contain drop-shadow-md"
+                  class="max-h-full w-auto object-contain object-bottom drop-shadow-md"
                 />
                 <span
                   class="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white shadow bg-[#6ABFB5]"
@@ -242,30 +244,70 @@
             <p class="text-sm text-warm/60 mb-4">
               Choose your character from the Animal Crossing-inspired roster.
             </p>
-            <div class="bg-white rounded-2xl p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10">
-              <p class="text-xs font-bold text-warm/60 uppercase tracking-wider mb-3">Character Control</p>
+            <div
+              class="bg-white rounded-2xl p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10"
+            >
+              <p
+                class="text-xs font-bold text-warm/60 uppercase tracking-wider mb-3"
+              >
+                Character Control
+              </p>
               <div class="flex flex-row items-start gap-4">
                 <div class="flex flex-col items-center shrink-0">
                   <div class="w-16 aspect-[3/4] relative">
-                    <img src="/avatars/penguin.png" alt="Penguin" class="w-full h-full object-contain" />
+                    <img
+                      src="/avatars/penguin.png"
+                      alt="Penguin"
+                      class="w-full h-full object-contain"
+                    />
                   </div>
                 </div>
                 <div class="flex flex-col gap-3 flex-1 min-w-0">
                   <div>
-                    <label class="text-[10px] font-semibold text-warm/60 uppercase tracking-wider block mb-1">Name</label>
-                    <input type="text" value="Alexa" readonly class="w-full bg-cream border-2 border-warm/20 rounded-xl px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none" />
+                    <label
+                      class="text-[10px] font-semibold text-warm/60 uppercase tracking-wider block mb-1"
+                      >Name</label
+                    >
+                    <input
+                      type="text"
+                      value="Alexa"
+                      readonly
+                      class="w-full bg-cream border-2 border-warm/20 rounded-xl px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none"
+                    />
                   </div>
                   <div class="flex items-center gap-2">
-                    <span class="text-[10px] font-semibold text-warm/60 shrink-0">Focus:</span>
+                    <span
+                      class="text-[10px] font-semibold text-warm/60 shrink-0"
+                      >Focus:</span
+                    >
                     <div class="flex gap-1.5">
-                      <span class="rounded-full px-2.5 py-1 text-[10px] font-bold bg-[#56BA5A] text-white">Can chat</span>
-                      <span class="rounded-full px-2.5 py-1 text-[10px] font-bold bg-cream text-warm/50">Locked in</span>
+                      <span
+                        class="rounded-full px-2.5 py-1 text-[10px] font-bold bg-[#56BA5A] text-white"
+                        >Can chat</span
+                      >
+                      <span
+                        class="rounded-full px-2.5 py-1 text-[10px] font-bold bg-cream text-warm/50"
+                        >Locked in</span
+                      >
                     </div>
                   </div>
                   <div>
-                    <label class="text-[10px] font-semibold text-warm/60 uppercase tracking-wider block mb-1">Session goal ✓ <span class="normal-case font-normal">(optional)</span></label>
-                    <input type="text" value="launch CoWork" readonly class="w-full bg-cream border-2 border-warm/20 rounded-xl px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none" />
-                    <p class="text-[10px] text-warm/50 mt-0.5">Friends see this on your character; hover to read.</p>
+                    <label
+                      class="text-[10px] font-semibold text-warm/60 uppercase tracking-wider block mb-1"
+                      >Session goal ✓
+                      <span class="normal-case font-normal"
+                        >(optional)</span
+                      ></label
+                    >
+                    <input
+                      type="text"
+                      value="launch CoWork"
+                      readonly
+                      class="w-full bg-cream border-2 border-warm/20 rounded-xl px-3 py-2 text-sm text-warm placeholder:text-warm/40 focus:outline-none"
+                    />
+                    <p class="text-[10px] text-warm/50 mt-0.5">
+                      Friends see this on your character; hover to read.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -279,33 +321,71 @@
           <div class="min-w-0 flex-1">
             <p class="font-medium">Share a session code</p>
             <p class="text-sm text-warm/60 mb-4">
-              Create a room and share the code with friends — anyone with the code can join.
+              Create a room and share the code with friends — anyone with the
+              code can join.
             </p>
-            <div id="session-preview" class="bg-white rounded-2xl p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10">
+            <div
+              id="session-preview"
+              class="bg-white rounded-2xl p-4 shadow-[0_1px_6px_rgba(0,0,0,0.06)] border border-warm/10"
+            >
               <!-- Start a Session (default) -->
               <div id="session-start-view">
-                <p class="text-xs font-bold text-warm/60 uppercase tracking-wider mb-3">Start a Session ✨</p>
-                <button type="button" id="session-create-btn" class="w-full bg-[#56BA5A] hover:bg-[#459A48] text-white rounded-full px-4 py-3 text-sm font-bold transition-colors mb-3">
+                <p
+                  class="text-xs font-bold text-warm/60 uppercase tracking-wider mb-3"
+                >
+                  Start a Session ✨
+                </p>
+                <button
+                  type="button"
+                  id="session-create-btn"
+                  class="w-full bg-[#56BA5A] hover:bg-[#459A48] text-white rounded-full px-4 py-3 text-sm font-bold transition-colors mb-3"
+                >
                   Create Session 🏠
                 </button>
                 <div class="flex gap-2">
-                  <input type="text" id="session-join-input" placeholder="Enter session code" class="flex-1 bg-cream border-2 border-warm/20 rounded-xl px-3 py-2.5 text-sm text-warm placeholder:text-warm/40 focus:outline-none focus:border-warm/40" />
-                  <button type="button" id="session-join-btn" class="bg-[#E8764A] hover:bg-[#d9683d] text-white rounded-xl px-4 py-2.5 text-sm font-bold transition-colors">Join</button>
+                  <input
+                    type="text"
+                    id="session-join-input"
+                    placeholder="Enter session code"
+                    class="flex-1 bg-cream border-2 border-warm/20 rounded-xl px-3 py-2.5 text-sm text-warm placeholder:text-warm/40 focus:outline-none focus:border-warm/40"
+                  />
+                  <button
+                    type="button"
+                    id="session-join-btn"
+                    class="bg-[#E8764A] hover:bg-[#d9683d] text-white rounded-xl px-4 py-2.5 text-sm font-bold transition-colors"
+                  >
+                    Join
+                  </button>
                 </div>
               </div>
               <!-- In session (hidden until Create clicked) -->
               <div id="session-active-view" class="hidden">
                 <div class="flex items-center justify-between mb-3">
                   <div>
-                    <p class="text-xs font-bold text-warm/60 uppercase tracking-wider">Session</p>
-                    <p id="session-code-display" class="font-mono text-lg font-extrabold text-warm">——</p>
+                    <p
+                      class="text-xs font-bold text-warm/60 uppercase tracking-wider"
+                    >
+                      Session
+                    </p>
+                    <p
+                      id="session-code-display"
+                      class="font-mono text-lg font-extrabold text-warm"
+                    >
+                      ——
+                    </p>
                   </div>
                   <div class="flex items-center gap-2">
                     <span class="w-2 h-2 rounded-full bg-[#56BA5A]"></span>
-                    <span class="text-xs font-semibold text-warm/60">Connected</span>
+                    <span class="text-xs font-semibold text-warm/60"
+                      >Connected</span
+                    >
                   </div>
                 </div>
-                <button type="button" id="session-copy-btn" class="text-sm font-semibold text-[#56BA5A] hover:text-[#459A48] text-left transition-colors">
+                <button
+                  type="button"
+                  id="session-copy-btn"
+                  class="text-sm font-semibold text-[#56BA5A] hover:text-[#459A48] text-left transition-colors"
+                >
                   Copy session code 📋
                 </button>
               </div>
@@ -492,21 +572,22 @@
 
           if (createBtn) {
             createBtn.addEventListener("click", function () {
-              var code = Math.random().toString(36).substring(2, 8).toUpperCase();
+              var code = Math.random()
+                .toString(36)
+                .substring(2, 8)
+                .toUpperCase();
               showActiveSession(code);
             });
           }
           if (copyBtn) {
             copyBtn.addEventListener("click", function () {
               if (!currentCode) return;
-              navigator.clipboard.writeText(currentCode).then(
-                function () {
-                  copyBtn.textContent = "Copied! \u{1F4CB}";
-                  setTimeout(function () {
-                    copyBtn.textContent = "Copy session code \u{1F4CB}";
-                  }, 2000);
-                }
-              );
+              navigator.clipboard.writeText(currentCode).then(function () {
+                copyBtn.textContent = "Copied! \u{1F4CB}";
+                setTimeout(function () {
+                  copyBtn.textContent = "Copy session code \u{1F4CB}";
+                }, 2000);
+              });
             });
           }
           if (joinBtn && joinInput) {
@@ -534,7 +615,7 @@
                 goal: "launch CoWork",
               },
               {
-                app: "Slack · 5m",
+                app: "Signal · 5m",
                 icon: "\u{1F4AC}",
                 color: "#929ADB",
                 goal: "launch CoWork",
@@ -546,13 +627,13 @@
                 goal: "launch CoWork",
               },
               {
-                app: "VS Code · 8m",
+                app: "Ghostty · 8m",
                 icon: "\u{1F4BB}",
                 color: "#7EB5E8",
                 goal: "launch CoWork",
               },
               {
-                app: "Messages · 1m",
+                app: "Signal · 1m",
                 icon: "\u{1F4AC}",
                 color: "#929ADB",
                 goal: "launch CoWork",
