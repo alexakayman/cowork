@@ -75,6 +75,12 @@
           Download for macOS
         </a>
       </div>
+      <p class="text-sm text-warm/60 max-w-md mx-auto mb-2">
+        If the app won't open after installing, run in Terminal to remove the quarantine attribute:
+      </p>
+      <code class="block text-xs font-mono bg-warm/10 text-warm px-3 py-2 rounded-lg max-w-md mx-auto mb-8 break-all">
+        sudo xattr -c /Applications/Cowork.app
+      </code>
 
       <!-- How it works -->
       <div class="text-left max-w-md mx-auto space-y-6">
@@ -175,6 +181,14 @@
       <div class="text-left max-w-md mx-auto mt-16">
         <h2 class="text-xl font-semibold text-center mb-6">Changelog</h2>
         <div class="space-y-6">
+          <div>
+            <h3 class="font-semibold text-warm flex items-center gap-2">
+              <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.2.1</span>
+            </h3>
+            <ul class="text-sm text-warm/70 mt-2 space-y-1 list-disc list-inside">
+              <li>If the app won't open on macOS, run: <code class="font-mono text-xs">sudo xattr -c /Applications/Cowork.app</code></li>
+            </ul>
+          </div>
           <div>
             <h3 class="font-semibold text-warm flex items-center gap-2">
               <span class="text-sm font-mono bg-warm/10 px-1.5 py-0.5 rounded">v1.1.0</span>
