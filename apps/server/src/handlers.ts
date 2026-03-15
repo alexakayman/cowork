@@ -43,6 +43,17 @@ export function handleMessage(
       };
       ws.send(JSON.stringify(stateMsg));
 
+      // Send latest state of each existing user to the joiner so they get goals/focus
+      // that may have been set after SESSION_STATE was built (avoids race with in-flight UPDATEs)
+      for (const existingUser of session.users.values()) {
+        if (existingUser.userId === user.userId) continue;
+        const updateMsg: ServerMessage = {
+          type: 'USER_UPDATED',
+          payload: { user: existingUser },
+        };
+        ws.send(JSON.stringify(updateMsg));
+      }
+
       // Tell everyone else about the new user
       const joinMsg: ServerMessage = {
         type: 'USER_JOINED',
