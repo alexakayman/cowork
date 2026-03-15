@@ -8,11 +8,7 @@
       name="description"
       content="See what your friends are working on in real time. Animal Crossing-style coworking presence app."
     />
-    <link
-      rel="icon"
-      type="image/png"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>"
-    />
+    <link rel="icon" type="image/png" href="logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -54,7 +50,7 @@
   <body class="bg-cream text-warm min-h-screen">
     <!-- Hero -->
     <main class="max-w-2xl mx-auto px-6 pt-24 pb-16 text-center">
-      <div class="text-6xl mb-6">🏠</div>
+      <img src="logo.png" alt="Cowork" class="w-24 h-24 mx-auto mb-6 object-contain drop-shadow-sm" width="96" height="96" />
       <h1 class="text-4xl font-bold tracking-tight mb-3">Cowork</h1>
       <p class="text-lg text-warm/70 mb-12 max-w-md mx-auto">
         See what your friends are working on in real time. A tiny desktop
@@ -130,6 +126,20 @@
             </p>
           </div>
         </div>
+      </div>
+
+      <!-- Privacy -->
+      <div class="text-left max-w-md mx-auto mt-16">
+        <h2 class="text-xl font-semibold text-center mb-6">Privacy</h2>
+        <p class="text-sm text-warm/60 mb-4">
+          Cowork is designed to be minimal and respectful of your privacy:
+        </p>
+        <ul class="text-sm text-warm/70 space-y-2 list-disc list-inside">
+          <li><strong>No keylogging or history.</strong> We don't track keystrokes, save browsing history, or capture what you type. We only detect which app is in the foreground (e.g. "VS Code", "Chrome") — never specific URLs or page titles.</li>
+          <li><strong>Only your session can see you.</strong> Your activity is streamed in real time only to friends in the same session. Nothing is stored on our servers; when the session ends, it's gone.</li>
+          <li><strong>No account required.</strong> You pick a display name and avatar per session. We don't collect email, passwords, or identity.</li>
+          <li><strong>Open source.</strong> The code is on GitHub so you can verify what the app does.</li>
+        </ul>
       </div>
 
       <!-- Characters -->
