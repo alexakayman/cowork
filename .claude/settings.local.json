@@ -16,7 +16,13 @@
       "Bash(npx tsc --noEmit -p apps/server/tsconfig.json)",
       "Bash(pnpm --filter desktop exec tsc --noEmit)",
       "Bash(pnpm --filter shared exec tsc --noEmit)",
-      "Bash(pnpm --filter server exec tsc --noEmit)"
+      "Bash(pnpm --filter server exec tsc --noEmit)",
+      "Bash(sips -z 44 44 --out /Users/ak/Developer/cowork/apps/desktop/src-tauri/icons/tray.png /Users/ak/Developer/cowork/apps/desktop/appicon.png)",
+      "Bash(pnpm tauri build)",
+      "Bash(source \"$HOME/.cargo/env\")",
+      "Bash(cargo --version)",
+      "Bash(sips -g all /Users/ak/Developer/cowork/apps/desktop/src-tauri/icons/icon.png)",
+      "Bash(sips -g all /Users/ak/Developer/cowork/apps/desktop/src-tauri/icons/tray.png)"
     ]
   }
 }

@@ -23,6 +23,8 @@ export interface UserState {
   appName:     string;        // human-readable app name, e.g. 'VS Code'
   updatedAt:   number;        // Unix ms timestamp
   activityStartedAt: number;  // Unix ms — when current activity began (for rich presence duration)
+  /** Optional session goal/todo — shown as checkmark on overlay, tooltip on hover */
+  sessionTodo?: string | null;
 }
 
 // === Client → Server Messages ===
@@ -48,6 +50,7 @@ export interface UpdatePayload {
   activity:          ActivityType;
   appName:           string;
   activityStartedAt: number;  // Unix ms — when this activity began
+  sessionTodo?:      string | null;
 }
 
 export interface PingPayload {

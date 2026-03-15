@@ -15,8 +15,11 @@ interface AppState {
   currentActivity: ActivityType | null;
   currentAppName: string;
   activityStartedAt: number; // Unix ms — when current activity began (rich presence)
+  /** Session goal/todo — shown on overlay as checkmark + tooltip. Not persisted. */
+  sessionTodo: string;
   // Actions
   setProfile: (name: string, avatarId: string) => void;
+  setSessionTodo: (text: string) => void;
   setAvatar: (avatarId: string) => void;
   addToBlocklist: (process: string) => void;
   removeFromBlocklist: (process: string) => void;
@@ -36,6 +39,7 @@ export const useAppStore = create<AppState>()(
       currentActivity: null,
       currentAppName: "",
       activityStartedAt: Date.now(),
+      sessionTodo: "",
       setProfile: (displayName, avatarId) =>
         set({ displayName, avatarId, hasProfile: true }),
       setAvatar: (avatarId) => set({ avatarId }),
@@ -54,6 +58,7 @@ export const useAppStore = create<AppState>()(
             s.currentActivity !== currentActivity ? Date.now() : s.activityStartedAt,
         })),
       setLastSessionCode: (lastSessionCode) => set({ lastSessionCode }),
+      setSessionTodo: (sessionTodo) => set({ sessionTodo }),
     }),
     {
       name: "cowork-app-state",

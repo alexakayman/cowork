@@ -56,7 +56,7 @@ export function usePresenceSocket() {
 
         log(`✓ connected to ${WS_URL}`);
 
-        const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt } =
+        const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, sessionTodo } =
           useAppStore.getState();
 
         const joinPayload = {
@@ -69,6 +69,7 @@ export function usePresenceSocket() {
             appName: currentAppName,
             updatedAt: Date.now(),
             activityStartedAt,
+            sessionTodo: sessionTodo?.trim() || null,
           },
         };
         log(`→ JOIN`, joinPayload);
@@ -158,13 +159,40 @@ export function usePresenceSocket() {
   // Broadcast state changes (activity, avatar, name) to the session
   useEffect(() => {
     if (!sessionCode || !currentActivity) return;
-    const { userId, activityStartedAt } = useAppStore.getState();
+    const { userId, activityStartedAt, sessionTodo: todo } = useAppStore.getState();
     log(`state changed → ${currentActivity} app="${currentAppName}" avatar=${avatarId} since=${new Date(activityStartedAt).toLocaleTimeString()}`);
     send({
       type: "UPDATE",
-      payload: { userId, displayName, avatarId, activity: currentActivity, appName: currentAppName, activityStartedAt },
+      payload: {
+        userId,
+        displayName,
+        avatarId,
+        activity: currentActivity,
+        appName: currentAppName,
+        activityStartedAt,
+        sessionTodo: todo?.trim() || null,
+      },
     });
   }, [currentActivity, currentAppName, avatarId, displayName, sessionCode, send]);
+
+  // When session goal changes, push an UPDATE so overlay and others see it
+  const sessionTodo = useAppStore((s) => s.sessionTodo);
+  useEffect(() => {
+    if (!sessionCode) return;
+    const { userId, displayName, avatarId, currentActivity, currentAppName, activityStartedAt, sessionTodo: todo } = useAppStore.getState();
+    send({
+      type: "UPDATE",
+      payload: {
+        userId,
+        displayName,
+        avatarId,
+        activity: currentActivity ?? ActivityType.IDLE,
+        appName: currentAppName,
+        activityStartedAt,
+        sessionTodo: todo?.trim() || null,
+      },
+    });
+  }, [sessionTodo, sessionCode, send]);
 
   return { send };
 }

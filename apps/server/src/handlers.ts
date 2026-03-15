@@ -75,6 +75,9 @@ export function handleMessage(
       user.appName = appName;
       user.updatedAt = Date.now();
       user.activityStartedAt = activityStartedAt;
+      if ('sessionTodo' in msg.payload) {
+        user.sessionTodo = msg.payload.sessionTodo ?? null;
+      }
 
       if (prevActivity !== activity || prevAvatar !== avatarId) {
         console.log(

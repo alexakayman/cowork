@@ -23,7 +23,7 @@ function MemberDuration({ sinceMs }: { sinceMs: number }) {
 }
 
 export function Dashboard() {
-  const { displayName, avatarId, currentActivity, currentAppName, activityStartedAt, lastSessionCode } = useAppStore();
+  const { displayName, avatarId, currentActivity, currentAppName, activityStartedAt, lastSessionCode, sessionTodo, setSessionTodo } = useAppStore();
   const selfElapsed = useElapsedTime(activityStartedAt);
   const { sessionCode, connected, users, clearSession } = useSessionStore();
   const { send } = usePresenceSocket();
@@ -142,6 +142,21 @@ export function Dashboard() {
           >
             Copy session code {"\u{1F4CB}"}
           </button>
+
+          <div>
+            <label htmlFor="session-goal" className="text-xs font-bold text-cocoa-light uppercase tracking-wider block mb-1.5">
+              Session goal {"\u{2705}"} <span className="normal-case font-normal">(optional)</span>
+            </label>
+            <input
+              id="session-goal"
+              type="text"
+              value={sessionTodo}
+              onChange={(e) => setSessionTodo(e.target.value)}
+              placeholder="e.g. Ship the login flow"
+              className="w-full bg-cream border-2 border-tan rounded-xl px-3 py-2 text-sm text-cocoa placeholder:text-sand focus:outline-none focus:border-leaf transition-colors duration-200"
+            />
+            <p className="text-[10px] text-cocoa-light mt-1">Friends see this as a checkmark on your character; hover to read.</p>
+          </div>
 
           <button
             onClick={handleShowOverlay}
