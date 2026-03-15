@@ -10,6 +10,10 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const htmlPath = existsSync("index.html") ? "index.html" : join(__dirname, "index.html");
+if (!existsSync(htmlPath)) {
+  console.error("inject-download-url: index.html not found at", htmlPath);
+  process.exit(1);
+}
 const url = process.env.DOWNLOAD_URL || "#";
 let html = readFileSync(htmlPath, "utf8");
 html = html.replace(/__DOWNLOAD_URL__/g, url);

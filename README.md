@@ -157,8 +157,7 @@ The repo uses **Vercel Blob** so the public landing page can offer a direct down
    - Add `DOWNLOAD_URL` = the URL from step 3 (e.g. `https://xxxx.public.blob.vercel-storage.com/Cowork-macos.dmg`).
    - Redeploy the landing so the “Download for macOS” button uses that link.
 
-5. **Landing must use Root Directory `apps/landing`** (if you get 404s):
-   - Vercel project → Settings → General → Root Directory → set to `apps/landing` and Save. Then redeploy so the build runs in that folder and finds `index.html`.
+5. **Landing 404?** Either set Root Directory to `apps/landing` (Settings → General) and redeploy, or leave Root Directory empty and use the repo root: a root `vercel.json` runs the build from `apps/landing` and serves that folder. Redeploy after pulling.
 
 Later releases (new tags) overwrite the same Blob file, so the same `DOWNLOAD_URL` keeps serving the latest build. You only set it once.
 
