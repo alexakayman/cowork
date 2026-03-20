@@ -71,10 +71,19 @@ jobs:
       - name: Flatten and rename artifacts
         run: |
           mkdir -p release
-          cp artifacts/macos/*.dmg release/Copaw-macos.dmg
-          cp artifacts/macos/*.app.tar.gz release/ || true
-          cp artifacts/macos/*.app.tar.gz.sig release/ || true
-          cp artifacts/macos/latest*.json release/ || true
+          find artifacts/macos -name '*.dmg' -exec cp {} release/Copaw-macos.dmg \;
+          find artifacts/macos -name '*.app.tar.gz' -exec cp {} release/ \;
+          find artifacts/macos -name '*.app.tar.gz.sig' -exec cp {} release/ \;
+          find artifacts/macos -name 'latest*.json' -exec cp {} release/latest.json \;
+
+      - name: Verify updater artifacts exist
+        run: |
+          echo "Release contents:"
+          ls -la release/
+          if [ ! -f release/latest.json ]; then
+            echo "::error::latest.json not found — updater will not work. Ensure TAURI_SIGNING_PRIVATE_KEY secret is set."
+            exit 1
+          fi
 
       - name: Install dependencies
         run: pnpm install
