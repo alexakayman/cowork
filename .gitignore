@@ -6,6 +6,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+.secrets/
 
 # Build output
 dist/

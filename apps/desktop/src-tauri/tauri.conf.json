@@ -52,7 +52,7 @@
   },
   "bundle": {
     "active": true,
-    "createUpdaterArtifacts": false,
+    "createUpdaterArtifacts": true,
     "targets": "all",
     "icon": [
       "icons/32x32.png",
@@ -66,9 +66,9 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "REPLACE_WITH_PUBLIC_KEY_CONTENT",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI5QzQxMDZCNjQyNTc3RTQKUldUa2R5VmtheERFS2ZNTk5oelBVc0tKSDVpQ3VBL0cxRURWSU4vc1pMVTRuaytaM1pwTDM2Y3kK",
       "endpoints": [
-        "https://github.com/YOUR_ORG/cowork/releases/latest/download/latest.json"
+        "https://github.com/alexakayman/cowork/releases/latest/download/latest.json"
       ]
     }
   }
