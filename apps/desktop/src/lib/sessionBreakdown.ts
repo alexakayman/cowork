@@ -2,7 +2,7 @@ import type { UserState } from "@cowork/shared";
 
 const TOP_APPS = 5;
 
-export interface AppTimeSegment {
+interface AppTimeSegment {
   appName: string;
   seconds: number;
   label: string; // e.g. "10m" or "1h 5m"
@@ -11,7 +11,7 @@ export interface AppTimeSegment {
 /**
  * Format seconds as "Xm" or "Xh Ym". Rounds to nearest minute.
  */
-export function formatDuration(seconds: number): string {
+function formatDuration(seconds: number): string {
   const totalMin = Math.round(seconds / 60);
   if (totalMin < 1) return "0m";
   if (totalMin < 60) return `${totalMin}m`;

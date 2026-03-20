@@ -5,7 +5,7 @@ import { useAppStore } from "./app";
 const log = (...args: unknown[]) => console.log("[session-store]", ...args);
 
 /** Per-user accumulated seconds per app name (session-scoped). */
-export type AppSeconds = Record<string, Record<string, number>>;
+type AppSeconds = Record<string, Record<string, number>>;
 
 interface SessionState {
   sessionCode: string | null;

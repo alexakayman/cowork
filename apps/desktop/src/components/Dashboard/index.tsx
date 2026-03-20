@@ -11,6 +11,7 @@ import { ThoughtBubble } from "../ThoughtBubble";
 import { BlocklistSettings } from "./BlocklistSettings";
 import { CharacterSelect } from "./CharacterSelect";
 import { useOverlayBridge } from "../../hooks/useOverlayBridge";
+import { useUpdater } from "../../hooks/useUpdater";
 import { ActivityType, type UserState } from "@cowork/shared";
 import { getSessionAppBreakdown } from "../../lib/sessionBreakdown";
 
@@ -370,6 +371,107 @@ export function Dashboard() {
 
       {/* Blocklist */}
       <BlocklistSettings />
+
+      {/* App update */}
+      <UpdateCard />
+    </div>
+  );
+}
+
+function UpdateCard() {
+  const { state, checkForUpdates, downloadAndInstall, restart } = useUpdater();
+  const [version, setVersion] = useState<string | null>(null);
+
+  useEffect(() => {
+    import("@tauri-apps/api/app").then((mod) => mod.getVersion()).then(setVersion);
+  }, []);
+
+  const showCheckButton =
+    state.status === "idle" || state.status === "up_to_date" || state.status === "check_error";
+
+  return (
+    <div className="bg-white rounded-2xl p-4 shadow-cozy flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-bold text-cocoa">
+            {version ? `v${version}` : "Cowork"}
+          </p>
+          {(state.status === "idle" || state.status === "up_to_date") && (
+            <p className="text-xs text-cocoa-light">All up to date!</p>
+          )}
+          {state.status === "checking" && (
+            <p className="text-xs text-cocoa-light animate-pulse">Checking…</p>
+          )}
+          {state.status === "check_error" && (
+            <p className="text-xs text-cocoa-light" title={state.message}>
+              Couldn't check for updates
+            </p>
+          )}
+        </div>
+        {showCheckButton && (
+          <button
+            onClick={checkForUpdates}
+            className="text-xs font-semibold text-leaf hover:text-leaf-dark transition-colors"
+          >
+            Check for updates
+          </button>
+        )}
+      </div>
+
+      {state.status === "available" && (
+        <div className="flex flex-col gap-2">
+          <p className="text-sm text-cocoa">
+            <span className="font-semibold">v{state.version}</span> is available!
+          </p>
+          {state.body && (
+            <p className="text-xs text-cocoa-light">{state.body}</p>
+          )}
+          <button
+            onClick={downloadAndInstall}
+            className="bg-leaf hover:bg-leaf-dark text-white rounded-full px-4 py-2 text-sm font-bold transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-cozy"
+          >
+            Download &amp; Install
+          </button>
+        </div>
+      )}
+
+      {state.status === "downloading" && (
+        <div className="flex flex-col gap-1.5">
+          <p className="text-sm text-cocoa-light">Downloading…</p>
+          <div className="w-full h-2 bg-cream rounded-full overflow-hidden">
+            <div
+              className="h-full bg-leaf rounded-full transition-all duration-300"
+              style={{ width: `${state.progress}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {state.status === "ready" && (
+        <div className="flex flex-col gap-2">
+          <p className="text-sm text-cocoa font-semibold">Update ready!</p>
+          <button
+            onClick={restart}
+            className="bg-leaf hover:bg-leaf-dark text-white rounded-full px-4 py-2 text-sm font-bold transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-cozy"
+          >
+            Restart now
+          </button>
+        </div>
+      )}
+
+      {state.status === "install_error" && (
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs text-rose font-semibold truncate" title={state.message}>
+            Update failed
+          </p>
+          <button
+            onClick={downloadAndInstall}
+            className="text-xs font-semibold text-leaf hover:text-leaf-dark transition-colors shrink-0"
+          >
+            Retry
+          </button>
+        </div>
+      )}
     </div>
   );
 }

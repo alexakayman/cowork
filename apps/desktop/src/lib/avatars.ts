@@ -3,7 +3,7 @@
  * All art is 3:4 ratio, transparent-background PNGs of standing animals.
  */
 
-export interface AvatarDef {
+interface AvatarDef {
   id: string;
   label: string;
 }

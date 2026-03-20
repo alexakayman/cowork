@@ -24,7 +24,7 @@ export function useElapsedTime(sinceMs: number): string {
  * <60 min → "12m"
  * ≥60 min → "1h 23m"
  */
-export function formatElapsed(ms: number): string {
+function formatElapsed(ms: number): string {
   if (ms < 0) ms = 0;
   const totalMin = Math.floor(ms / 60_000);
 

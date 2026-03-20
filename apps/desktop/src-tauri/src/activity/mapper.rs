@@ -1,4 +1,4 @@
-pub enum ActivityType {
+pub(crate) enum ActivityType {
     Coding,
     Writing,
     Email,
@@ -7,7 +7,6 @@ pub enum ActivityType {
     Communicating,
     Spreadsheet,
     Meeting,
-    Terminal,
     Media,
     Idle,
 }
@@ -23,7 +22,6 @@ impl std::fmt::Display for ActivityType {
             ActivityType::Communicating => "communicating",
             ActivityType::Spreadsheet => "spreadsheet",
             ActivityType::Meeting => "meeting",
-            ActivityType::Terminal => "terminal",
             ActivityType::Media => "media",
             ActivityType::Idle => "idle",
         };
@@ -41,7 +39,7 @@ impl std::fmt::Display for ActivityType {
 ///
 /// On Windows / Linux `bundle_id` will be empty and only the process name
 /// and app_name are relevant, so the function gracefully degrades.
-pub fn classify(process: &str, bundle_id: &str, app_name: &str) -> ActivityType {
+pub(crate) fn classify(process: &str, bundle_id: &str, app_name: &str) -> ActivityType {
     // Build a list of lowercase tokens to check against.
     // Order matters: more specific identifiers first.
     let tokens: Vec<String> = [bundle_id, app_name, process]
@@ -240,9 +238,4 @@ pub fn classify(process: &str, bundle_id: &str, app_name: &str) -> ActivityType 
     }
 
     ActivityType::Idle
-}
-
-// Keep backward-compat alias for Windows/Linux code paths that only have a process name
-pub fn process_to_activity(process: &str) -> ActivityType {
-    classify(process, "", "")
 }

@@ -4,8 +4,6 @@ use tracing::{info, error};
 /// Safe margins (logical px) to keep the overlay inside the usable screen area.
 const SAFE_TOP: f64 = 38.0;    // macOS menu bar / notch
 const SAFE_BOTTOM: f64 = 60.0; // macOS dock
-const SAFE_LEFT: f64 = 0.0;
-const SAFE_RIGHT: f64 = 0.0;
 
 /// Helper: get primary monitor dimensions in logical pixels.
 fn logical_screen(app: &AppHandle) -> Option<(f64, f64, f64, f64, f64)> {
@@ -96,9 +94,9 @@ pub fn clamp_overlay(app: AppHandle) -> Result<(), String> {
     let h = size.height as f64 / scale;
 
     // Usable screen rect (logical px)
-    let min_x = ox + SAFE_LEFT;
+    let min_x = ox;
     let min_y = oy + SAFE_TOP;
-    let max_x = ox + sw - SAFE_RIGHT - w;
+    let max_x = ox + sw - w;
     let max_y = oy + sh - SAFE_BOTTOM - h;
 
     x = x.clamp(min_x, max_x);
@@ -125,19 +123,5 @@ pub fn hide_overlay(app: AppHandle) -> Result<(), String> {
         e.to_string()
     })?;
     info!("Overlay hidden successfully");
-    Ok(())
-}
-
-#[tauri::command]
-pub fn set_overlay_position(app: AppHandle, x: f64, y: f64, width: f64) -> Result<(), String> {
-    let overlay = app
-        .get_webview_window("overlay")
-        .ok_or("Overlay window not found")?;
-    overlay
-        .set_position(LogicalPosition { x, y })
-        .map_err(|e| e.to_string())?;
-    overlay
-        .set_size(LogicalSize { width, height: 200.0 })
-        .map_err(|e| e.to_string())?;
     Ok(())
 }

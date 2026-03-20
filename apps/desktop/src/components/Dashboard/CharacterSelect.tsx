@@ -57,38 +57,6 @@ export function CharacterSelect({ onClose }: Props) {
         </h1>
       </div>
 
-      {/* Redeem special character */}
-      <div className="rounded-2xl border-2 border-tan bg-white p-3">
-        <label className="block text-sm font-semibold text-cocoa-light mb-2">
-          Redeem special character
-        </label>
-        <form onSubmit={handleRedeem} className="flex gap-2">
-          <input
-            type="text"
-            value={redeemCode}
-            onChange={(e) => {
-              setRedeemCode(e.target.value);
-              setRedeemMessage(null);
-            }}
-            placeholder="Enter code"
-            className="flex-1 min-w-0 bg-cream border-2 border-tan rounded-xl px-3 py-2 text-sm text-cocoa placeholder:text-sand focus:outline-none focus:border-leaf transition-colors uppercase"
-            maxLength={20}
-          />
-          <button
-            type="submit"
-            className="bg-leaf hover:bg-leaf-dark text-white rounded-xl px-4 py-2 text-sm font-bold transition-colors"
-          >
-            Redeem
-          </button>
-        </form>
-        {redeemMessage === "success" && (
-          <p className="text-xs text-leaf font-semibold mt-2">Code accepted! You can now select the character below.</p>
-        )}
-        {redeemMessage === "invalid" && (
-          <p className="text-xs text-rose font-semibold mt-2">Invalid code.</p>
-        )}
-      </div>
-
       {/* Character grid — 3 columns for nice big previews */}
       <div className="grid grid-cols-3 gap-3 stagger-children">
         {selectableAvatars.map((avatar) => (
@@ -124,6 +92,38 @@ export function CharacterSelect({ onClose }: Props) {
             )}
           </button>
         ))}
+      </div>
+
+      {/* Redeem special character */}
+      <div className="rounded-2xl border-2 border-tan bg-white p-3">
+        <label className="block text-sm font-semibold text-cocoa-light mb-2">
+          Redeem special character
+        </label>
+        <form onSubmit={handleRedeem} className="flex gap-2">
+          <input
+            type="text"
+            value={redeemCode}
+            onChange={(e) => {
+              setRedeemCode(e.target.value);
+              setRedeemMessage(null);
+            }}
+            placeholder="Enter code"
+            className="flex-1 min-w-0 bg-cream border-2 border-tan rounded-xl px-3 py-2 text-sm text-cocoa placeholder:text-sand focus:outline-none focus:border-leaf transition-colors uppercase"
+            maxLength={20}
+          />
+          <button
+            type="submit"
+            className="bg-leaf hover:bg-leaf-dark text-white rounded-xl px-4 py-2 text-sm font-bold transition-colors"
+          >
+            Redeem
+          </button>
+        </form>
+        {redeemMessage === "success" && (
+          <p className="text-xs text-leaf font-semibold mt-2">Code accepted! You can now select the character above.</p>
+        )}
+        {redeemMessage === "invalid" && (
+          <p className="text-xs text-rose font-semibold mt-2">Invalid code.</p>
+        )}
       </div>
     </div>
   );

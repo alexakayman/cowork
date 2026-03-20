@@ -5,6 +5,7 @@
   "windows": ["main", "overlay"],
   "permissions": [
     "core:default",
+    "core:app:default",
     "core:event:default",
     "core:event:allow-listen",
     "core:event:allow-emit",
@@ -20,6 +21,8 @@
     "core:window:allow-outer-size",
     "core:webview:default",
     "store:default",
-    "window-state:default"
+    "window-state:default",
+    "updater:default",
+    "process:allow-restart"
   ]
 }

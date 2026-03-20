@@ -5,8 +5,6 @@ interface Props {
   activity: ActivityType;
   /** "sm" for overlay chips, "md" for dashboard cards */
   size?: "sm" | "md";
-  /** Optional second line (e.g. session goal). When set, label shows two lines: description + goal or "no goal". */
-  goalText?: string | null;
 }
 
 /**
@@ -14,10 +12,9 @@ interface Props {
  * A cloud shape with a trail of shrinking circles leading down to
  * the character's head. Shows the activity icon inside.
  */
-export function ThoughtBubble({ activity, size = "md", goalText }: Props) {
+export function ThoughtBubble({ activity, size = "md" }: Props) {
   const icon = ACTIVITY_ICONS[activity] ?? "\u{2753}";
   const label = ACTIVITY_LABELS[activity] ?? "?";
-  const showGoalLine = goalText !== undefined;
 
   const isSm = size === "sm";
 
@@ -43,10 +40,8 @@ export function ThoughtBubble({ activity, size = "md", goalText }: Props) {
 
         {/* Description: fixed width so goal text length doesn't shift layout; text truncates */}
         <div
-          className={`absolute left-1/2 -translate-x-1/2 font-bold px-1.5 py-0.5 text-center min-w-[88px] max-w-[88px] ${
-            showGoalLine ? "rounded-lg" : "rounded-full"
-          } ${isSm ? "text-[7px]" : "text-[9px]"} ${
-            showGoalLine ? (isSm ? "-bottom-5 space-y-0.5" : "-bottom-6 space-y-0.5") : isSm ? "-bottom-2.5" : "-bottom-3.5"
+          className={`absolute left-1/2 -translate-x-1/2 font-bold px-1.5 py-0.5 text-center min-w-[88px] max-w-[88px] rounded-full ${isSm ? "text-[7px]" : "text-[9px]"} ${
+            isSm ? "-bottom-2.5" : "-bottom-3.5"
           }`}
           style={{
             backgroundColor: "#fff",
@@ -56,11 +51,6 @@ export function ThoughtBubble({ activity, size = "md", goalText }: Props) {
           <span className="block truncate">
             {label}
           </span>
-          {showGoalLine && (
-            <span className="block truncate font-normal opacity-90">
-              {goalText?.trim() || "no goal"}
-            </span>
-          )}
         </div>
       </div>
 

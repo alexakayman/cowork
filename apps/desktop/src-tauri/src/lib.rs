@@ -8,20 +8,26 @@ mod tray;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // Initialise structured logging
     tracing_subscriber::fmt()
-        .with_env_filter(EnvFilter::new("info,cowork_lib=debug"))
+        // Reduce noisy polling logs; keep tray/window logs high-signal.
+        .with_env_filter(EnvFilter::new(
+            "info,cowork_lib::tray=debug,cowork_lib::activity::detector=info",
+        ))
         .init();
+
+    info!("========== {} starting ==========", tray::APP_DISPLAY_NAME);
+    info!("debug_assertions = {}", cfg!(debug_assertions));
 
     let mut builder = tauri::Builder::default()
         .plugin(tauri_plugin_store::Builder::default().build())
+        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_process::init())
         .plugin(
             tauri_plugin_window_state::Builder::default()
                 .with_denylist(&["overlay"])
                 .build(),
         );
 
-    // Single-instance only in release: in dev you can run alongside the prod app to test
     if !cfg!(debug_assertions) {
         builder = builder.plugin(tauri_plugin_single_instance::init(
             |app, _args, _cwd| {
@@ -34,39 +40,67 @@ pub fn run() {
     }
 
     builder
-        .setup(|app| {
-            // Menu-bar only on macOS: no dock icon; app is activated from tray
-            #[cfg(target_os = "macos")]
-            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
-
-            tray::setup_tray(app)?;
-
-            // Log overlay window state at startup
-            if let Some(overlay) = app.get_webview_window("overlay") {
-                let visible = overlay.is_visible().unwrap_or(false);
-                info!(visible = visible, "Overlay window state at startup");
-                if visible {
-                    info!("Overlay was visible at startup — hiding it");
-                    let _ = overlay.hide();
+        .on_window_event(|window, event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                if window.label() == "main" {
+                    api.prevent_close();
+                    let _ = window.hide();
+                    info!("Main window close intercepted — hidden to tray");
                 }
-            } else {
-                debug!("No overlay window found at startup");
+            }
+        })
+        .setup(|app| {
+            // keep setup logs minimal (startup issues only)
+            info!("setup: begin");
+
+            #[cfg(target_os = "macos")]
+            {
+                app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+                info!("setup: activation policy set to Accessory");
             }
 
-            // Start the background activity polling loop
+            tray::setup_tray(app)?;
+            info!("setup: tray created");
+
+            if let Some(main_win) = app.get_webview_window("main") {
+                let _ = main_win.set_title(tray::APP_DISPLAY_NAME);
+                let visible = main_win.is_visible().unwrap_or(false);
+                let position = main_win.outer_position().ok();
+                let size = main_win.outer_size().ok();
+                info!(
+                    visible = visible,
+                    ?position,
+                    ?size,
+                    "setup: main window exists"
+                );
+            } else {
+                info!("setup: main window NOT found — this is a problem");
+            }
+
+            if let Some(overlay) = app.get_webview_window("overlay") {
+                let visible = overlay.is_visible().unwrap_or(false);
+                info!(visible = visible, "setup: overlay window state");
+                if visible {
+                    let _ = overlay.hide();
+                    info!("setup: overlay was visible — hid it");
+                }
+            } else {
+                debug!("setup: no overlay window found");
+            }
+
             let app_handle = app.handle().clone();
             tauri::async_runtime::spawn(async move {
                 activity::detector::start_polling(app_handle).await;
             });
+
+            info!("setup: complete ✓");
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
             commands::window::show_overlay,
             commands::window::hide_overlay,
-            commands::window::set_overlay_position,
             commands::window::fit_overlay,
             commands::window::clamp_overlay,
-            commands::activity::get_current_activity,
             commands::activity::set_blocklist,
         ])
         .run(tauri::generate_context!())
