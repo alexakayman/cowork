@@ -170,7 +170,8 @@ export function usePresenceSocket() {
     };
   }, [sessionCode, setConnected, setSession, upsertUser, removeUser]);
 
-  // Broadcast state changes (activity, avatar, name, focus, goal) to the session
+  // Broadcast activity / identity changes (activity, app, avatar, name) to the session.
+  // Goal and focus changes are handled by their own dedicated effects below.
   useEffect(() => {
     if (!sessionCode || !currentActivity) return;
     const { userId, activityStartedAt, sessionTodo: todo, isFocused: focused, rawProcess, rawBundleId } = useAppStore.getState();
@@ -189,7 +190,7 @@ export function usePresenceSocket() {
         ...((rawProcess || rawBundleId) && { rawProcess, rawBundleId }),
       },
     });
-  }, [currentActivity, currentAppName, avatarId, displayName, sessionTodo, sessionCode, send]);
+  }, [currentActivity, currentAppName, avatarId, displayName, sessionCode, send]);
 
   // When session goal changes, push an UPDATE so overlay and others see it
   useEffect(() => {
