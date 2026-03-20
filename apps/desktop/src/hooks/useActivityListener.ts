@@ -33,9 +33,9 @@ export function useActivityListener() {
       "activity-changed",
       (event) => {
         const { activity, app_name, process, bundle_id } = event.payload;
-        // Do not update when Cowork is in foreground — keep showing previous app
-        if (app_name && app_name.toLowerCase().includes("cowork")) {
-          log(`ignoring (Cowork in foreground), keeping previous app`);
+        // Do not update when Copaw is in foreground — keep showing previous app
+        if (app_name && app_name.toLowerCase().includes("copaw")) {
+          log(`ignoring (Copaw in foreground), keeping previous app`);
           return;
         }
         log(`detected: ${activity} app="${app_name}" process="${process}"`);

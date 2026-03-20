@@ -123,7 +123,7 @@ export function Dashboard() {
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <h1 className="text-xl font-extrabold tracking-tight flex items-center gap-1.5">
-          {"\u{1F343}"} Cowork
+          {"\u{1F343}"} Copaw
         </h1>
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-cocoa-light">
@@ -133,7 +133,7 @@ export function Dashboard() {
             type="button"
             onClick={handleCopyInviteLink}
             className="text-xs font-semibold text-leaf hover:text-leaf-dark underline transition-colors"
-            title="Copy link for friends to download Cowork"
+            title="Copy link for friends to download Copaw"
           >
             {inviteLinkCopied ? "Copied!" : "Invite friends"}
           </button>
@@ -394,7 +394,7 @@ function UpdateCard() {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-bold text-cocoa">
-            {version ? `v${version}` : "Cowork"}
+            {version ? `v${version}` : "Copaw"}
           </p>
           {(state.status === "idle" || state.status === "up_to_date") && (
             <p className="text-xs text-cocoa-light">All up to date!</p>

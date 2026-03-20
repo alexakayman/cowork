@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Cowork",
+  "productName": "Copaw",
   "version": "1.4.0",
-  "identifier": "com.cowork.app",
+  "identifier": "com.copaw.app",
   "build": {
     "beforeDevCommand": "pnpm vite",
     "beforeBuildCommand": "pnpm build",
@@ -14,7 +14,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Cowork",
+        "title": "Copaw",
         "width": 400,
         "height": 600,
         "minWidth": 360,
@@ -27,7 +27,7 @@
       },
       {
         "label": "overlay",
-        "title": "Cowork Overlay",
+        "title": "Copaw Overlay",
         "width": 800,
         "height": 160,
         "x": 0,

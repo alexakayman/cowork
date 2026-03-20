@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Upload Cowork-macos.dmg to Vercel Blob (public).
+ * Upload Copaw-macos.dmg to Vercel Blob (public).
  * Usage: node scripts/upload-dmg-to-blob.mjs [path-to.dmg]
  * Or set DMG_PATH. Requires BLOB_READ_WRITE_TOKEN.
  * Outputs the public URL to stdout (and logs) for use as DOWNLOAD_URL on the landing.
@@ -20,7 +20,7 @@ if (!token) {
   process.exit(1);
 }
 
-const pathname = "Cowork-macos.dmg";
+const pathname = "Copaw-macos.dmg";
 const body = readFileSync(path);
 
 const blob = await put(pathname, body, {

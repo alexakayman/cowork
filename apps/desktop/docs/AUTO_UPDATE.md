@@ -1,4 +1,4 @@
-# Auto-updating the Cowork desktop app
+# Auto-updating the Copaw desktop app
 
 The app uses **Tauri’s built-in updater** (cross-platform). On macOS you can optionally use **Sparkle** for a native update experience (e.g. sandboxed builds).
 
@@ -51,7 +51,7 @@ export TAURI_SIGNING_PRIVATE_KEY="$(cat ~/.tauri/cowork.key)"
 pnpm tauri build
 ```
 
-Updater artifacts (e.g. `Cowork.app.tar.gz` + `.sig` on macOS) are generated next to your app bundle. Upload them and the `latest.json` (with correct `signature` values from the `.sig` files) to your release or server.
+Updater artifacts (e.g. `Copaw.app.tar.gz` + `.sig` on macOS) are generated next to your app bundle. Upload them and the `latest.json` (with correct `signature` values from the `.sig` files) to your release or server.
 
 ### Frontend
 

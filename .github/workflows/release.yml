@@ -71,7 +71,7 @@ jobs:
       - name: Flatten and rename artifacts
         run: |
           mkdir -p release
-          cp artifacts/macos/*.dmg release/Cowork-macos.dmg
+          cp artifacts/macos/*.dmg release/Copaw-macos.dmg
           cp artifacts/macos/*.app.tar.gz release/ || true
           cp artifacts/macos/*.app.tar.gz.sig release/ || true
           cp artifacts/macos/latest*.json release/ || true
@@ -83,7 +83,7 @@ jobs:
         id: blob
         continue-on-error: true
         run: |
-          url=$(node scripts/upload-dmg-to-blob.mjs release/Cowork-macos.dmg)
+          url=$(node scripts/upload-dmg-to-blob.mjs release/Copaw-macos.dmg)
           echo "url=$url" >> $GITHUB_OUTPUT
           echo "Download URL (set this as DOWNLOAD_URL in your Vercel project env): $url"
         env:

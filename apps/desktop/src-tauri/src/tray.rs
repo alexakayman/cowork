@@ -7,9 +7,9 @@ use tauri::{
 use crate::commands::window;
 
 pub const APP_DISPLAY_NAME: &str = if cfg!(debug_assertions) {
-    "Cowork (Dev)"
+    "Copaw (Dev)"
 } else {
-    "Cowork"
+    "Copaw"
 };
 
 fn tray_tooltip() -> String {

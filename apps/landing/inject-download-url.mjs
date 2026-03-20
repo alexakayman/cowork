@@ -17,7 +17,7 @@ if (!existsSync(htmlPath)) {
 }
 
 const GITHUB_LATEST_DMG =
-  "https://github.com/alexakayman/cowork/releases/latest/download/Cowork-macos.dmg";
+  "https://github.com/alexakayman/cowork/releases/latest/download/Copaw-macos.dmg";
 const url = process.env.DOWNLOAD_URL || GITHUB_LATEST_DMG;
 let html = readFileSync(htmlPath, "utf8");
 html = html.replace(/__DOWNLOAD_URL__/g, url);

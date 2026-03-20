@@ -1,4 +1,4 @@
-# ── Cowork WebSocket Server ──────────────────────────────────────────
+# ── Copaw WebSocket Server ──────────────────────────────────────────
 # Builds inside the monorepo root so pnpm workspace links resolve.
 # Uses tsx at runtime because @cowork/shared exposes raw .ts files.
 

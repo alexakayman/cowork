@@ -32,7 +32,7 @@ export function Onboarding() {
         <div className="text-center">
           <p className="text-4xl mb-2">{"\u{1F343}"}</p>
           <h1 className="text-2xl font-extrabold text-cocoa mb-1">
-            Welcome to Cowork
+            Welcome to Copaw
           </h1>
           <p className="text-cocoa-light text-sm font-medium">
             Set up your profile to get started

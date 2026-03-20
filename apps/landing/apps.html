@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recognized apps — Cowork</title>
+    <title>Recognized apps — Copaw</title>
     <meta
       name="description"
-      content="Apps Cowork recognizes and how to add new ones."
+      content="Apps Copaw recognizes and how to add new ones."
     />
     <link rel="icon" type="image/png" href="logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -39,7 +39,7 @@
     <main class="max-w-2xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12 pb-12 sm:pb-16 text-left">
       <h1 class="text-2xl font-semibold text-center mb-6">Recognized apps</h1>
       <p class="text-sm text-warm/60 text-center mb-4">
-        Cowork detects your foreground app and maps it to a category. The list
+        Copaw detects your foreground app and maps it to a category. The list
         below is used for server-side classification; new submissions are added
         immediately.
       </p>
@@ -177,7 +177,7 @@
             .then(function (r) { return r.json(); })
             .then(function (list) { renderApps(list); })
             .catch(function () {
-              if (appsTbody) appsTbody.innerHTML = '<tr><td colspan="2" class="px-4 py-4 text-warm/50">Could not load list. If you're not on the deployed site, the API may be unavailable.</td></tr>';
+              if (appsTbody) appsTbody.innerHTML = '<tr><td colspan="2" class="px-4 py-4 text-warm/50">Could not load list. If you are not on the deployed site, the API may be unavailable.</td></tr>';
             });
         }
 

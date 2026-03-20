@@ -1,22 +1,22 @@
-# Cowork
+# Copaw
 
 <div align="center">
-  <img alt="Cowork logo" src="apps/landing/logo.png" width="140" />
+  <img alt="Copaw logo" src="apps/landing/logo.png" width="140" />
 </div>
 
 Animal Crossing–style coworking presence app for remote teams and friends. See what everyone is working on in real time with a cute, low‑distraction overlay that floats on top of your desktop.
 
-Cowork gives you the vibe of being in the same room without the pressure of a call: just open the app, join a shared session, and your current activity shows up as a tiny avatar with a thought bubble (coding, writing, browsing, etc.). It’s perfect for deep‑work sessions, virtual office hours, or keeping up with what your friends are hacking on.
+Copaw gives you the vibe of being in the same room without the pressure of a call: just open the app, join a shared session, and your current activity shows up as a tiny avatar with a thought bubble (coding, writing, browsing, etc.). It’s perfect for deep‑work sessions, virtual office hours, or keeping up with what your friends are hacking on.
 
 ### Meet your characters
 
 <p align="center">
-  <img alt="Cowork avatar - cat" src="apps/landing/avatars/cat.png" width="96" />
-  <img alt="Cowork avatar - corgi" src="apps/landing/avatars/corgi.png" width="96" />
-  <img alt="Cowork avatar - lemur" src="apps/landing/avatars/lemur.png" width="96" />
-  <img alt="Cowork avatar - fox" src="apps/landing/avatars/fox.png" width="96" />
-  <img alt="Cowork avatar - tabby" src="apps/landing/avatars/tabby.png" width="96" />
-  <img alt="Cowork avatar - rabbit" src="apps/landing/avatars/rabbit.png" width="96" />
+  <img alt="Copaw avatar - cat" src="apps/landing/avatars/cat.png" width="96" />
+  <img alt="Copaw avatar - corgi" src="apps/landing/avatars/corgi.png" width="96" />
+  <img alt="Copaw avatar - lemur" src="apps/landing/avatars/lemur.png" width="96" />
+  <img alt="Copaw avatar - fox" src="apps/landing/avatars/fox.png" width="96" />
+  <img alt="Copaw avatar - tabby" src="apps/landing/avatars/tabby.png" width="96" />
+  <img alt="Copaw avatar - rabbit" src="apps/landing/avatars/rabbit.png" width="96" />
 </p>
 
 ### What you get
@@ -36,11 +36,11 @@ Cowork gives you the vibe of being in the same room without the pressure of a ca
 
 ## Contributing & development
 
-The sections below are for people who want to run Cowork from source, self‑host the server, or contribute to the project.
+The sections below are for people who want to run Copaw from source, self‑host the server, or contribute to the project.
 
 ### How it works
 
-Cowork is a Tauri 2 desktop app that detects your foreground application and shares your activity with others over WebSocket. It has two windows:
+Copaw is a Tauri 2 desktop app that detects your foreground application and shares your activity with others over WebSocket. It has two windows:
 
 - **Main window** — a dashboard where you set up your profile (name + avatar), create or join a session, and see what everyone's up to
 - **Overlay window** — a transparent, always-on-top strip that shows all session members as little avatar chips with thought bubbles indicating their current activity (coding, writing, browsing, etc.)
@@ -187,11 +187,11 @@ The repo uses **Vercel Blob** so the public landing page can offer a direct down
 
 3. **Run a release** (or the upload script locally) to get the public URL:
    - Push a tag, e.g. `git tag v1.3.0 && git push origin v1.3.0`. The workflow builds the app, uploads the .dmg to Blob, and prints the download URL in the “Upload DMG to Vercel Blob” step log.
-   - Or locally after building the .dmg: `BLOB_READ_WRITE_TOKEN=your_token node scripts/upload-dmg-to-blob.mjs apps/desktop/src-tauri/target/release/bundle/dmg/Cowork_1.x.x_aarch64.dmg` (adjust path to your built .dmg). The script prints the URL.
+   - Or locally after building the .dmg: `BLOB_READ_WRITE_TOKEN=your_token node scripts/upload-dmg-to-blob.mjs apps/desktop/src-tauri/target/release/bundle/dmg/Copaw_1.x.x_aarch64.dmg` (adjust path to your built .dmg). The script prints the URL.
 
 4. **Set the URL on the landing project**:
    - In the Vercel project that deploys the landing, go to Settings → Environment Variables.
-   - Add `DOWNLOAD_URL` = the URL from step 3 (e.g. `https://xxxx.public.blob.vercel-storage.com/Cowork-macos.dmg`).
+   - Add `DOWNLOAD_URL` = the URL from step 3 (e.g. `https://xxxx.public.blob.vercel-storage.com/Copaw-macos.dmg`).
    - Redeploy the landing so the “Download for macOS” button uses that link.
 
 5. **Landing 404?** Either set Root Directory to `apps/landing` (Settings → General) and redeploy, or leave Root Directory empty and use the repo root: a root `vercel.json` runs the build from `apps/landing` and serves that folder. Redeploy after pulling.

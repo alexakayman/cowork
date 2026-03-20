@@ -55,8 +55,19 @@ pub fn run() {
 
             #[cfg(target_os = "macos")]
             {
-                app.set_activation_policy(tauri::ActivationPolicy::Accessory);
-                info!("setup: activation policy set to Accessory");
+                // In dev, we want a standard Dock presence so clicking the app brings
+                // the window forward. In production we keep it dockless (tray-only).
+                let is_debug = cfg!(debug_assertions);
+                let policy = if is_debug {
+                    tauri::ActivationPolicy::Regular
+                } else {
+                    tauri::ActivationPolicy::Accessory
+                };
+                app.set_activation_policy(policy);
+                info!(
+                    "setup: activation policy set to {}",
+                    if is_debug { "Regular" } else { "Accessory" }
+                );
             }
 
             tray::setup_tray(app)?;
@@ -64,6 +75,12 @@ pub fn run() {
 
             if let Some(main_win) = app.get_webview_window("main") {
                 let _ = main_win.set_title(tray::APP_DISPLAY_NAME);
+                if cfg!(debug_assertions) {
+                    // Ensure the UI is visible and focusable when running `pnpm dev`.
+                    // (In production we rely on tray to bring the window up.)
+                    let _ = main_win.show();
+                    let _ = main_win.set_focus();
+                }
                 let visible = main_win.is_visible().unwrap_or(false);
                 let position = main_win.outer_position().ok();
                 let size = main_win.outer_size().ok();

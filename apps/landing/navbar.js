@@ -12,7 +12,7 @@
   var nav =
     '<nav class="border-b border-warm/20 bg-cream sticky top-0 z-10">' +
     '<div class="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">' +
-    '<a href="index.html" class="font-bold text-warm text-lg shrink-0">Cowork</a>' +
+    '<a href="index.html" class="font-bold text-warm text-lg shrink-0">Copaw</a>' +
     '<div class="flex items-center gap-4 sm:gap-6 text-sm flex-shrink-0">' +
     '<a href="privacy.html" class="' +
     linkClass("privacy") +

@@ -11,7 +11,7 @@ warn()  { echo -e "${YELLOW}!${NC} $1"; }
 error() { echo -e "${RED}✗${NC} $1"; exit 1; }
 
 echo ""
-echo "  🏠 Cowork — project setup"
+echo "  🏠 Copaw — project setup"
 echo ""
 
 # ── Check prerequisites ──────────────────────────────────────────────
