@@ -66,7 +66,7 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI5QzQxMDZCNjQyNTc3RTQKUldUa2R5VmtheERFS2ZNTk5oelBVc0tKSDVpQ3VBL0cxRURWSU4vc1pMVTRuaytaM1pwTDM2Y3kK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDMzMEYyMEQ3OTY0MjgwODQKUldTRWdFS1cxeUFQTTMrc3dYV3VwYmxIM3lhQzcvVUNzZVdGVGhvZmV3b0RoMjE0Nm8veFhISmsK",
       "endpoints": [
         "https://github.com/alexakayman/cowork/releases/latest/download/latest.json"
       ]
