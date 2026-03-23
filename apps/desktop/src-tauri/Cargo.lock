@@ -502,7 +502,7 @@ dependencies = [
 
 [[package]]
 name = "copaw"
-version = "1.4.0"
+version = "1.5.0"
 dependencies = [
  "objc2 0.6.4",
  "objc2-app-kit 0.2.2",

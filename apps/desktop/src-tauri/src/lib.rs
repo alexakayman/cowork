@@ -1,10 +1,9 @@
 use tauri::Manager;
-use tracing::{info, debug};
+use tracing::info;
 use tracing_subscriber::EnvFilter;
 
 mod activity;
 mod commands;
-mod tray;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -15,7 +14,8 @@ pub fn run() {
         ))
         .init();
 
-    info!("========== {} starting ==========", tray::APP_DISPLAY_NAME);
+    const APP_NAME: &str = "Copaw";
+    info!("========== {APP_NAME} starting ==========");
     info!("debug_assertions = {}", cfg!(debug_assertions));
 
     let mut builder = tauri::Builder::default()
@@ -40,47 +40,21 @@ pub fn run() {
     }
 
     builder
-        .on_window_event(|window, event| {
-            if let tauri::WindowEvent::CloseRequested { api, .. } = event {
-                if window.label() == "main" {
-                    api.prevent_close();
-                    let _ = window.hide();
-                    info!("Main window close intercepted — hidden to tray");
-                }
-            }
-        })
         .setup(|app| {
-            // keep setup logs minimal (startup issues only)
             info!("setup: begin");
 
             #[cfg(target_os = "macos")]
             {
-                // In dev, we want a standard Dock presence so clicking the app brings
-                // the window forward. In production we keep it dockless (tray-only).
-                let is_debug = cfg!(debug_assertions);
-                let policy = if is_debug {
-                    tauri::ActivationPolicy::Regular
-                } else {
-                    tauri::ActivationPolicy::Accessory
-                };
-                app.set_activation_policy(policy);
-                info!(
-                    "setup: activation policy set to {}",
-                    if is_debug { "Regular" } else { "Accessory" }
-                );
+                // Always use Regular activation policy so the app appears in the
+                // Dock and behaves like a normal macOS application.
+                app.set_activation_policy(tauri::ActivationPolicy::Regular);
+                info!("setup: activation policy set to Regular");
             }
 
-            tray::setup_tray(app)?;
-            info!("setup: tray created");
-
             if let Some(main_win) = app.get_webview_window("main") {
-                let _ = main_win.set_title(tray::APP_DISPLAY_NAME);
-                if cfg!(debug_assertions) {
-                    // Ensure the UI is visible and focusable when running `pnpm dev`.
-                    // (In production we rely on tray to bring the window up.)
-                    let _ = main_win.show();
-                    let _ = main_win.set_focus();
-                }
+                let _ = main_win.set_title(APP_NAME);
+                let _ = main_win.show();
+                let _ = main_win.set_focus();
                 let visible = main_win.is_visible().unwrap_or(false);
                 let position = main_win.outer_position().ok();
                 let size = main_win.outer_size().ok();
@@ -102,7 +76,7 @@ pub fn run() {
                     info!("setup: overlay was visible — hid it");
                 }
             } else {
-                debug!("setup: no overlay window found");
+                info!("setup: no overlay window found");
             }
 
             let app_handle = app.handle().clone();
